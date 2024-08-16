@@ -34,20 +34,20 @@ export default function DealCard({}) {
           <div className="text-base text-secondary">Funding goal</div>
           <div className="text-base ml-auto">$500k</div>
         </div>
-        <div className="mt-2">
-          <div className="flex">
-            <div className="text-base font-bold">$123,456</div>
-            <div className="text-base ml-auto">raised</div>
+        <div className="mt-2 grid grid-cols-2">
+          <div className="w-full">
+            <div className="flex">
+              <div className="text-base font-semi-bold">$123,456 raised</div>
+            </div>
+            <div className="flex">
+              <div className="text-base font-semi-bold">175 investors</div>
+            </div>
           </div>
-          <div className="flex">
-            <div className="text-base font-bold">175</div>
-            <div className="text-base ml-auto">investors</div>
+          <div className="mt-2 ml-auto">
+            <div className="w-[105px] h-[32px] flex bg-purple rounded-md items-center justify-center">
+              <div className="text-white text-center">FUNDED</div>
+            </div>
           </div>
-        </div>
-        <div className="mt-4">
-          <button className="bg-purple-500 text-white px-4 py-2 rounded-md">
-            FUNDED
-          </button>
         </div>
       </div>
     </div>
