@@ -2,9 +2,9 @@ import type { Config } from "tailwindcss";
 
 const config: Config = {
   content: [
-    "./pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
     extend: {
@@ -23,6 +23,7 @@ const config: Config = {
         purple: "#9710FF",
         darkPurple: "#4E0A81",
         black: "#000000",
+        white: "#FFFFFF",
         border: "#D9D9D9",
         secondary: "#757575",
         textAreaBg: "#F8FAFC",
