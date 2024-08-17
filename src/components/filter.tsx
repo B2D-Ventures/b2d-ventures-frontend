@@ -3,12 +3,18 @@ import { Select, SelectItem } from "@nextui-org/react";
 
 export default function App() {
   return (
-    <Select label="Select an animal" className="w-[218px]" variant="bordered"
-    size="sm"
-    classNames={{
-        base: "",
+    <Select
+      label="Filter"
+      className="w-[218px]"
+      variant="bordered"
+      size="sm"
+      
+      classNames={{
         trigger: "border-[1px] shadow-none",
-    }}  
+      }}
+      listboxProps={{
+        hideSelectedIcon: true,
+      }}
     >
       <SelectItem key={1}>Funded</SelectItem>
       <SelectItem key={2}>100+ investors</SelectItem>
