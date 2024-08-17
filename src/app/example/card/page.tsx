@@ -8,6 +8,6 @@ export default function DealCardPage({}) {
     <div className="flex items-center justify-center">
       <DealCard />
     </div>
-      
+    
   );
 }
