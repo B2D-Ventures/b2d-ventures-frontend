@@ -22,7 +22,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={prompt.className}>
-        <Navbar />
+        <div className="sticky top-0 z-10">
+          <Navbar />
+        </div>
         {children}
         </body>
     </html>
