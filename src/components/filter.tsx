@@ -10,10 +10,12 @@ export default function App() {
       size="sm"
       
       classNames={{
-        trigger: "border-[1px] shadow-none",
+        trigger: "border-[1px] shadow-none px-4 ",
+        label: "text-secondary text-[16px]",
       }}
       listboxProps={{
         hideSelectedIcon: true,
+        className: "text-secondary shadow-none",
       }}
     >
       <SelectItem key={1}>Funded</SelectItem>
