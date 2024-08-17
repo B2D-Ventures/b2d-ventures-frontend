@@ -2,6 +2,8 @@
 
 import React from "react";
 import DealCard from "@/components/card";
+import Filter from "@/components/filter";
+import SearchBar from "@/components/searchBar";
 
 export default function DealDashboard() {
   return (
@@ -11,7 +13,10 @@ export default function DealDashboard() {
           <div className="text-[48px] font-bold">Investment opportunities</div>
           <div className="mt-1 text-[20px] text-secondary">Browse current investment opportunities on B2D.</div>
         </div>
-        <div className="flex flex-col">Investment opportunities</div>
+        <div className="flex flex-row ml-auto mt-auto gap-4">
+          <Filter />
+          <SearchBar />
+        </div>
       </div>
       <div className="grid grid-cols-3 gap-12">
         <DealCard />
