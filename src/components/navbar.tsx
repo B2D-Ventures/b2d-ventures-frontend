@@ -10,7 +10,7 @@ export default function Navbar({}) {
         className="text-2xl text-base ml-auto"
         onClick={() => console.log("log in")}
       >
-        Log in jaaa
+        Log in
       </div>
     </div>
   );
