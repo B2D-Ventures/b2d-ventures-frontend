@@ -10,12 +10,16 @@ import {
   Slider,
 } from "@nextui-org/react";
 
-export default function InvestModal() {
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+interface InvestModalProps {
+  isOpen: boolean;
+  onOpen: () => void;
+  onOpenChange: () => void;
+}
+
+export default function InvestModal({ isOpen, onOpen, onOpenChange }: InvestModalProps) {
 
   return (
     <div>
-      <Button onPress={onOpen}>Open Modal</Button>
       <Modal
         isOpen={isOpen}
         onOpenChange={onOpenChange}
@@ -56,11 +60,11 @@ export default function InvestModal() {
               </ModalBody>
               <ModalFooter>
                 <div className="flex flex-row w-full h-full gap-4 items-center">
-                  <div className="w-full flex items-center justify-center border-[2px] border-red rounded-[8px] text-red text-[20px]">
+                  <div className="w-full flex items-center justify-center border-[2px] border-red rounded-[8px] text-red text-[20px] hover:cursor-pointer">
                     Cancel
                   </div>
-                  <div className="w-full flex items-center justify-center bg-purple border-[2px] border-purple rounded-[8px] text-white text-[20px]">
-                    Accept
+                  <div className="w-full flex items-center justify-center bg-purple border-[2px] border-purple rounded-[8px] text-white text-[20px] hover:cursor-pointer">
+                    Next
                   </div>
                 </div>
               </ModalFooter>
