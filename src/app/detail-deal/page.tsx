@@ -61,7 +61,7 @@ export default function DealDashboard() {
             </ul>
           </div>
         </div>
-        <div className="flex ">
+        <div className="flex">
           <DetailCard />
         </div>
       </div>
