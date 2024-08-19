@@ -69,7 +69,7 @@ export default function TermModal({
                     Cancel
                   </div>
                   <div
-                    className="w-full flex items-center justify-center bg-purple border-[2px] border-purple rounded-[8px] text-white text-[20px]"
+                    className="w-full flex items-center justify-center bg-purple border-[2px] border-purple rounded-[8px] text-white text-[20px] hover:cursor-pointer"
                     onClick={onNext}
                   >
                     Next
