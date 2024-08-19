@@ -10,12 +10,21 @@ import {
   Checkbox,
 } from "@nextui-org/react";
 
-export default function TermModal() {
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+interface TermModalProps {
+  isOpen: boolean;
+  onOpen: () => void;
+  onOpenChange: () => void;
+  onNext: () => void;
+}
 
+export default function TermModal({
+  isOpen,
+  onOpen,
+  onOpenChange,
+  onNext,
+}: TermModalProps) {
   return (
     <div className="z-1">
-      <Button onPress={onOpen}>Open Modal</Button>
       <Modal
         isOpen={isOpen}
         onOpenChange={onOpenChange}
@@ -45,7 +54,7 @@ export default function TermModal() {
               </ModalBody>
               <ModalFooter className="flex flex-col">
                 <Checkbox
-                  defaultSelected
+                  
                   classNames={{
                     wrapper:
                       "flex justify-center items-center bg-white border-[1px] rounded-[8px] text-white text-[20px]",
@@ -59,8 +68,11 @@ export default function TermModal() {
                   <div className="w-full flex items-center justify-center border-[2px] border-red rounded-[8px] text-red text-[20px]">
                     Cancel
                   </div>
-                  <div className="w-full flex items-center justify-center bg-purple border-[2px] border-purple rounded-[8px] text-white text-[20px]">
-                    Accept
+                  <div
+                    className="w-full flex items-center justify-center bg-purple border-[2px] border-purple rounded-[8px] text-white text-[20px] hover:cursor-pointer"
+                    onClick={onNext}
+                  >
+                    Next
                   </div>
                 </div>
               </ModalFooter>

@@ -1,7 +1,8 @@
-import React from "react";
+import { useState } from "react";
 import Image from "next/image";
 import { Progress } from "@nextui-org/react";
 import InvestModal from "./modal/InvestModal";
+import TermModal from "./modal/TermModal";
 import { useDisclosure } from "@nextui-org/react";
 
 export default function DetailCard() {
@@ -9,7 +10,17 @@ export default function DetailCard() {
     console.log("Fund button clicked");
   };
 
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const handleFundClick = () => {
+    setTermModalOpen(true);
+  };
+
+  const handleInvestModalNext = () => {
+    setTermModalOpen(false);
+    setInvestModalOpen(true);
+  };
+
+  const [isInvestModalOpen, setInvestModalOpen] = useState(false);
+  const [isTermModalOpen, setTermModalOpen] = useState(false);
 
   return (
     <>
@@ -38,7 +49,7 @@ export default function DetailCard() {
         </div>
         <div
           className="w-full h-[44px] bg-purple rounded-[8px] my-2 flex items-center justify-center text-white text-[24px] font-bold hover:cursor-pointer"
-          onClick={onOpen}
+          onClick={handleFundClick}
         >
           Fund
         </div>
@@ -64,9 +75,16 @@ export default function DetailCard() {
         </div>
       </div>
       <InvestModal
-        isOpen={isOpen}
-        onOpen={onOpen}
-        onOpenChange={onOpenChange}
+        isOpen={isInvestModalOpen}
+        onOpen={() => setInvestModalOpen(true)}
+        onOpenChange={() => setInvestModalOpen(!isInvestModalOpen)}
+        
+      />
+      <TermModal
+        isOpen={isTermModalOpen}
+        onOpen={() => setTermModalOpen(true)}
+        onOpenChange={() => setTermModalOpen(!isTermModalOpen)}
+        onNext={handleInvestModalNext}
       />
     </>
   );

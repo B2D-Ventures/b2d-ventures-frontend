@@ -17,7 +17,6 @@ interface InvestModalProps {
 }
 
 export default function InvestModal({ isOpen, onOpen, onOpenChange }: InvestModalProps) {
-
   return (
     <div>
       <Modal
@@ -63,8 +62,11 @@ export default function InvestModal({ isOpen, onOpen, onOpenChange }: InvestModa
                   <div className="w-full flex items-center justify-center border-[2px] border-red rounded-[8px] text-red text-[20px] hover:cursor-pointer">
                     Cancel
                   </div>
-                  <div className="w-full flex items-center justify-center bg-purple border-[2px] border-purple rounded-[8px] text-white text-[20px] hover:cursor-pointer">
-                    Next
+                  <div
+                    className="w-full flex items-center justify-center bg-purple border-[2px] border-purple rounded-[8px] text-white text-[20px] hover:cursor-pointer"
+                     // Use the onNext handler
+                  >
+                    Accept
                   </div>
                 </div>
               </ModalFooter>
