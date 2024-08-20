@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import FormInput from "@/components/FormInput";
+import FormInput from "@/components/formInput/FormInput";
 
 export default function FormInputPage() {
   return (
