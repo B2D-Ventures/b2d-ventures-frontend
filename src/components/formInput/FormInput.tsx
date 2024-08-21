@@ -25,16 +25,16 @@ export default function FormInput({
         endContent={
           has$ && (
             <div className="pointer-events-none flex items-center">
-              <span className="text-default-400 text-small">$</span>
+              <span className="text-secondary text-small">$</span>
             </div>
           )
         }
         classNames={{
-          inputWrapper:
-            "shadow-none px-4 h-[62px] bg-textAreaBg rounded-[8px] group-data-[filled=true]:bg-textAreaBg",
-          input: "focus:outline-none text-[16px] text-secondary ",
+          mainWrapper: "w-full h-[48px]",
+          inputWrapper: "shadow-none px-4 h-[62px] bg-textAreaBg rounded-[8px] group-data-[filled=true]:bg-textAreaBg",
+          input: "focus:outline-none text-[16px] group-data-[has-value=true]:text-secondary",
           label: "text-secondary text-[16px]",
-          innerWrapper: "h-[62px]",
+          innerWrapper: "h-[48px]",
         }}
       />
     </div>
