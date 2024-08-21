@@ -26,7 +26,6 @@ export default function DealDashboard() {
         <DealCard />
         <DealCard />
       </div>
-      
     </div>
   );
 }

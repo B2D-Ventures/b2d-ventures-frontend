@@ -62,14 +62,29 @@ export default function formDeal() {
         </div>
         <div className="w-full flex flex-row gap-4">
           <div className="w-full">
-            <FormInput label="Photos" has$={false} placeholder="links" type="text" />
+            <FormInput
+              label="Photos"
+              has$={false}
+              placeholder="links"
+              type="text"
+            />
           </div>
           <div className="w-full">
-            <FormInput label="Logo" has$={false} placeholder="links" type="text" />
+            <FormInput
+              label="Logo"
+              has$={false}
+              placeholder="links"
+              type="text"
+            />
           </div>
         </div>
         <div className="w-full">
           <TextArea placeholder="Enter a brief description" />
+        </div>
+        <div className="flex w-full justify-end items-center">
+          <div className="flex w-[50%] h-[44px] items-center justify-center bg-purple rounded-[8px] text-white text-[20px] font-bold">
+            Submit
+          </div>
         </div>
       </div>
     </div>
