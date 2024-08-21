@@ -29,7 +29,7 @@ const config: Config = {
         border: "#D9D9D9",
         secondary: "#757575",
         textAreaBg: "#F8FAFC",
-
+        formInput: "#B8BCCA",
       }
     },
   },
