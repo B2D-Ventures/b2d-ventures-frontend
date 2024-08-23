@@ -1,13 +1,19 @@
 "use client";
 
 import React from "react";
-import { useRouter } from "next/navigation";
-
+import { useRouter, usePathname } from "next/navigation";
 
 export default function Navbar() {
   const router = useRouter();
+  const currentPath = usePathname();
+
   const handleLogin = () => {
-    router.push("/login");
+    router.push("/example/login");
+  };
+
+  // Return the Navbar only if the current path is not "/example/login"
+  if (currentPath === "/example/login") {
+    return null;
   }
 
   return (
