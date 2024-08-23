@@ -1,18 +1,26 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
 
 export default function Navbar() {
   const router = useRouter();
   const currentPath = usePathname();
 
+  console.log(currentPath);
+
+  useEffect(() => {
+    if (currentPath.startsWith("/google-auth")) {
+      router.push("/example/selection-role");
+    }
+  }, [currentPath, router]);
+
   const handleLogin = () => {
     router.push("/example/login");
   };
 
-  // Return the Navbar only if the current path is not "/example/login"
-  if (currentPath === "/example/login") {
+  // Return the Navbar only if the current path is not "/example/login" or "/example/selection-role"
+  if (currentPath === "/example/login" || currentPath === "/example/selection-role") {
     return null;
   }
 
