@@ -8,7 +8,7 @@ export default function App() {
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.";
 
   const content = (
-    <div className="grid grid-cols-3">
+    <div className="grid grid-cols-3 pl-12">
       <div className="flex flex-col">
         <div className="text-[20px] font-bold">$10,000</div>
         <div className="text-secondary">Your invested price</div>
@@ -21,6 +21,7 @@ export default function App() {
         <div className="text-[20px] font-bold">$1.2M</div>
         <div className="text-secondary">Funding goal</div>
       </div>
+      
     </div>
   );
 
@@ -61,7 +62,55 @@ export default function App() {
       <AccordionItem
         key="3"
         aria-label="Accordion 3"
-        title="Jojo"
+        title="Jojo 333333"
+        startContent={
+          <Image
+            src="/images/icon.jpg"
+            width={48}
+            height={48}
+            alt="logo"
+            className="w-[40px] h-[40px] rounded-[8px] overflow-hidden shadow-sm"
+          />
+        }
+      >
+        {defaultContent}
+      </AccordionItem>
+      <AccordionItem
+        key="4"
+        aria-label="Accordion 4"
+        title="jj"
+        startContent={
+          <Image
+            src="/images/icon.jpg"
+            width={48}
+            height={48}
+            alt="logo"
+            className="w-[40px] h-[40px] rounded-[8px] overflow-hidden shadow-sm"
+          />
+        }
+      >
+        {defaultContent}
+      </AccordionItem>
+      <AccordionItem
+        key="5"
+        aria-label="Accordion 5"
+        title="koko"
+        startContent={
+          <Image
+            src="/images/icon.jpg"
+            width={48}
+            height={48}
+            alt="logo"
+            className="w-[40px] h-[40px] rounded-[8px] overflow-hidden shadow-sm"
+          />
+        }
+      >
+        {defaultContent}
+      </AccordionItem>
+      <AccordionItem
+        key="6"
+        aria-label="Accordion 6"
+        title="lolo"
         startContent={
           <Image
             src="/images/icon.jpg"
