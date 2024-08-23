@@ -17,3 +17,5 @@ resources/.arch-internal-preview.css
 /build
 /.next/
 /out/
+
+.env
