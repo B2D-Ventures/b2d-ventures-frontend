@@ -1,10 +1,12 @@
-import Image from "next/image";
+"use client";
+import React from "react";
+import { useRouter } from "next/navigation";
 
 
 export default function Home() {
+  const router = useRouter();
+  router.push("/example/landing-page");
   return (
-    <main className="flex flex-col items-center justify-center min-h-screen py-2">
-      <p className="text-red">text</p>
-    </main>
+    <></>
   );
 }
