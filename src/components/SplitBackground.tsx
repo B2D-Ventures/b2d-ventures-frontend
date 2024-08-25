@@ -58,6 +58,15 @@ export default function SplitBackground({}) {
                 </button>
               </div>
             </div>
+            <div className="flex items-center justify-center w-full">
+              <Image
+                src="/images/logo.png"
+                width={1288}
+                height={315}
+                alt="image"
+                className="w-[300px] h-[300px]"
+              />
+            </div>
             <div className="flex justify-between mb-12 mx-12">
               <button className="bg-[#FFFFFF] text-[#000000] py-2 px-4 rounded-lg border-2 border-[#D9D9D9] shadow-md hover:shadow-lg w-1/3">
                 LEARN MORE
