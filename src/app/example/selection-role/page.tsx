@@ -1,11 +1,18 @@
+"use client";
 import React from "react";
+
+import { useRouter } from "next/navigation";
 const HomePage = () => {
+
+  const router = useRouter();
 
   // const createUser = () => {
   //   fetch
   // }
 
-  // const handleInvestor = () => {};
+  const handleInvestor = () => {
+    router.push("/startup");
+  };
 
   return (
     <div>
@@ -32,13 +39,15 @@ const HomePage = () => {
               <div className="flex-col items-center justify-center">
                 <div className="my-12">
                   <button className="bg-[#FFFFFF] text-[#000000] py-2 px-6 rounded-xl border-2 border-[#D9D9D9] shadow-md hover:shadow-lg w-1/5 font-medium"
-                  // onClick={handleInvestor}
+                  onClick={handleInvestor}
                   >
                     INVESTOR
                   </button>
                 </div>
                 <div className="my-12">
-                  <button className="bg-[#FFFFFF] text-[#000000] py-2 px-6 rounded-xl border-2 border-[#D9D9D9] shadow-md hover:shadow-lg w-1/5 font-medium">
+                  <button className="bg-[#FFFFFF] text-[#000000] py-2 px-6 rounded-xl border-2 border-[#D9D9D9] shadow-md hover:shadow-lg w-1/5 font-medium"
+                  onClick={handleInvestor}
+                  >
                     STARTUP
                   </button>
                 </div>
