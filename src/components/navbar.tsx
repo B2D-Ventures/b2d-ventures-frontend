@@ -2,6 +2,7 @@
 
 import React, { useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
+import Image from "next/image";
 
 export default function Navbar() {
   const router = useRouter();
@@ -19,6 +20,10 @@ export default function Navbar() {
     router.push("/example/login");
   };
 
+  const handleB2DClick = () => {
+    router.push("/startup");
+  }
+
   // Return the Navbar only if the current path is not "/example/login" or "/example/selection-role"
   if (currentPath === "/example/login" || currentPath === "/example/selection-role") {
     return null;
@@ -26,7 +31,8 @@ export default function Navbar() {
 
   return (
     <div className="w-full h-[90px] bg-white shadow-md flex px-[102px] items-center">
-      <div className="text-3xl font-bold">B2D</div>
+      <Image src="/images/logo.png" width={40} height={40} alt="B2D Logo" className="h-12 w-12 ml-[-12px]"/>
+      <div className="text-3xl font-bold cursor-pointer" onClick={handleB2DClick}>B2D </div>
       <div
         className="text-2xl text-base ml-auto hover:cursor-pointer"
         onClick={handleLogin}
