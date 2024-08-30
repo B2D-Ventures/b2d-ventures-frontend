@@ -5,7 +5,7 @@ import TextArea from "@/components/formInput/TextArea";
 
 export default function formDeal() {
   return (
-    <div className="flex flex-row w-[1236px] h-[545px] items-center justify-center border-[2px] border-border rounded-[8px] px-10 py-8 gap-10">
+    <div className="flex flex-row w-[1236px] h-[585px] items-center justify-center border-[2px] border-border rounded-[8px] px-10 py-8 gap-10">
       <div className="flex flex-col w-full h-full items-start justify-start gap-3">
         <div className="w-full">
           <FormInput
@@ -47,6 +47,14 @@ export default function formDeal() {
             type="number"
           />
         </div>
+        <div className="w-full">
+          <FormInput
+            label="Private data link"
+            has$={false}
+            placeholder="link"
+            type="text"
+          />
+        </div>
       </div>
       <div className="flex flex-col w-full h-full items-start justify-start gap-3">
         <div className="w-full">
@@ -81,8 +89,8 @@ export default function formDeal() {
         <div className="w-full">
           <TextArea placeholder="Enter a brief description" />
         </div>
-        <div className="flex w-full justify-end items-center">
-          <div className="flex w-[50%] h-[44px] items-center justify-center bg-purple rounded-[8px] text-white text-[20px] font-bold">
+        <div className="flex w-full justify-end items-center mt-7">
+          <div className="flex w-full h-[44px] items-center justify-center bg-purple rounded-[8px] text-white text-[20px] font-bold">
             Submit
           </div>
         </div>
