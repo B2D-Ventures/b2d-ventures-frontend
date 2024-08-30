@@ -12,7 +12,8 @@ export default function Navbar() {
 
   useEffect(() => {
     if (currentPath.startsWith("/google-auth")) {
-      router.push("/example/selection-role");
+      const fullUrl = window.location.href; // Get the full URL
+      router.push(`/example/selection-role?redirectUrl=${encodeURIComponent(fullUrl)}`);
     }
   }, [currentPath, router]);
 
