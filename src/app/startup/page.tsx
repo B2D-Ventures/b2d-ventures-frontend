@@ -7,6 +7,7 @@ import SearchBar from "@/components/searchBar";
 
 export default function DealDashboard() {
   return (
+    <div className="flex items-center justify-center">
     <div className="flex flex-col px-[102px] py-[54px] gap-10">
       <div className="grid grid-cols-2 gap-4">
         <div className="flex flex-col">
@@ -26,6 +27,7 @@ export default function DealDashboard() {
         <DealCard />
         <DealCard />
       </div>
+    </div>
     </div>
   );
 }
