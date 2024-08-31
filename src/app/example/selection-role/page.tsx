@@ -1,18 +1,58 @@
 "use client";
 import React from "react";
+import axios from "axios";
+import { useRouter, usePathname, useSearchParams } from "next/navigation";
 
-import { useRouter } from "next/navigation";
 const HomePage = () => {
-
   const router = useRouter();
+  const currentPath = usePathname();
+  const searchParams = useSearchParams();
 
-  // const createUser = () => {
-  //   fetch
-  // }
+  const changeRole = async (role: string) => {
+    const userToken = searchParams.get("user");
+
+    if (!userToken) {
+      console.error("User token not found in URL");
+      return;
+    }
+
+    try {
+      console.log("user token:", userToken); 
+      const response = await axios.put(
+        "http://127.0.0.1:8000/api/auths/",
+        {
+          data: {
+            attributes: {
+              user_token: userToken,
+              role: role,
+            },
+          },
+        },
+        {
+          headers: {
+            "Content-Type": "application/vnd.api+json",
+          },
+        }
+      );
+
+      console.log("Role changed successfully:", response.data);
+
+      // After successful role change, redirect to startup page with role
+      router.push(`/startup?user=${encodeURIComponent(userToken)}&role=${role}`);
+    } catch (error) {
+      console.error("Error changing role:", error);
+      // Handle error (e.g., show error message to user)
+    }
+  };
 
   const handleInvestor = () => {
-    router.push("/startup");
+    changeRole('investor');
   };
+
+  const handleStartup = () => {
+    changeRole('startup');
+  };
+
 
   return (
     <div>
@@ -21,7 +61,7 @@ const HomePage = () => {
         style={{
           background: "linear-gradient(to right, #FFFFFF 50%, #4E0A81 50%)",
         }}
-      > 
+      >
         <div
           className="bg-white rounded-lg shadow-lg border-2 border-[#D9D9D9]"
           style={{ width: "1288px", height: "631px" }}
@@ -38,15 +78,17 @@ const HomePage = () => {
               </div>
               <div className="flex-col items-center justify-center">
                 <div className="my-12">
-                  <button className="bg-[#FFFFFF] text-[#000000] py-2 px-6 rounded-xl border-2 border-[#D9D9D9] shadow-md hover:shadow-lg w-1/5 font-medium"
-                  onClick={handleInvestor}
+                  <button
+                    className="bg-[#FFFFFF] text-[#000000] py-2 px-6 rounded-xl border-2 border-[#D9D9D9] shadow-md hover:shadow-lg w-1/5 font-medium"
+                    onClick={handleInvestor}
                   >
                     INVESTOR
                   </button>
                 </div>
                 <div className="my-12">
-                  <button className="bg-[#FFFFFF] text-[#000000] py-2 px-6 rounded-xl border-2 border-[#D9D9D9] shadow-md hover:shadow-lg w-1/5 font-medium"
-                  onClick={handleInvestor}
+                  <button
+                    className="bg-[#FFFFFF] text-[#000000] py-2 px-6 rounded-xl border-2 border-[#D9D9D9] shadow-md hover:shadow-lg w-1/5 font-medium"
+                    onClick={handleStartup}
                   >
                     STARTUP
                   </button>
