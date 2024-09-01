@@ -17,6 +17,14 @@ export default function formDeal() {
         </div>
         <div className="w-full">
           <FormInput
+            label="description"
+            has$={false}
+            placeholder="Enter startup description"
+            type="text"
+          />
+        </div>
+        <div className="w-full">
+          <FormInput
             label="Allocation"
             has$={true}
             placeholder="0.00"
@@ -45,14 +53,6 @@ export default function formDeal() {
             has$={true}
             placeholder="0.00"
             type="number"
-          />
-        </div>
-        <div className="w-full">
-          <FormInput
-            label="Private data link"
-            has$={false}
-            placeholder="link"
-            type="text"
           />
         </div>
       </div>

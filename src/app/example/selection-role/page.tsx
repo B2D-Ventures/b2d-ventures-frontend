@@ -9,7 +9,7 @@ const HomePage = () => {
   const searchParams = useSearchParams();
 
   const changeRole = async (role: string) => {
-    const userToken = searchParams.get("user");
+    const userToken = localStorage.getItem("userId");
 
     if (!userToken) {
       console.error("User token not found in URL");

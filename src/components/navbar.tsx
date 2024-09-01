@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import Image from "next/image";
 import axios from "axios";
@@ -8,10 +8,15 @@ import axios from "axios";
 export default function Navbar() {
   const router = useRouter();
   const currentPath = usePathname();
+  const [userName, setUserName] = useState<string | null>(null);
 
   console.log(currentPath);
 
   useEffect(() => {
+    const storedUserName = localStorage.getItem("userName");
+    if (storedUserName) {
+      setUserName(storedUserName);
+    }
     if (currentPath.startsWith("/google-auth")) {
       // Get the full URL
       const fullUrl = window.location.href;
@@ -37,14 +42,26 @@ export default function Navbar() {
           console.log("User created:", response.data);
           const userRole = response.data.data.attributes.role;
           const userId = response.data.data.attributes.id;
+          const userName = response.data.data.attributes.name;
+
+          // Store user name in local storage
+          localStorage.setItem("userName", userName);
+          localStorage.setItem("userId", userId);
+          localStorage.setItem("userRole", userRole);
+          setUserName(userName);
+
           // If the role is not admin, investor, or startup, redirect to selection-role page
           if (!["admin", "investor", "startup"].includes(userRole)) {
             console.log(`User does not have a role: ${userRole}`);
-            router.push(`/example/selection-role?user=${encodeURIComponent(userId)}`);
+            router.push(
+              `/example/selection-role?user=${encodeURIComponent(userId)}`
+            );
           } else {
             // If the role is admin, investor, or startup, you can redirect to a different page or do nothing
             console.log(`User already has a role: ${userRole}`);
-            router.push(`/startup?user=${encodeURIComponent(userId)}&role=${userRole}`);
+            router.push(
+              `/startup?user=${encodeURIComponent(userId)}&role=${userRole}`
+            );
           }
         })
         .catch((error) => {
@@ -56,6 +73,14 @@ export default function Navbar() {
   const handleLogin = () => {
     router.push("/example/login");
   };
+
+  const handleLogout = () => {
+    localStorage.removeItem("userName");
+    localStorage.removeItem("userId");
+    localStorage.removeItem("userRole");
+    setUserName(null);
+    alert("You have been logged out.");
+  }
 
   const handleB2DClick = () => {
     router.push("/startup");
@@ -84,12 +109,23 @@ export default function Navbar() {
       >
         B2D{" "}
       </div>
-      <div
-        className="text-2xl text-base ml-auto hover:cursor-pointer"
-        onClick={handleLogin}
-      >
-        Log in
-      </div>
+      {userName ? (
+        <div className="flex ml-auto gap-6">
+          <div className="text-2xl text-base">Welcome, {userName}</div>
+          <div className="text-2xl text-base text-secondary hover:cursor-pointer"
+          onClick={handleLogout}
+          >
+            Log out
+          </div>
+        </div>
+      ) : (
+        <div
+          className="text-2xl text-base ml-auto hover:cursor-pointer"
+          onClick={handleLogin}
+        >
+          Log in
+        </div>
+      )}
     </div>
   );
 }
