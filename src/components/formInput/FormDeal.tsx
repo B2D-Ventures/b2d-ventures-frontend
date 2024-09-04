@@ -85,7 +85,7 @@ export default function formDeal() {
       formData.append("start_date", startDateISO || "");
       formData.append("end_date", endDateISO || "");
       formData.append("content", content);
-      
+
       // Append file data if files are selected
       if (logoRef.current?.files?.[0])
         formData.append("image_logo", logoRef.current.files[0]);
@@ -107,7 +107,8 @@ export default function formDeal() {
         }
       );
   
-      if (response.status === 200) {
+      if (response.status === 200 || response.status === 201) {
+        alert("Form submitted successfully");
         console.log("Form submitted successfully");
         // You might want to add some user feedback here, like showing a success message
       } else {
