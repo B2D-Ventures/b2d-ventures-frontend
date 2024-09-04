@@ -6,6 +6,8 @@ interface FormInputProps {
   has$: boolean;
   placeholder: string;
   type: string;
+  value?: string; 
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 export default function FormInput({
@@ -13,11 +15,15 @@ export default function FormInput({
   has$,
   placeholder,
   type,
+  value,
+  onChange,
 }: FormInputProps) {
   return (
     <div className="flex flex-col items-center justify-center gap-1">
       <div className="w-full text-[16px] text-secondary">{label}</div>
       <Input
+        value={value}
+        onChange={onChange}
         type={type}
         placeholder={placeholder}
         size="md"
@@ -31,9 +37,9 @@ export default function FormInput({
         }
         classNames={{
           mainWrapper: "w-full h-[48px]",
-          inputWrapper: "shadow-none px-4 h-[62px] bg-textAreaBg rounded-[8px] group-data-[filled=true]:bg-textAreaBg",
+          inputWrapper: "shadow-none px-4 h-[62px] rounded-[8px]",
           input: "focus:outline-none text-[16px] group-data-[has-value=true]:text-secondary",
-          label: "text-secondary text-[16px]",
+          label: "text-[16px]",
           innerWrapper: "h-[48px]",
         }}
       />
