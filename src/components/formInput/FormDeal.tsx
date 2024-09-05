@@ -285,7 +285,7 @@ export default function formDeal() {
             onChange={(e) => setContent(e.target.value)}
           />
         </div>
-        <div className="flex w-full justify-end items-center mt-7">
+        <div className="flex w-full justify-end items-center mt-7 hover:cursor-pointer">
           <div
             className="flex w-full h-[44px] items-center justify-center bg-purple rounded-[8px] text-white text-[20px] font-bold"
             onClick={handleSubmit}
