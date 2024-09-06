@@ -78,7 +78,7 @@ export default function formDeal() {
       formData.append("name", name);
       formData.append("description", description);
       formData.append("allocation", parseFloat(allocation).toString());
-      formData.append("pricePerUnit", parseFloat(pricePerUnit).toString());
+      formData.append("price_per_unit", parseFloat(pricePerUnit).toString());
       formData.append("minimum_investment", parseFloat(minInvestment).toString());
       formData.append("raised", parseFloat(raised).toString());
       formData.append("type", businessType);
