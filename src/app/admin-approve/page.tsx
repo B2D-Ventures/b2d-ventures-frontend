@@ -22,7 +22,7 @@ const Home: React.FC = () => {
         <DealTable />
     </div>
     <div className="flex justify-center mt-4">
-        <Pagination showControls total={10} initialPage={1} />
+        <Pagination showControls showShadow total={10} initialPage={1} className="text-xl p-6 space-x-4"/>
     </div>
     </div>
   );
