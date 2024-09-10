@@ -78,7 +78,7 @@ export default function formDeal() {
       formData.append("name", name);
       formData.append("description", description);
       formData.append("allocation", parseFloat(allocation).toString());
-      formData.append("pricePerUnit", parseFloat(pricePerUnit).toString());
+      formData.append("price_per_unit", parseFloat(pricePerUnit).toString());
       formData.append("minimum_investment", parseFloat(minInvestment).toString());
       formData.append("raised", parseFloat(raised).toString());
       formData.append("type", businessType);
@@ -285,7 +285,7 @@ export default function formDeal() {
             onChange={(e) => setContent(e.target.value)}
           />
         </div>
-        <div className="flex w-full justify-end items-center mt-7">
+        <div className="flex w-full justify-end items-center mt-7 hover:cursor-pointer">
           <div
             className="flex w-full h-[44px] items-center justify-center bg-purple rounded-[8px] text-white text-[20px] font-bold"
             onClick={handleSubmit}

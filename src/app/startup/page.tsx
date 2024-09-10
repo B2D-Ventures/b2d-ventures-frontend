@@ -1,19 +1,39 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import DealCard from "@/components/card";
 import Filter from "@/components/filter";
 import SearchBar from "@/components/searchBar";
-import { useRouter, usePathname, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
+import axios from "axios";
 
 export default function DealDashboard() {
   const router = useRouter();
   const role = localStorage.getItem("userRole");
+  const [deals, setDeals] = useState([]);
 
   const handleCreateDeal = () => {
     router.push("/startup-form");
   };
- 
+
+  const fetchDeals = async () => {
+    try {
+      const response = await axios.get("http://127.0.0.1:8000/api/admin/deals");
+      setDeals(response.data.data);
+      console.log("Deals fetched:", response.data.data);
+    } catch (error) {
+      console.error("Error fetching deals:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchDeals();
+  }, []);
+
+  const handleDealClick = (dealId: string) => {
+    router.push(`/detail-deal/${dealId}`);
+  };
+
   return (
     <div className="flex items-center justify-center">
       <div className="flex flex-col px-[102px] py-[54px] gap-10">
@@ -44,12 +64,20 @@ export default function DealDashboard() {
           </div>
         </div>
         <div className="grid grid-cols-3 gap-12">
-          <DealCard />
-          <DealCard />
-          <DealCard />
-          <DealCard />
-          <DealCard />
-          <DealCard />
+          {deals.map((deal) => (
+            <div key={deal.attributes.id} onClick={() => handleDealClick(deal.attributes.id)} className="hover:cursor-pointer">
+              <DealCard
+                key={deal.attributes.id}
+                name={deal.attributes.name}
+                description={deal.attributes.description}
+                fundingGoal={parseFloat(deal.attributes.allocation)}
+                raisedAmount={parseFloat(deal.attributes.raised)}
+                investorNumber={deal.attributes.investor_count}
+                icon={deal.attributes.image_logo_url}
+                bgImage={deal.attributes.image_content_url}
+              />
+            </div>
+          ))}
         </div>
       </div>
     </div>
