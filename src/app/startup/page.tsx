@@ -65,7 +65,7 @@ export default function DealDashboard() {
         </div>
         <div className="grid grid-cols-3 gap-12">
           {deals.map((deal) => (
-            <div onClick={() => handleDealClick(deal.attributes.id)}>
+            <div key={deal.attributes.id} onClick={() => handleDealClick(deal.attributes.id)} className="hover:cursor-pointer">
               <DealCard
                 key={deal.attributes.id}
                 name={deal.attributes.name}

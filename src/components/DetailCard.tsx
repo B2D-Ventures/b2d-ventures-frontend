@@ -1,14 +1,55 @@
 import { useState } from "react";
 import Image from "next/image";
-import { Progress } from "@nextui-org/react";
+import { image, Progress } from "@nextui-org/react";
 import InvestModal from "./modal/InvestModal";
 import TermModal from "./modal/TermModal";
-import { useDisclosure } from "@nextui-org/react";
 
-export default function DetailCard() {
-  const handleOnClick = () => {
-    console.log("Fund button clicked");
-  };
+interface DetailCardProps {
+  allocation: number;
+  pricePerFractionalUnit: number;
+  minimumInvestment: number;
+  raised: number;
+  fundingGoal: number;
+  dealEnd: string;
+  image_bg: string;
+}
+
+const API_BASE_URL = "http://127.0.0.1:8000";
+const DEFAULT_BG_IMAGE = "/images/lexi.png"; // Replace with your default background image path
+const DEFAULT_ICON_IMAGE = "/images/icon.jpg"; // Replace with your default icon image path
+
+const getImageSrc = (imagePath?: string, isIcon: boolean = false) => {
+  if (!imagePath) return isIcon ? DEFAULT_ICON_IMAGE : DEFAULT_BG_IMAGE;
+  const fullPath = imagePath.startsWith("http")
+    ? imagePath
+    : `${API_BASE_URL}${imagePath}`;
+  return fullPath;
+};
+
+function numberToStringFormat(amount: number) {
+  return amount? amount > 999999 ? `$${(amount / 1000000).toLocaleString()}M` : amount > 999 ? `$${(amount / 1000).toLocaleString()}K` : amount : 0;
+}
+
+function formatDate(isoDate: string) {
+  const date = new Date(isoDate);
+  const options = { year: 'numeric', month: 'short', day: 'numeric' };
+  return date.toLocaleDateString();
+}
+
+// Example usage:
+const formattedDate = formatDate("2024-08-06T17:00:00Z");
+console.log(formattedDate); // Output: Aug 6, 2024
+
+export default function DetailCard({
+  allocation,
+  pricePerFractionalUnit,
+  minimumInvestment,
+  raised,
+  fundingGoal,
+  dealEnd,
+  image_bg,
+}: DetailCardProps) {
+
 
   const handleFundClick = () => {
     setTermModalOpen(true);
@@ -27,25 +68,27 @@ export default function DetailCard() {
       <div className="w-[378px] h-[647px] bg-wwhite border-[2px] border-border rounded-[8px] px-6 py-10">
         <div className="flex justify-between items-center text-[16px]">
           <div className="text-secondary ">Allocation</div>
-          <div className="text-black font-bold">$1.2M</div>
+          <div className="text-black font-bold">
+            {numberToStringFormat(allocation)}
+          </div>
         </div>
         <div className="w-full h-[1px] bg-border my-2"></div>
         <div className="flex justify-between items-center text-[16px]">
           <div className="text-secondary ">Price per Fractional Unit</div>
-          <div className="text-black font-bold">$10,000</div>
+          <div className="text-black font-bold">{numberToStringFormat(pricePerFractionalUnit)}</div>
         </div>
         <div className="w-full h-[1px] bg-border my-2"></div>
         <div className="flex justify-between items-center text-[16px]">
           <div className="text-secondary ">Minimum investment</div>
-          <div className="text-black font-bold">$10,000</div>
+          <div className="text-black font-bold">{numberToStringFormat(minimumInvestment)}</div>
         </div>
         <div className="w-full h-[1px] bg-border my-2"></div>
         <div className="flex justify-between items-end">
           <div className="text-secondary text-[24px]">raised</div>
-          <div className="text-black font-bold text-[36px]">$712,390</div>
+          <div className="text-black font-bold text-[36px]">{numberToStringFormat(raised)}</div>
         </div>
         <div className="w-full h-[175px] rounded-[8px] overflow-hidden my-1">
-          <Image src="/images/detail.png" width={378} height={10} alt="image" />
+          <Image src={getImageSrc(image_bg)} width={378} height={10} alt="image" />
         </div>
         <div
           className="w-full h-[44px] bg-purple rounded-[8px] my-2 flex items-center justify-center text-white text-[24px] font-bold hover:cursor-pointer"
@@ -55,12 +98,14 @@ export default function DetailCard() {
         </div>
         <div className="flex justify-between items-end">
           <div className="text-secondary text-[24px]">Funding goal</div>
-          <div className="text-black font-bold text-[36px]">$1.2M</div>
+          <div className="text-black font-bold text-[36px]">
+            {numberToStringFormat(fundingGoal)}
+          </div>
         </div>
         <Progress
           aria-label="Downloading..."
           size="md"
-          value={60}
+          value={raised / fundingGoal * 100}
           showValueLabel={true}
           classNames={{
             base: "w-full h-[36px]",
@@ -71,14 +116,13 @@ export default function DetailCard() {
         />
         <div className="flex justify-between items-end mb-auto">
           <div className="text-secondary text-[24px]">Deal end</div>
-          <div className="text-black font-md text-[28px]">Aug 6, 2024</div>
+          <div className="text-black font-md text-[28px]">{formatDate(dealEnd)}</div>
         </div>
       </div>
       <InvestModal
         isOpen={isInvestModalOpen}
         onOpen={() => setInvestModalOpen(true)}
         onOpenChange={() => setInvestModalOpen(!isInvestModalOpen)}
-        
       />
       <TermModal
         isOpen={isTermModalOpen}
