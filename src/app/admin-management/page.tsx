@@ -11,7 +11,7 @@ export default function DealDashboard() {
     <div className="flex items-center justify-center">
       <div className="flex flex-col px-[102px] py-[54px] gap-10 w-[1440px]">
         <div className="flex flex-col w-full">
-          <div className="text-[48px] font-bold">Startup management</div>
+          <div className="text-[48px] font-bold">Admin management</div>
           <div className="mt-1 text-[20px] text-secondary">
           Manage and approve startup deal.
           </div>
