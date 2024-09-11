@@ -5,9 +5,8 @@ import DetailCard from "@/components/DetailCard";
 import Image from "next/image";
 import axios from "axios";
 
-
 function contentFormatter(content: string) {
-  return content.replace(/<[^>]*>?/gm, '').replace(/\r\n/g, '<br/>');
+  return content.replace(/<[^>]*>?/gm, "").replace(/\r\n/g, "<br/>");
 }
 
 export default function DealDashboard({
@@ -86,14 +85,27 @@ export default function DealDashboard({
               alt="image"
               className="w-full h-[412px] rounded-[8px]"
             />
-            <div className="mt-4" dangerouslySetInnerHTML={{ __html: deal && deal.attributes ? contentFormatter(deal.attributes.content) : "Loading..." }} />
+            <div
+              className="mt-4"
+              dangerouslySetInnerHTML={{
+                __html:
+                  deal && deal.attributes
+                    ? contentFormatter(deal.attributes.content)
+                    : "Loading...",
+              }}
+            />
           </div>
           <div className="flex flex-col mt-[90px] gap-5">
-            <div className="flex items-center justify-center bg-white w-[378px] h-[44px] rounded-[8px] text-purple border-[2px] border-purple text-semi-bold">
-              Request for private data
+            <div className="flex flex-row justify-between w-full">
+              <div className="flex items-center justify-center bg-white w-[313px] h-[44px] rounded-[8px] text-purple border-[2px] border-purple text-semi-bold">
+                Request for private data
+              </div>
+              <div className="flex items-center justify-center border-2 border-border w-[44px] h-[44px] rounded-[8px] text-white text-semi-bold">
+                <img src="/images/Phoneicon.png" alt="Fund Icon" className="w-6 h-6 opacity-50" />
+              </div>
             </div>
             <div className="flex">
-              <DetailCard 
+              <DetailCard
                 allocation={deal?.attributes?.allocation}
                 pricePerFractionalUnit={deal?.attributes?.price_per_unit}
                 minimumInvestment={deal?.attributes?.minimum_investment}

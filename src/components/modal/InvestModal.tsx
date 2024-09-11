@@ -75,7 +75,9 @@ export default function InvestModal({
                   maxValue={maxMultiplier}
                   marks={[
                     { value: 0, label: "0" },
+                    { value: 2, label: "2" },
                     { value: maxMultiplier / 2, label: `${maxMultiplier / 2}` },
+                    { value: 8, label: "8" },
                     { value: maxMultiplier, label: `${maxMultiplier}` },
                   ]}
                   defaultValue={1}

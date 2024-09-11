@@ -90,7 +90,7 @@ export default function TermModal({
                 )}
                 <div className="flex flex-row w-full h-full gap-4 items-center mt-4">
                   <div
-                    className="w-full flex items-center justify-center border-[2px] border-red rounded-[8px] text-red text-[20px]"
+                    className="w-full flex items-center justify-center border-[2px] border-red rounded-[8px] text-red text-[20px] cursor-pointer"
                     onClick={onClose}
                   >
                     Cancel
