@@ -2,8 +2,14 @@
 
 import React from "react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 export default function DealCard({}) {
+  const router = useRouter();
+  const handleOnclick = () => {
+    router.push("/detail-deal");
+  };
+
   return (
     <div className="w-[380px] h-[520px] rounded-md bg-white shadow-md relative">
       <Image
@@ -44,10 +50,13 @@ export default function DealCard({}) {
             </div>
           </div>
           <div className="mt-2 ml-auto">
-            <div className="w-[105px] h-[32px] flex bg-purple rounded-md items-center justify-center">
-              <div className="text-white text-center">FUNDED</div>
-            </div>
-          </div>
+          <button 
+            className="w-[105px] h-[32px] flex bg-purple rounded-md items-center justify-center text-white text-center hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50 transition-colors duration-200"
+            onClick={handleOnclick}
+          >
+            FUNDED
+          </button>
+        </div>
         </div>
       </div>
     </div>
