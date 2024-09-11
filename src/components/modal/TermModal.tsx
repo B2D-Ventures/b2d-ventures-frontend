@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Modal,
   ModalContent,
@@ -23,6 +23,24 @@ export default function TermModal({
   onOpenChange,
   onNext,
 }: TermModalProps) {
+  const [isChecked, setIsChecked] = useState(false);
+  const [showError, setShowError] = useState(false);
+
+  const handleCheckboxChange = (checked: boolean) => {
+    setIsChecked(checked);
+    if (checked) {
+      setShowError(false);
+    }
+  };
+
+  const handleNextClick = () => {
+    if (isChecked) {
+      onNext();
+    } else {
+      setShowError(true);
+    }
+  };
+
   return (
     <div className="z-1">
       <Modal
@@ -54,7 +72,8 @@ export default function TermModal({
               </ModalBody>
               <ModalFooter className="flex flex-col">
                 <Checkbox
-                  
+                  isSelected={isChecked}
+                  onValueChange={handleCheckboxChange}
                   classNames={{
                     wrapper:
                       "flex justify-center items-center bg-white border-[1px] rounded-[8px] text-white text-[20px]",
@@ -62,15 +81,25 @@ export default function TermModal({
                     icon: "text-purple",
                   }}
                 >
-                  I agree with the Term and Conditions
+                  I agree with the Terms and Conditions
                 </Checkbox>
-                <div className="flex flex-row w-full h-full gap-4 items-center">
-                  <div className="w-full flex items-center justify-center border-[2px] border-red rounded-[8px] text-red text-[20px]">
+                {showError && (
+                  <div className="text-red text-[14px] mt-2">
+                    Please agree to the Terms and Conditions before proceeding.
+                  </div>
+                )}
+                <div className="flex flex-row w-full h-full gap-4 items-center mt-4">
+                  <div
+                    className="w-full flex items-center justify-center border-[2px] border-red rounded-[8px] text-red text-[20px] cursor-pointer"
+                    onClick={onClose}
+                  >
                     Cancel
                   </div>
                   <div
-                    className="w-full flex items-center justify-center bg-purple border-[2px] border-purple rounded-[8px] text-white text-[20px] hover:cursor-pointer"
-                    onClick={onNext}
+                    className={`w-full flex items-center justify-center ${
+                      isChecked ? "bg-purple" : "bg-gray-400"
+                    } border-[2px] border-purple rounded-[8px] text-white text-[20px] hover:cursor-pointer`}
+                    onClick={handleNextClick}
                   >
                     Next
                   </div>

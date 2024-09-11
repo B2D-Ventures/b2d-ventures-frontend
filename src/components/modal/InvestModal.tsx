@@ -1,12 +1,10 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   Modal,
   ModalContent,
   ModalHeader,
   ModalBody,
   ModalFooter,
-  Button,
-  useDisclosure,
   Slider,
 } from "@nextui-org/react";
 
@@ -14,9 +12,44 @@ interface InvestModalProps {
   isOpen: boolean;
   onOpen: () => void;
   onOpenChange: () => void;
+  minInvestAmount: number;
+  pricePerUnit: number;
 }
 
-export default function InvestModal({ isOpen, onOpen, onOpenChange }: InvestModalProps) {
+export default function InvestModal({
+  isOpen,
+  onOpenChange,
+  minInvestAmount,
+  pricePerUnit,
+}: InvestModalProps) {
+  const [sliderValue, setSliderValue] = useState(1);
+  const [investmentAmount, setInvestmentAmount] = useState(pricePerUnit);
+
+  const maxMultiplier = 10;
+  const maxInvestAmount = minInvestAmount * maxMultiplier;
+
+  useEffect(() => {
+    const calculatedAmount = Number(sliderValue) * Number(pricePerUnit);
+    setInvestmentAmount(isNaN(calculatedAmount) ? 0 : calculatedAmount);
+  }, [sliderValue, pricePerUnit]);
+
+  const handleSliderChange = (value: number | number[]) => {
+    if (typeof value === "number") {
+      setSliderValue(value);
+    } else if (Array.isArray(value) && value.length > 0) {
+      setSliderValue(value[0]);
+    } else {
+      setSliderValue(0);
+    }
+  };
+
+  const formatCurrency = (amount: number) => {
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+    }).format(amount);
+  };
+
   return (
     <div>
       <Modal
@@ -35,15 +68,21 @@ export default function InvestModal({ isOpen, onOpen, onOpenChange }: InvestModa
               </ModalHeader>
               <ModalBody>
                 <Slider
-                  label="Select a value"
+                  label="Select investment units"
                   color="foreground"
-                  step={10}
+                  step={1}
+                  minValue={0}
+                  maxValue={maxMultiplier}
                   marks={[
-                    { value: 20, label: "20%" },
-                    { value: 50, label: "50%" },
-                    { value: 80, label: "80%" },
+                    { value: 0, label: "0" },
+                    { value: 2, label: "2" },
+                    { value: maxMultiplier / 2, label: `${maxMultiplier / 2}` },
+                    { value: 8, label: "8" },
+                    { value: maxMultiplier, label: `${maxMultiplier}` },
                   ]}
-                  defaultValue={20}
+                  defaultValue={1}
+                  value={sliderValue}
+                  onChange={handleSliderChange}
                   classNames={{
                     labelWrapper: "text-center mb-2",
                     label: "text-[20px]",
@@ -56,15 +95,28 @@ export default function InvestModal({ isOpen, onOpen, onOpenChange }: InvestModa
                     mark: "mt-4 text-sm text-center ml-[-8px]",
                   }}
                 />
+                <div className="mt-4 text-[20px] text-secondary">
+                  Total amount:
+                </div>
+                <div className="mt-1 text-[36px] text-black font-bold">
+                  {formatCurrency(investmentAmount)}
+                </div>
               </ModalBody>
               <ModalFooter>
                 <div className="flex flex-row w-full h-full gap-4 items-center">
-                  <div className="w-full flex items-center justify-center border-[2px] border-red rounded-[8px] text-red text-[20px] hover:cursor-pointer">
+                  <div
+                    className="w-full flex items-center justify-center border-[2px] border-red rounded-[8px] text-red text-[20px] hover:cursor-pointer"
+                    onClick={onClose}
+                  >
                     Cancel
                   </div>
                   <div
-                    className="w-full flex items-center justify-center bg-purple border-[2px] border-purple rounded-[8px] text-white text-[20px] hover:cursor-pointer"
-                     // Use the onNext handler
+                    className={`w-full flex items-center justify-center ${
+                      sliderValue === 0 ? "bg-gray-400" : "bg-purple"
+                    } border-[2px] border-purple rounded-[8px] text-white text-[20px] ${
+                      sliderValue === 0 ? "" : "hover:cursor-pointer"
+                    }`}
+                    onClick={sliderValue === 0 ? undefined : onClose}
                   >
                     Accept
                   </div>

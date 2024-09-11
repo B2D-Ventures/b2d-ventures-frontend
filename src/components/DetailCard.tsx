@@ -123,6 +123,8 @@ export default function DetailCard({
         isOpen={isInvestModalOpen}
         onOpen={() => setInvestModalOpen(true)}
         onOpenChange={() => setInvestModalOpen(!isInvestModalOpen)}
+        minInvestAmount={minimumInvestment}
+        pricePerUnit={pricePerFractionalUnit}
       />
       <TermModal
         isOpen={isTermModalOpen}
