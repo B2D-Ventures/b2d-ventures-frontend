@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import Image from "next/image";
 import axios from "axios";
+import dashboard from "./dashboard";
 
 export default function Navbar() {
   const router = useRouter();
@@ -94,6 +95,18 @@ export default function Navbar() {
     return null;
   }
 
+  const handleProfileCLick = () => {
+    if (localStorage.getItem("userRole") === "startup") {
+      router.push("/startup-dashboard");
+    }
+    if (localStorage.getItem("userRole") === "investor") {
+      router.push("/investor-dashboard");
+    }
+    if (localStorage.getItem("userRole") === "admin") {
+      router.push("/admin-dashboard");
+    }
+  }
+
   return (
     <div className="w-full h-[90px] bg-white shadow-md flex px-[102px] items-center">
       <Image
@@ -111,7 +124,8 @@ export default function Navbar() {
       </div>
       {userName ? (
         <div className="flex ml-auto gap-6">
-          <div className="text-2xl text-base">Welcome, {userName}</div>
+          <div className="text-2xl text-base cursor-pointer hover:text-purple"
+          onClick={handleProfileCLick}>Welcome, {userName}</div>
           <div className="text-2xl text-base text-secondary hover:cursor-pointer"
           onClick={handleLogout}
           >

@@ -1,14 +1,35 @@
 "use client";
 
-import React from "react";
-import FormDeal from "@/components/formInput/FormDeal";
-import InvestorCard from "@/components/InvestorCard";
+import { useEffect, useState } from "react";
+import StartupCard from "@/components/StartupCard";
 import Accordian from "@/components/AccordianForStartup";
 import SearchBar from "@/components/searchBar";
 import ScheduleGrid from "@/components/ScheduleGrid"; // Import ScheduleGrid
 import { Checkbox } from "@nextui-org/react";
+import axios from "axios";
+
+
 
 export default function DealDashboard() {
+
+  const [deals, setDeals] = useState([]);
+
+  const getStartupData = () => {
+    axios
+      .get(`http://127.0.0.1:8000/api/startup/${localStorage.getItem("userId")}/investments/`)
+      .then((response) => {
+        console.log(response);
+        setDeals(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  useEffect(() => {
+    getStartupData();
+  }, []);
+
   return (
     <div className="flex flex-col px-[102px] py-[54px] gap-10">
       <div className="flex flex-col w-full">
@@ -20,10 +41,9 @@ export default function DealDashboard() {
       <div className="w-full flex flex-row items-between gap-10">
         <div className="">
           <div className="flex flex-col">
-            <InvestorCard name="LEXI" totalInvestment="123,456" />
+            <StartupCard name={localStorage.getItem("userName")} totalInvestment="123,456" />
           </div>
-          {/* Use ScheduleGrid component */}
-          <div className="text-3xl mt-2">Meeting Schedule</div>
+          <div className="text-3xl mt-8">Meeting Schedule</div>
           <ScheduleGrid />
         </div>
 

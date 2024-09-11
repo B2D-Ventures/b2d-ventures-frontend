@@ -11,17 +11,16 @@ export default function App() {
     <div className="grid grid-cols-3 pl-12">
       <div className="flex flex-col">
         <div className="text-[20px] font-bold">$10,000</div>
-        <div className="text-secondary">Your invested price</div>
+        <div className="text-secondary">Invested price</div>
+      </div>
+      <div className="flex flex-col">
+        <div className="text-[20px] font-bold">LEXI</div>
+        <div className="text-secondary">Deal</div>
       </div>
       <div className="flex flex-col">
         <div className="text-[20px] font-bold">$12,390</div>
-        <div className="text-secondary">raised</div>
+        <div className="text-secondary">Toatal raised</div>
       </div>
-      <div className="flex flex-col">
-        <div className="text-[20px] font-bold">$1.2M</div>
-        <div className="text-secondary">Funding goal</div>
-      </div>
-      
     </div>
   );
 
@@ -49,11 +48,11 @@ export default function App() {
         title="JJ Kung"
         startContent={
           <Image
-          src="/images/Ellipse.png"
-          width={56}
-          height={56}
-          alt="logo"
-          className="shadow-sm"
+            src="/images/Ellipse.png"
+            width={56}
+            height={56}
+            alt="logo"
+            className="shadow-sm"
           />
         }
       >
@@ -65,11 +64,11 @@ export default function App() {
         title="Jetjumnong"
         startContent={
           <Image
-          src="/images/Ellipse.png"
-          width={56}
-          height={56}
-          alt="logo"
-          className="shadow-sm"
+            src="/images/Ellipse.png"
+            width={56}
+            height={56}
+            alt="logo"
+            className="shadow-sm"
           />
         }
       >
@@ -81,11 +80,11 @@ export default function App() {
         title="Tantikon P."
         startContent={
           <Image
-          src="/images/Ellipse.png"
-          width={56}
-          height={56}
-          alt="logo"
-          className="shadow-sm"
+            src="/images/Ellipse.png"
+            width={56}
+            height={56}
+            alt="logo"
+            className="shadow-sm"
           />
         }
       >
@@ -97,11 +96,11 @@ export default function App() {
         title="Yanat Jereja"
         startContent={
           <Image
-          src="/images/Ellipse.png"
-          width={56}
-          height={56}
-          alt="logo"
-          className="shadow-sm"
+            src="/images/Ellipse.png"
+            width={56}
+            height={56}
+            alt="logo"
+            className="shadow-sm"
           />
         }
       >
@@ -113,11 +112,11 @@ export default function App() {
         title="lolo"
         startContent={
           <Image
-          src="/images/Ellipse.png"
-          width={56}
-          height={56}
-          alt="logo"
-          className="shadow-sm"
+            src="/images/Ellipse.png"
+            width={56}
+            height={56}
+            alt="logo"
+            className="shadow-sm"
           />
         }
       >
