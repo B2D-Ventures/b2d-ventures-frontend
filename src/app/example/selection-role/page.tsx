@@ -1,12 +1,10 @@
 "use client";
 import React from "react";
 import axios from "axios";
-import { useRouter, usePathname, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 const HomePage = () => {
   const router = useRouter();
-  const currentPath = usePathname();
-  const searchParams = useSearchParams();
 
   const changeRole = async (role: string) => {
     const userToken = localStorage.getItem("userId");

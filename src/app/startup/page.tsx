@@ -1,14 +1,21 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import DealCard from "@/components/card";
 import Filter from "@/components/filter";
 import SearchBar from "@/components/searchBar";
-import { useRouter, usePathname, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 export default function DealDashboard() {
   const router = useRouter();
-  const role = localStorage.getItem("userRole");
+  const [role, setRole] = useState<string | null>(null);
+
+
+  useEffect(() => {
+    // Access localStorage only after component has mounted
+    const userRole = localStorage.getItem("userRole");
+    setRole(userRole);
+  }, []);
 
   const handleCreateDeal = () => {
     router.push("/startup-form");

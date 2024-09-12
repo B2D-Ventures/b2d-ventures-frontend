@@ -7,8 +7,17 @@ import TermModal from "@/components/modal/TermModal";
 export default function ModalPage({}) {
   return (
     <div className="flex w-full justify-center items-center p-4">
-      <InvestModal />
-      <TermModal />
+      <InvestModal 
+        isOpen={true} 
+        onOpen={() => {}} 
+        onOpenChange={() => {}}
+      />
+      <TermModal
+        isOpen={true}
+        onOpen={() => {}}
+        onOpenChange={() => {}} 
+        onNext={() => {}}
+      />
     </div>
   );
 }

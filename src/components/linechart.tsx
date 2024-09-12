@@ -54,7 +54,7 @@ const LineChart = () => {
               y: {
                 beginAtZero: true,
                 grid: {
-                  drawBorder: false,
+                  // drawBorder: false,
                 }
               }
             }

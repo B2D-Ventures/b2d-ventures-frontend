@@ -2,10 +2,9 @@
 "use client";
 
 import React from "react";
-import Image from "next/image";
-import BarChart from "./BarChart";
-import DoughnutChart from "./DonutChart";
-import LineChart from "./linechart";
+import BarChart from "@/components/Barchart";
+import DoughnutChart from "@/components/Donutchart";
+import LineChart from "@/components/linechart";
 
 export default function dashboard({}) {
     return (

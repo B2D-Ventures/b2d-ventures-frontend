@@ -19,7 +19,6 @@ interface TermModalProps {
 
 export default function TermModal({
   isOpen,
-  onOpen,
   onOpenChange,
   onNext,
 }: TermModalProps) {

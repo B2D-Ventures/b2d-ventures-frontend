@@ -6,7 +6,7 @@ import { DateValue } from "@nextui-org/react";
 import axios from "axios";
 import React, { useState, useRef, ChangeEvent } from "react";
 
-export default function formDeal() {
+export default function FormDeal() {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [allocation, setAllocation] = useState("");
