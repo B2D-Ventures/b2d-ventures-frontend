@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import {
   Modal,
   ModalContent,
@@ -14,6 +15,7 @@ interface InvestModalProps {
   onOpenChange: () => void;
   minInvestAmount: number;
   pricePerUnit: number;
+  dealId: string;
 }
 
 export default function InvestModal({
@@ -21,6 +23,7 @@ export default function InvestModal({
   onOpenChange,
   minInvestAmount,
   pricePerUnit,
+  dealId,
 }: InvestModalProps) {
   const [sliderValue, setSliderValue] = useState(1);
   const [investmentAmount, setInvestmentAmount] = useState(pricePerUnit);
@@ -49,6 +52,31 @@ export default function InvestModal({
       currency: "USD",
     }).format(amount);
   };
+
+  const handleAcceptInvestment = async () => {
+    const totalInvestmentAmount = Number(investmentAmount);
+    try {
+      const response = await axios.post(
+        `http://127.0.0.1:8000/api/investor/${localStorage.getItem("userId")}/investments/${dealId}/`,
+        {
+          data: {
+            attributes: {
+              "investment_amount": totalInvestmentAmount,
+            },
+          },
+        },
+        {
+          headers: {
+            "Content-Type": "application/vnd.api+json",
+          },
+        }
+      );
+      console.log("Investment accepted:", response.data);
+      alert("Investment accepted successfully");
+    } catch (error) {
+      console.error("Error accepting investment:", error);
+    }
+  }
 
   return (
     <div>
@@ -116,7 +144,7 @@ export default function InvestModal({
                     } border-[2px] border-purple rounded-[8px] text-white text-[20px] ${
                       sliderValue === 0 ? "" : "hover:cursor-pointer"
                     }`}
-                    onClick={sliderValue === 0 ? undefined : onClose}
+                    onClick={sliderValue === 0 ? undefined : handleAcceptInvestment}
                   >
                     Accept
                   </div>

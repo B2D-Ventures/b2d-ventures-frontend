@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import DetailCard from "@/components/DetailCard";
 import Image from "next/image";
 import axios from "axios";
+import { headers } from "next/headers";
 
 function contentFormatter(content: string) {
   return content.replace(/<[^>]*>?/gm, "").replace(/\r\n/g, "<br/>");
@@ -15,7 +16,6 @@ export default function DealDashboard({
   params: { dealId: string };
 }) {
   const id = params.dealId;
-  console.log("Received params:", params);
   const [deals, setDeals] = useState([]);
   const [deal, setDeal] = useState({});
 
@@ -54,6 +54,7 @@ export default function DealDashboard({
       }
     }
   }, [deals, id]);
+
 
   return (
     <div className="flex items-center justify-center">
@@ -113,6 +114,7 @@ export default function DealDashboard({
                 fundingGoal={deal?.attributes?.allocation}
                 dealEnd={deal?.attributes?.end_date}
                 image_bg={deal?.attributes?.image_background_url}
+                dealId={id}
               />
             </div>
           </div>
