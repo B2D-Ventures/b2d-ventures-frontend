@@ -55,6 +55,8 @@ export default function InvestModal({
 
   const handleAcceptInvestment = async () => {
     const totalInvestmentAmount = Number(investmentAmount);
+    console.log("Investment amount:", totalInvestmentAmount);
+    console.log("Deal ID:", dealId);
     try {
       const response = await axios.post(
         `http://127.0.0.1:8000/api/investor/${localStorage.getItem("userId")}/investments/${dealId}/`,
