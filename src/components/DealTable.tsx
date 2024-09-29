@@ -123,9 +123,7 @@ export default function DealTable() {
                     color="warning"
                     isDisabled={deal.attributes.status.toLowerCase() === "approved"}
                   />
-                
                   <Checkbox isIndeterminate color="warning"></Checkbox>
-                
               </td>
             </tr>
           ))}
