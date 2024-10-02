@@ -4,14 +4,16 @@ import { Select, SelectItem } from "@nextui-org/react";
 
 interface SelectFormProps {
   value?: string; 
+  testId?: string;
   onChange?: (e: any) => void;
 }
 
-export default function SelectForm({ value, onChange }: SelectFormProps) {
+export default function SelectForm({ value, onChange, testId }: SelectFormProps) {
   return (
     <div className="flex flex-col items-center justify-center gap-1">
       <div className="w-full text-[16px] text-secondary">Business type</div>
       <Select
+        data-testid={testId}
         label="select"
         variant="bordered"
         size="sm"
@@ -30,7 +32,7 @@ export default function SelectForm({ value, onChange }: SelectFormProps) {
         <SelectItem key={"Funded"}>Funded</SelectItem>
         <SelectItem key={"100+ invesetors"}>100+ investors</SelectItem>
         <SelectItem key={"$100k+ raised"}>$100k+ raised</SelectItem>
-        <SelectItem key={"Tech Company"}>Tech Company</SelectItem>
+        <SelectItem data-testid="select-value" key={"Tech Company"}>Tech Company</SelectItem>
         <SelectItem key={"Health Company"}>Health Company</SelectItem>
         <SelectItem key={"Artificial Intelligence (AI)"}>Artificial Intelligence (AI)</SelectItem>
         <SelectItem key={"Blockchain"}>Blockchain</SelectItem>

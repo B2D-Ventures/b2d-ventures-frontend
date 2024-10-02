@@ -98,7 +98,8 @@ export default function formDeal() {
   
       // Send POST request
       const response = await axios.post(
-        `http://127.0.0.1:8000/api/startup/${localStorage.getItem("userId")}/deals/`,
+        // `http://127.0.0.1:8000/api/startup/${localStorage.getItem("userId")}/deals/`,
+        `http://127.0.0.1:8000/api/startup/0d3b7d0e-9e10-4254-b94d-30cfbab66ed8/deals/`,
         formData,
         {
           headers: {
@@ -132,6 +133,7 @@ export default function formDeal() {
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
+            testId="name-input"
           />
         </div>
         <div className="w-full">
@@ -142,6 +144,7 @@ export default function formDeal() {
             type="text"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
+            testId="description-input"
           />
         </div>
         <div className="w-full">
@@ -152,6 +155,7 @@ export default function formDeal() {
             type="number"
             value={allocation}
             onChange={(e) => setAllocation(e.target.value)}
+            testId="allocation-input"
           />
         </div>
         <div className="w-full">
@@ -162,6 +166,7 @@ export default function formDeal() {
             type="number"
             value={pricePerUnit}
             onChange={(e) => setPricePerUnit(e.target.value)}
+            testId="price-input"
           />
         </div>
         <div className="w-full">
@@ -172,6 +177,7 @@ export default function formDeal() {
             type="number"
             value={minInvestment}
             onChange={(e) => setMinInvestment(e.target.value)}
+            testId="min-investment-input"
           />
         </div>
         <div className="w-full">
@@ -182,25 +188,26 @@ export default function formDeal() {
             type="number"
             value={raised}
             onChange={(e) => setRaised(e.target.value)}
+            testId="raised-input"
           />
         </div>
       </div>
       <div className="flex flex-col w-full h-full items-start justify-start gap-3">
         <div className="w-full">
-          <Select onChange={onSelectChange} />
+          <Select onChange={onSelectChange} testId="select-type"/>
         </div>
         <div className="w-full flex flex-row gap-4">
           <div className="w-full">
             <div className="w-full text-[16px] text-secondary mb-3">
               Start date
             </div>
-            <DatePicker value={startDate} onChange={(e) => setStartDate(e)} />
+            <DatePicker value={startDate} onChange={(e) => setStartDate(e)} testId="start-date-input"/>
           </div>
           <div className="w-full">
             <div className="w-full text-[16px] text-secondary mb-3">
               End date
             </div>
-            <DatePicker value={endDate} onChange={(e) => setEndDate(e)} />
+            <DatePicker value={endDate} onChange={(e) => setEndDate(e)} testId="end-date-input"/>
           </div>
         </div>
         <div className="flex w-full text-[16px] text-secondary">
@@ -224,6 +231,7 @@ export default function formDeal() {
                 hover:file:bg-violet-100 file:cursor-pointer"
               ref={logoRef}
               onChange={handleFileChange}
+              data-testid="logo-input"
             />
           </div>
           <div className="flex w-[100px]">
@@ -240,6 +248,7 @@ export default function formDeal() {
                 hover:file:bg-violet-100 file:cursor-pointer"
               ref={contentRef}
               onChange={handleFileChange}
+              data-testid="content-image-input"
             />
           </div>
           <div className="flex w-[100px]">
@@ -256,6 +265,7 @@ export default function formDeal() {
                 hover:file:bg-violet-100 file:cursor-pointer"
               ref={dealRef}
               onChange={handleFileChange}
+              data-testid="deal-image-input"
             />
           </div>
           <div className="flex w-[100px]">
@@ -272,6 +282,7 @@ export default function formDeal() {
                 hover:file:bg-violet-100 file:cursor-pointer"
               ref={privateDataRef}
               onChange={handleFileChange}
+              data-testid="private-data-input"
             />
           </div>
           <div className="flex text-secondary ml-auto">
@@ -289,6 +300,7 @@ export default function formDeal() {
           <div
             className="flex w-full h-[44px] items-center justify-center bg-purple rounded-[8px] text-white text-[20px] font-bold"
             onClick={handleSubmit}
+            data-testid="submit-button"
           >
             Submit
           </div>

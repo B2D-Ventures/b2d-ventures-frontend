@@ -23,6 +23,7 @@ export default function TextArea({ placeholder, value, onChange }: TextAreaProps
         }}
         value={value}
         onChange={onChange}
+        data-testid="content-input"
       />
     </div>
   );
