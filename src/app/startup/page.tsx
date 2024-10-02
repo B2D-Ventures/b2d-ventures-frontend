@@ -64,20 +64,25 @@ export default function DealDashboard() {
           </div>
         </div>
         <div className="grid grid-cols-3 gap-12">
-          {deals.map((deal) => (
-            <div key={deal.attributes.id} onClick={() => handleDealClick(deal.attributes.id)} className="hover:cursor-pointer">
-              <DealCard
-                key={deal.attributes.id}
-                name={deal.attributes.name}
-                description={deal.attributes.description}
-                fundingGoal={parseFloat(deal.attributes.allocation)}
-                raisedAmount={parseFloat(deal.attributes.raised)}
-                investorNumber={deal.attributes.investor_count}
-                icon={deal.attributes.image_logo_url}
-                bgImage={deal.attributes.image_content_url}
-              />
-            </div>
-          ))}
+        {deals.map((deal, index) => (
+          <div 
+            key={deal.attributes.id} 
+            onClick={() => handleDealClick(deal.attributes.id)} 
+            className="hover:cursor-pointer"
+            data-testid="deal-card"
+          >
+            <DealCard
+              key={deal.attributes.id}
+              name={deal.attributes.name}
+              description={deal.attributes.description}
+              fundingGoal={parseFloat(deal.attributes.allocation)}
+              raisedAmount={parseFloat(deal.attributes.raised)}
+              investorNumber={deal.attributes.investor_count}
+              icon={deal.attributes.image_logo_url}
+              bgImage={deal.attributes.image_content_url}
+            />
+          </div>
+        ))}
         </div>
       </div>
     </div>

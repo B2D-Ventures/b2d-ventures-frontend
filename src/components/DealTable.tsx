@@ -119,6 +119,7 @@ export default function DealTable() {
                         ? () => handleApproveDeal(deal.attributes.id)
                         : undefined
                     }
+                    data-testid="checkbox"
                     defaultSelected={deal.attributes.status.toLowerCase() !== "approved"}
                     color="warning"
                     isDisabled={deal.attributes.status.toLowerCase() === "approved"}

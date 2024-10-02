@@ -22,7 +22,7 @@ export default function Page() {
             B2D’s financial ecosystem unlocks private markets for investors and
             institutions across the globe.
           </div>
-          <div
+          <div data-testid="invest-page"
             className="flex items-center justify-center w-[292px] h-[71px] bg-purple text-white text-[32px] rounded-[8px] cursor-pointer"
             onClick={handleOnclick}
           >

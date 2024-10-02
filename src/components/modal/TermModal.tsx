@@ -71,7 +71,7 @@ export default function TermModal({
                 </div>
               </ModalBody>
               <ModalFooter className="flex flex-col">
-                <Checkbox
+                <Checkbox data-testid="checkbox"
                   isSelected={isChecked}
                   onValueChange={handleCheckboxChange}
                   classNames={{
@@ -95,7 +95,7 @@ export default function TermModal({
                   >
                     Cancel
                   </div>
-                  <div
+                  <div data-testid="next"
                     className={`w-full flex items-center justify-center ${
                       isChecked ? "bg-purple" : "bg-gray-400"
                     } border-[2px] border-purple rounded-[8px] text-white text-[20px] hover:cursor-pointer`}
