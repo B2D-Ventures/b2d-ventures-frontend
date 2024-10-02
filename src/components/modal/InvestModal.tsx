@@ -140,7 +140,7 @@ export default function InvestModal({
                   >
                     Cancel
                   </div>
-                  <div
+                  <div data-testid="accept"
                     className={`w-full flex items-center justify-center ${
                       sliderValue === 0 ? "bg-gray-400" : "bg-purple"
                     } border-[2px] border-purple rounded-[8px] text-white text-[20px] ${
