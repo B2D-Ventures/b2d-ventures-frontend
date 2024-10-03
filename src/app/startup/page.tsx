@@ -21,18 +21,22 @@ interface Deal {
   };
 }
 
-export default function DealDashboard() {
+const DealDashboard: React.FC = () => {
   const router = useRouter();
   const [role, setRole] = useState<string | null>(null);
   const [deals, setDeals] = useState<Deal[]>([]);
   const [filteredDeals, setFilteredDeals] = useState<Deal[]>([]);
   const [selectedFilter, setSelectedFilter] = useState<string>("");
+  const [searchQuery, setSearchQuery] = useState<string>("");
 
   useEffect(() => {
-    // Move localStorage access to useEffect to ensure it runs only on the client side
     setRole(localStorage.getItem("userRole"));
     fetchDeals();
   }, []);
+
+  useEffect(() => {
+    filterDeals();
+  }, [selectedFilter, searchQuery, deals]);
 
   const handleCreateDeal = () => {
     router.push("/startup-form");
@@ -44,7 +48,7 @@ export default function DealDashboard() {
         "http://127.0.0.1:8000/api/admin/deals"
       );
       setDeals(response.data.data);
-      setFilteredDeals(response.data.data); // Set filteredDeals initially to all deals
+      setFilteredDeals(response.data.data);
       console.log("Deals fetched:", response.data.data);
     } catch (error) {
       console.error("Error fetching deals:", error);
@@ -58,27 +62,34 @@ export default function DealDashboard() {
   const onSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedValue = e.target.value;
     setSelectedFilter(selectedValue);
+  };
 
-    if (selectedValue === "") {
-      setFilteredDeals(deals);
-    } else {
-      const filtered = deals.filter((deal) => {
-        if (selectedValue === "Tech Company") {
-          return deal.attributes.type === "Tech Company";
-        } else if (selectedValue === "Health Company") {
-          return deal.attributes.type === "Health Company";
-        }
-        // Add more conditions for other filter options if needed
-        return true;
-      });
-      setFilteredDeals(filtered);
+  const onSearch = (query: string) => {
+    setSearchQuery(query);
+  };
+
+  const filterDeals = () => {
+    let filtered = deals;
+
+    // Apply type filter
+    if (selectedFilter !== "") {
+      filtered = filtered.filter((deal) => deal.attributes.type === selectedFilter);
     }
+
+    // Apply search filter
+    if (searchQuery !== "") {
+      filtered = filtered.filter((deal) =>
+        deal.attributes.name.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    }
+
+    setFilteredDeals(filtered);
   };
 
   return (
     <div className="flex items-center justify-center">
       <div className="flex flex-col px-[102px] py-[54px] gap-10">
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 gap-4 min-w-[1236px]">
           <div className="flex flex-col">
             <div className="text-[48px] font-bold">
               Investment opportunities
@@ -100,7 +111,7 @@ export default function DealDashboard() {
             )}
             <div className="flex flex-row gap-4">
               <Filter onChange={onSelectChange} />
-              <SearchBar />
+              <SearchBar onSearch={onSearch} />
             </div>
           </div>
         </div>
@@ -127,4 +138,6 @@ export default function DealDashboard() {
       </div>
     </div>
   );
-}
+};
+
+export default DealDashboard;
