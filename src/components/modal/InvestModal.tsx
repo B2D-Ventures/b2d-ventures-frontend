@@ -100,13 +100,12 @@ export default function InvestModal({
                   label="Select investment units"
                   color="foreground"
                   step={1}
-                  minValue={0}
+                  minValue={1}
                   maxValue={maxMultiplier}
                   marks={[
-                    { value: 0, label: "0" },
-                    { value: 2, label: "2" },
-                    { value: maxMultiplier / 2, label: `${maxMultiplier / 2}` },
-                    { value: 8, label: "8" },
+                    { value: 1, label: "1" },
+                    { value: 4, label: "4" },
+                    { value: 7, label: "7" },
                     { value: maxMultiplier, label: `${maxMultiplier}` },
                   ]}
                   defaultValue={1}
