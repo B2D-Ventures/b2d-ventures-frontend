@@ -29,10 +29,9 @@ export default function InvestModal({
   const [investmentAmount, setInvestmentAmount] = useState(pricePerUnit);
 
   const maxMultiplier = 10;
-  const maxInvestAmount = minInvestAmount * maxMultiplier;
 
   useEffect(() => {
-    const calculatedAmount = Number(sliderValue) * Number(pricePerUnit);
+    const calculatedAmount = Number(sliderValue) * Number(pricePerUnit) + Number(minInvestAmount);
     setInvestmentAmount(isNaN(calculatedAmount) ? 0 : calculatedAmount);
   }, [sliderValue, pricePerUnit]);
 
@@ -59,11 +58,12 @@ export default function InvestModal({
     console.log("Deal ID:", dealId);
     try {
       const response = await axios.post(
-        `http://127.0.0.1:8000/api/investor/${localStorage.getItem("userId")}/investments/${dealId}/`,
+        // neruiAI
+        `http://127.0.0.1:8000/api/investor/1d8b57f3-7908-44db-95ba-c0d372f97d63/investments/ca76e562-c29d-4bc0-a520-cccb97ff826b/`,
         {
           data: {
             attributes: {
-              "investment_amount": totalInvestmentAmount,
+              "investment_amount": 10100,
             },
           },
         },
@@ -101,11 +101,11 @@ export default function InvestModal({
                   label="Select investment units"
                   color="foreground"
                   step={1}
-                  minValue={0}
+                  minValue={1}
                   maxValue={maxMultiplier}
                   marks={[
-                    { value: 0, label: "0" },
-                    { value: 2, label: "2" },
+                    { value: 1, label: "1" },
+                    { value: 3, label: "3" },
                     { value: maxMultiplier / 2, label: `${maxMultiplier / 2}` },
                     { value: 8, label: "8" },
                     { value: maxMultiplier, label: `${maxMultiplier}` },

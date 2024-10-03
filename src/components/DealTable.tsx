@@ -3,22 +3,6 @@ import React, { useState, useEffect } from "react";
 import { Checkbox } from "@nextui-org/react";
 import axios from "axios";
 
-// type Deal = {
-//   id: string;
-//   startup: string;
-//   date: string;
-//   status: string;
-// };
-
-// const deals: Deal[] = [
-//   { id: '10000011', startup: 'Angrybid', date: '19/08/2024', status: 'WAITING' },
-//   { id: '10000012', startup: 'LEXI', date: '20/08/2024', status: 'APPROVE' },
-//   { id: '10000013', startup: 'Oily', date: '20/08/2024', status: 'DECLINE' },
-//   { id: '10000014', startup: 'LEXI', date: '20/08/2024', status: 'APPROVE' },
-//   { id: '10000015', startup: 'LEXI', date: '20/08/2024', status: 'APPROVE' },
-// ];
-
-// const [deals, setDeals] = useState([]);
 
 function getStatusColor(status: String) {
   switch (status) {
@@ -26,8 +10,8 @@ function getStatusColor(status: String) {
       return "text-orange-500";
     case "approved":
       return "text-green";
-    case "Decline":
-      return "text-red-500";
+    case "rejected":
+      return "text-red";
     default:
       return "";
   }
@@ -35,7 +19,6 @@ function getStatusColor(status: String) {
 
 function formatDate(isoDate: string) {
   const date = new Date(isoDate);
-  const options = { year: "numeric", month: "short", day: "numeric" };
   return date.toLocaleDateString();
 }
 
@@ -59,11 +42,37 @@ export default function DealTable() {
   const handleApproveDeal = async (dealId: string) => {
     try {
       const response = await axios.put(
-        `http://127.0.0.1:8000/api/admin/${dealId}/deals/`,
+        `http://127.0.0.1:8000/api/admin/355a60b0-6057-4b75-897d-b68681005c17/deals/`,
         {
           data: {
             attributes: {
               action: "approve",
+            },
+          },
+        },
+        {
+          headers: {
+            "Content-Type": "application/vnd.api+json",
+          },
+        }
+      );
+      console.log("Deal approved:", response.data);
+      alert("Deal approved successfully");
+      await fetchDeals();
+    } catch (error) {
+      console.error("Error approving deal:", error);
+      alert("Error approving deal");
+    }
+  };
+
+  const handleRejectDeal = async (dealId: string) => {
+    try {
+      const response = await axios.put(
+        `http://127.0.0.1:8000/api/admin/d5269102-2195-461d-980c-c626eed7e222/deals/`,
+        {
+          data: {
+            attributes: {
+              action: "reject",
             },
           },
         },
@@ -115,16 +124,26 @@ export default function DealTable() {
                 
                   <Checkbox
                     onClick={
-                      deal.attributes.status.toLowerCase() !== "approve"
+                      deal.attributes.status.toLowerCase() !== "approved"
                         ? () => handleApproveDeal(deal.attributes.id)
                         : undefined
                     }
-                    data-testid="checkbox"
+                    data-testid="approve-checkbox"
                     defaultSelected={deal.attributes.status.toLowerCase() !== "approved"}
                     color="warning"
                     isDisabled={deal.attributes.status.toLowerCase() === "approved"}
                   />
-                  <Checkbox isIndeterminate color="warning"></Checkbox>
+                  <Checkbox 
+                    isIndeterminate color="warning"
+                    onClick={
+                      deal.attributes.status.toLowerCase() !== "rejected"
+                        ? () => handleRejectDeal(deal.attributes.id)
+                        : undefined
+                    }
+                    data-testid="reject-checkbox"
+                    defaultSelected={deal.attributes.status.toLowerCase() !== "rejected"}
+                    isDisabled={deal.attributes.status.toLowerCase() === "rejected"}
+                  />
               </td>
             </tr>
           ))}
