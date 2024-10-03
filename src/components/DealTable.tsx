@@ -3,22 +3,6 @@ import React, { useState, useEffect } from "react";
 import { Checkbox } from "@nextui-org/react";
 import axios from "axios";
 
-// type Deal = {
-//   id: string;
-//   startup: string;
-//   date: string;
-//   status: string;
-// };
-
-// const deals: Deal[] = [
-//   { id: '10000011', startup: 'Angrybid', date: '19/08/2024', status: 'WAITING' },
-//   { id: '10000012', startup: 'LEXI', date: '20/08/2024', status: 'APPROVE' },
-//   { id: '10000013', startup: 'Oily', date: '20/08/2024', status: 'DECLINE' },
-//   { id: '10000014', startup: 'LEXI', date: '20/08/2024', status: 'APPROVE' },
-//   { id: '10000015', startup: 'LEXI', date: '20/08/2024', status: 'APPROVE' },
-// ];
-
-// const [deals, setDeals] = useState([]);
 
 function getStatusColor(status: String) {
   switch (status) {
