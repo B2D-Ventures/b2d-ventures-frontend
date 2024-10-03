@@ -29,10 +29,9 @@ export default function InvestModal({
   const [investmentAmount, setInvestmentAmount] = useState(pricePerUnit);
 
   const maxMultiplier = 10;
-  const maxInvestAmount = minInvestAmount * maxMultiplier;
 
   useEffect(() => {
-    const calculatedAmount = Number(sliderValue) * Number(pricePerUnit);
+    const calculatedAmount = Number(sliderValue) * Number(pricePerUnit) + Number(minInvestAmount);
     setInvestmentAmount(isNaN(calculatedAmount) ? 0 : calculatedAmount);
   }, [sliderValue, pricePerUnit]);
 
