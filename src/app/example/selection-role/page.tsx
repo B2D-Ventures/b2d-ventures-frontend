@@ -5,8 +5,6 @@ import { useRouter, usePathname, useSearchParams } from "next/navigation";
 
 const HomePage = () => {
   const router = useRouter();
-  const currentPath = usePathname();
-  const searchParams = useSearchParams();
 
   const changeRole = async (role: string) => {
     const userToken = localStorage.getItem("userId");

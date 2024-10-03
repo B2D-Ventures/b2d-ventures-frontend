@@ -4,31 +4,40 @@ import { useEffect, useState } from "react";
 import StartupCard from "@/components/StartupCard";
 import Accordian from "@/components/AccordianForStartup";
 import SearchBar from "@/components/searchBar";
-import ScheduleGrid from "@/components/ScheduleGrid"; // Import ScheduleGrid
+import ScheduleGrid from "@/components/ScheduleGrid";
 import { Checkbox } from "@nextui-org/react";
 import axios from "axios";
 
-
-
 export default function DealDashboard() {
-
   const [deals, setDeals] = useState([]);
+  const [userName, setUserName] = useState("");
+  const [userId, setUserId] = useState("");
 
   const getStartupData = () => {
-    axios
-      .get(`http://127.0.0.1:8000/api/startup/${localStorage.getItem("userId")}/investments/`)
-      .then((response) => {
-        console.log(response);
-        setDeals(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }
+    if (userId) {
+      axios
+        .get(`http://127.0.0.1:8000/api/startup/${userId}/investments/`)
+        .then((response) => {
+          console.log(response);
+          setDeals(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  };
 
   useEffect(() => {
-    getStartupData();
+    // Move localStorage access to useEffect to ensure it runs only on the client side
+    setUserName(localStorage.getItem("userName") || "");
+    setUserId(localStorage.getItem("userId") || "");
   }, []);
+
+  useEffect(() => {
+    if (userId) {
+      getStartupData();
+    }
+  }, [userId]);
 
   return (
     <div className="flex flex-col px-[102px] py-[54px] gap-10">
@@ -41,7 +50,7 @@ export default function DealDashboard() {
       <div className="w-full flex flex-row items-between gap-10">
         <div className="">
           <div className="flex flex-col">
-            <StartupCard name={localStorage.getItem("userName")} totalInvestment="123,456" />
+            <StartupCard name={userName} totalInvestment="123,456" />
           </div>
           <div className="text-3xl mt-8">Meeting Schedule</div>
           <ScheduleGrid />

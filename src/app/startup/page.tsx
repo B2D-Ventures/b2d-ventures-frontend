@@ -7,10 +7,29 @@ import SearchBar from "@/components/searchBar";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 
+interface Deal {
+  attributes: {
+    id: string;
+    name: string;
+    description: string;
+    allocation: string;
+    raised: string;
+    investor_count: number;
+    image_logo_url: string;
+    image_content_url: string;
+  }
+}
+
 export default function DealDashboard() {
   const router = useRouter();
-  const role = localStorage.getItem("userRole");
-  const [deals, setDeals] = useState([]);
+  const [role, setRole] = useState<string | null>(null);
+  const [deals, setDeals] = useState<Deal[]>([]);
+
+  useEffect(() => {
+    // Move localStorage access to useEffect to ensure it runs only on the client side
+    setRole(localStorage.getItem("userRole"));
+    fetchDeals();
+  }, []);
 
   const handleCreateDeal = () => {
     router.push("/startup-form");
@@ -18,17 +37,13 @@ export default function DealDashboard() {
 
   const fetchDeals = async () => {
     try {
-      const response = await axios.get("http://127.0.0.1:8000/api/admin/deals");
+      const response = await axios.get<{ data: Deal[] }>("http://127.0.0.1:8000/api/admin/deals");
       setDeals(response.data.data);
       console.log("Deals fetched:", response.data.data);
     } catch (error) {
       console.error("Error fetching deals:", error);
     }
   };
-
-  useEffect(() => {
-    fetchDeals();
-  }, []);
 
   const handleDealClick = (dealId: string) => {
     router.push(`/detail-deal/${dealId}`);
