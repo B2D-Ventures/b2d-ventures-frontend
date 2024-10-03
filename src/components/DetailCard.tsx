@@ -12,6 +12,7 @@ interface DetailCardProps {
   fundingGoal: number;
   dealEnd: string;
   image_bg: string;
+  dealId: string;
 }
 
 const API_BASE_URL = "http://127.0.0.1:8000";
@@ -48,6 +49,7 @@ export default function DetailCard({
   fundingGoal,
   dealEnd,
   image_bg,
+  dealId,
 }: DetailCardProps) {
 
 
@@ -125,6 +127,7 @@ export default function DetailCard({
         onOpenChange={() => setInvestModalOpen(!isInvestModalOpen)}
         minInvestAmount={minimumInvestment}
         pricePerUnit={pricePerFractionalUnit}
+        dealId={dealId}
       />
       <TermModal
         isOpen={isTermModalOpen}

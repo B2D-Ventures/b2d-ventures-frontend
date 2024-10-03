@@ -5,8 +5,6 @@ import { useRouter, usePathname, useSearchParams } from "next/navigation";
 
 const HomePage = () => {
   const router = useRouter();
-  const currentPath = usePathname();
-  const searchParams = useSearchParams();
 
   const changeRole = async (role: string) => {
     const userToken = localStorage.getItem("userId");
@@ -19,11 +17,10 @@ const HomePage = () => {
     try {
       console.log("user token:", userToken); 
       const response = await axios.put(
-        "http://127.0.0.1:8000/api/auths/",
+        `http://127.0.0.1:8000/api/auths/${userToken}`,
         {
           data: {
             attributes: {
-              user_token: userToken,
               role: role,
             },
           },

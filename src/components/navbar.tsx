@@ -43,7 +43,7 @@ export default function Navbar() {
           console.log("User created:", response.data);
           const userRole = response.data.data.attributes.role;
           const userId = response.data.data.attributes.id;
-          const userName = response.data.data.attributes.name;
+          const userName = response.data.data.attributes.username;
 
           // Store user name in local storage
           localStorage.setItem("userName", userName);
