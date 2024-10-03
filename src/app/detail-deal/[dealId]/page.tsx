@@ -55,6 +55,18 @@ export default function DealDashboard({
     }
   }, [deals, id]);
 
+  const handleRequestData = (dealId: any, userId: any) => {
+    return async () => {
+      try {
+        const response = axios.post(
+          `http://127.0.0.1:8000/api/investor/${userId}/deals/${dealId}/request-dataroom/`
+        );
+        alert("Data requested successfully! Please check your email for more details.");
+      } catch (error) {
+        console.error("Error requesting data:", error);
+      }
+    };
+  };
 
   return (
     <div className="flex items-center justify-center">
@@ -98,11 +110,18 @@ export default function DealDashboard({
           </div>
           <div className="flex flex-col mt-[90px] gap-5">
             <div className="flex flex-row justify-between w-full">
-              <div className="flex items-center justify-center bg-white w-[313px] h-[44px] rounded-[8px] text-purple border-[2px] border-purple text-semi-bold">
+              <div
+                onClick={handleRequestData(id, localStorage.getItem("userId"))}
+                className="flex items-center justify-center bg-white w-[313px] h-[44px] rounded-[8px] text-purple border-[2px] border-purple text-semi-bold hover:cursor-pointer"
+              >
                 Request for private data
               </div>
               <div className="flex items-center justify-center border-2 border-border w-[44px] h-[44px] rounded-[8px] text-white text-semi-bold">
-                <img src="/images/Phoneicon.png" alt="Fund Icon" className="w-6 h-6 opacity-50" />
+                <img
+                  src="/images/Phoneicon.png"
+                  alt="Fund Icon"
+                  className="w-6 h-6 opacity-50"
+                />
               </div>
             </div>
             <div className="flex">
