@@ -82,6 +82,32 @@ export default function DealTable() {
     }
   };
 
+  const handleRejectDeal = async (dealId: string) => {
+    try {
+      const response = await axios.put(
+        `http://127.0.0.1:8000/api/admin/d5269102-2195-461d-980c-c626eed7e222/deals/`,
+        {
+          data: {
+            attributes: {
+              action: "reject",
+            },
+          },
+        },
+        {
+          headers: {
+            "Content-Type": "application/vnd.api+json",
+          },
+        }
+      );
+      console.log("Deal approved:", response.data);
+      alert("Deal rejected successfully");
+      await fetchDeals();
+    } catch (error) {
+      console.error("Error rejecting deal:", error);
+      alert("Error rejecting deal");
+    }
+  };
+
   return (
     <div className="overflow-x-auto">
       <table className="min-w-full bg-white border border-gray-200">
@@ -112,18 +138,37 @@ export default function DealTable() {
                 {deal.attributes.status}
               </td>
               <td className="py-2 px-4 border-b">
-                
-                  <Checkbox
-                    onClick={
-                      deal.attributes.status.toLowerCase() !== "approve"
-                        ? () => handleApproveDeal(deal.attributes.id)
-                        : undefined
-                    }
-                    defaultSelected={deal.attributes.status.toLowerCase() !== "approved"}
-                    color="warning"
-                    isDisabled={deal.attributes.status.toLowerCase() === "approved"}
-                  />
-                  <Checkbox isIndeterminate color="warning"></Checkbox>
+                <Checkbox
+                  onClick={
+                    deal.attributes.status.toLowerCase() !== "approved"
+                      ? () => handleApproveDeal(deal.attributes.id)
+                      : undefined
+                  }
+                  data-testid="approve-checkbox"
+                  defaultSelected={
+                    deal.attributes.status.toLowerCase() !== "approved"
+                  }
+                  color="warning"
+                  isDisabled={
+                    deal.attributes.status.toLowerCase() === "approved"
+                  }
+                />
+                <Checkbox
+                  isIndeterminate
+                  color="warning"
+                  onClick={
+                    deal.attributes.status.toLowerCase() !== "rejected"
+                      ? () => handleRejectDeal(deal.attributes.id)
+                      : undefined
+                  }
+                  data-testid="reject-checkbox"
+                  defaultSelected={
+                    deal.attributes.status.toLowerCase() !== "rejected"
+                  }
+                  isDisabled={
+                    deal.attributes.status.toLowerCase() === "rejected"
+                  }
+                />
               </td>
             </tr>
           ))}
