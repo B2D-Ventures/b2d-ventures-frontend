@@ -21,9 +21,6 @@ interface Deal {
 }
 
 export default function App({ deals }: { deals: Deal[] }) {
-  const defaultContent =
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.";
-
   const getImageSrc = (imagePath?: string, isIcon: boolean = false) => {
     if (!imagePath) return isIcon ? DEFAULT_ICON_IMAGE : DEFAULT_BG_IMAGE;
     const fullPath = imagePath.startsWith("http")
