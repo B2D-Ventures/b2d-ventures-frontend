@@ -86,7 +86,7 @@ export default function DealDashboard() {
 
         <div className="flex-col w-full">
           <div className="flex flex-row justify-between">
-            <div className="text-[36px] font-bold">Deal</div>
+            <div className="text-[36px] font-bold">Investment</div>
             <SearchBar onSearch={onSearch} />
           </div>
           <div className="h-[520px] overflow-y-auto">

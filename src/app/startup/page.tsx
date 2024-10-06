@@ -100,7 +100,7 @@ const DealDashboard: React.FC = () => {
           </div>
           <div className="flex flex-col ml-auto mt-auto gap-2">
             {role === "startup" && (
-              <div className="flex w-full justify-end">
+              <div className="flex w-full justify-end gap-4">
                 <div
                   className="flex items-center justify-center rounded-[8px] w-[144px] h-[32px] bg-purple text-white hover:cursor-pointer"
                   onClick={handleCreateDeal}

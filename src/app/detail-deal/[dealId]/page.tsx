@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import DetailCard from "@/components/DetailCard";
 import Image from "next/image";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 
 interface DealAttributes {
   id: string;
@@ -17,6 +18,9 @@ interface DealAttributes {
   raised: string;
   end_date: string;
   image_background_url: string;
+  startup: {
+    id: string;
+  };
 }
 
 interface Deal {
@@ -40,6 +44,8 @@ export default function DealDashboard({
   const DEFAULT_BG_IMAGE = "/images/lexi.png";
   const DEFAULT_ICON_IMAGE = "/images/icon.jpg";
 
+  const Router = useRouter();
+
   const getImageSrc = (imagePath?: string, isIcon: boolean = false) => {
     if (!imagePath) return isIcon ? DEFAULT_ICON_IMAGE : DEFAULT_BG_IMAGE;
     const fullPath = imagePath.startsWith("http")
@@ -50,7 +56,9 @@ export default function DealDashboard({
 
   const fetchDeal = async () => {
     try {
-      const response = await axios.get<{ data: Deal[] }>("http://127.0.0.1:8000/api/admin/deals");
+      const response = await axios.get<{ data: Deal[] }>(
+        "http://127.0.0.1:8000/api/admin/deals"
+      );
       setDeals(response.data.data);
       console.log("Deals fetched:", response.data.data);
     } catch (error) {
@@ -78,11 +86,17 @@ export default function DealDashboard({
         const response = await axios.post(
           `http://127.0.0.1:8000/api/investor/${userId}/deals/${dealId}/request-dataroom/`
         );
-        alert("Data requested successfully! Please check your email for more details.");
+        alert(
+          "Data requested successfully! Please check your email for more details."
+        );
       } catch (error) {
         console.error("Error requesting data:", error);
       }
     };
+  };
+
+  const handleEditDeal = (dealId: string) => {
+    Router.push(`/edit-deal/${dealId}`);
   };
 
   return (
@@ -144,7 +158,9 @@ export default function DealDashboard({
               {deal && (
                 <DetailCard
                   allocation={Number(deal.attributes.allocation)}
-                  pricePerFractionalUnit={Number(deal.attributes.price_per_unit)}
+                  pricePerFractionalUnit={Number(
+                    deal.attributes.price_per_unit
+                  )}
                   minimumInvestment={Number(deal.attributes.minimum_investment)}
                   raised={Number(deal.attributes.raised)}
                   fundingGoal={Number(deal.attributes.allocation)}
@@ -154,6 +170,14 @@ export default function DealDashboard({
                 />
               )}
             </div>
+            {deal?.attributes.startup.id === localStorage.getItem("userId") && (
+              <div
+                onClick={handleEditDeal.bind(null, id)}
+                className="flex items-center justify-center bg-white w-[378px] h-[44px] rounded-[8px] text-purple border-[2px] border-purple text-semi-bold hover:cursor-pointer"
+              >
+                Edit Deal
+              </div>
+            )}
           </div>
         </div>
       </div>
