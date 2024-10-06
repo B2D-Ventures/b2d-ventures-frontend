@@ -34,44 +34,47 @@ const Home: React.FC = () => {
     }
   }, []);
 
-  const handleSend = async () => {
-    if (!startupId || !investorId) {
-      setFeedbackMessage("Startup ID or Investor ID is missing");
-      return;
-    }
+const handleSend = async () => {
+  if (!startupId || !investorId) {
+    setFeedbackMessage("Startup ID or Investor ID is missing");
+    return;
+  }
 
-    const apiUrl = `http://127.0.0.1:8000/api/investor/${investorId}/schedule-meeting/${startupId}/`;
+  const apiUrl = `http://127.0.0.1:8000/api/investor/${investorId}/schedule-meeting/${startupId}/`;
 
-    const data = {
-      data: {
-        attributes: {
-          start_time: `${date}T${startTime}:00+00:00`,
-          end_time: `${date}T${endTime}:00+00:00`,
-          title: title,
-          description: description,
-        },
+  const data = {
+    data: {
+      attributes: {
+        start_time: `${date}T${startTime}:00+00:00`,
+        end_time: `${date}T${endTime}:00+00:00`,
+        title: title,
+        description: description,
       },
-    };
-
-    try {
-      const response = await fetch(apiUrl, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
-
-      if (response.ok) {
-        setFeedbackMessage("Meeting scheduled successfully");
-      } else {
-        setFeedbackMessage("Failed to schedule meeting");
-      }
-    } catch (error) {
-      console.error("Error:", error);
-      setFeedbackMessage("An error occurred while scheduling the meeting");
-    }
+    },
   };
+
+  // Log the data to the console
+  console.log("Data to be sent:", data);
+
+  try {
+    const response = await fetch(apiUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+
+    if (response.ok) {
+      setFeedbackMessage("Meeting scheduled successfully");
+    } else {
+      setFeedbackMessage("Failed to schedule meeting");
+    }
+  } catch (error) {
+    console.error("Error:", error);
+    setFeedbackMessage("An error occurred while scheduling the meeting");
+  }
+};
 
   const handleTimeChange = (setter: React.Dispatch<React.SetStateAction<string>>) => (value: any) => {
     if (value && typeof value.format === 'function') {
