@@ -17,7 +17,7 @@ const HomePage = () => {
     try {
       console.log("user token:", userToken); 
       const response = await axios.put(
-        `http://127.0.0.1:8000/api/auths/${userToken}`,
+        `http://127.0.0.1:8000/api/auths/${userToken}/update-role/`,
         {
           data: {
             attributes: {

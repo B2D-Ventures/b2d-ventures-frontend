@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import DetailCard from "@/components/DetailCard";
 import Image from "next/image";
 import axios from "axios";
+import Link from 'next/link';
 import { useRouter } from "next/navigation";
 
 interface DealAttributes {
@@ -146,13 +147,15 @@ export default function DealDashboard({
               >
                 Request for private data
               </div>
-              <div className="flex items-center justify-center border-2 border-border w-[44px] h-[44px] rounded-[8px] text-white text-semi-bold">
-                <img
-                  src="/images/Phoneicon.png"
-                  alt="Fund Icon"
-                  className="w-6 h-6 opacity-50"
-                />
-              </div>
+              <Link href={`/schedule-meeting?id=${deal?.attributes.startup.id}`}>
+                <button className="flex items-center justify-center border-2 border-border w-[44px] h-[44px] rounded-[8px] text-white font-semibold">
+                  <img
+                    src="/images/Phoneicon.png"
+                    alt="Fund Icon"
+                    className="w-6 h-6 opacity-50"
+                  />
+                </button>
+              </Link>
             </div>
             <div className="flex">
               {deal && (
