@@ -6,7 +6,12 @@ import { DateValue } from "@nextui-org/react";
 import axios from "axios";
 import React, { useState, useRef, ChangeEvent } from "react";
 
-export default function FormDeal() {
+interface FormDealProps {
+  isEdit?: boolean;
+  id?: string;
+}
+
+export default function FormDeal({ isEdit, id }: FormDealProps) {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [allocation, setAllocation] = useState("");
@@ -72,19 +77,42 @@ export default function FormDeal() {
       // Convert dates to ISO 8601 format
       const startDateISO = convertToISO8601(startDate);
       const endDateISO = convertToISO8601(endDate);
-  
+
       // Create FormData object
       const formData = new FormData();
-      formData.append("name", name);
-      formData.append("description", description);
-      formData.append("allocation", parseFloat(allocation).toString());
-      formData.append("price_per_unit", parseFloat(pricePerUnit).toString());
-      formData.append("minimum_investment", parseFloat(minInvestment).toString());
-      formData.append("raised", parseFloat(raised).toString());
-      formData.append("type", businessType);
-      formData.append("start_date", startDateISO || "");
-      formData.append("end_date", endDateISO || "");
-      formData.append("content", content);
+      if (name !== "") {
+        formData.append("name", name);
+      }
+      if (description !== "") {
+        formData.append("description", description);
+      }
+      if (allocation !== "") {
+        formData.append("allocation", parseFloat(allocation).toString());
+      }
+      if (pricePerUnit !== "") {
+        formData.append("price_per_unit", parseFloat(pricePerUnit).toString());
+      }
+      if (minInvestment !== "") {
+        formData.append(
+          "minimum_investment",
+          parseFloat(minInvestment).toString()
+        );
+      }
+      if (raised !== "") {
+        formData.append("raised", parseFloat(raised).toString());
+      }
+      if (businessType !== "") {
+        formData.append("type", businessType);
+      }
+      if (startDateISO !== "") {
+        formData.append("start_date", startDateISO);
+      }
+      if (endDateISO !== "") {
+        formData.append("end_date", endDateISO);
+      }
+      if (content !== "") {
+        formData.append("content", content);
+      }
 
       // Append file data if files are selected
       if (logoRef.current?.files?.[0])
@@ -95,25 +123,50 @@ export default function FormDeal() {
         formData.append("image_background", dealRef.current.files[0]);
       if (privateDataRef.current?.files?.[0])
         formData.append("dataroom", privateDataRef.current.files[0]);
-  
-      // Send POST request
-      const response = await axios.post(
-        `http://127.0.0.1:8000/api/startup/${localStorage.getItem("userId")}/deals/`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
+
+      if (!isEdit) {
+        // Send POST request
+        const response = await axios.post(
+          `http://127.0.0.1:8000/api/startup/${localStorage.getItem("userId")}/deals/`,
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+        if (response.status === 200 || response.status === 201) {
+          alert("Form submitted successfully");
+          console.log("Form submitted successfully");
+          // You might want to add some user feedback here, like showing a success message
+        } else {
+          console.error("Form submission failed");
+          // You might want to add some user feedback here, like showing an error message
         }
-      );
-  
-      if (response.status === 200 || response.status === 201) {
-        alert("Form submitted successfully");
-        console.log("Form submitted successfully");
-        // You might want to add some user feedback here, like showing a success message
       } else {
-        console.error("Form submission failed");
-        // You might want to add some user feedback here, like showing an error message
+        console.log("deal id", id);
+        console.log("userId", localStorage.getItem("userId"));
+        console.log("formData", formData);
+        // Send PUT request
+        const response = await axios.put(
+          `http://127.0.0.1:8000/api/startup/${localStorage.getItem(
+            "userId"
+          )}/deals/${id}/`,
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+        if (response.status === 200 || response.status === 201) {
+          alert("Form submitted successfully");
+          console.log("Form submitted successfully");
+          // You might want to add some user feedback here, like showing a success message
+        } else {
+          console.error("Form submission failed");
+          // You might want to add some user feedback here, like showing an error message
+        }
       }
     } catch (error) {
       console.error("Error submitting form:", error);
