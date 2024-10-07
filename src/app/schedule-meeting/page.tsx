@@ -4,19 +4,19 @@ import { TimeInput } from "@nextui-org/react";
 import { DatePicker } from "@nextui-org/react";
 import { Textarea } from "@nextui-org/react";
 import { Button } from "@nextui-org/button";
+import dayjs from "dayjs"; // Import dayjs for date manipulation
 
 const Home: React.FC = () => {
   const [startupId, setStartupId] = useState<string | null>(null);
   const [investorId, setInvestorId] = useState<string | null>(null);
-  const [title, setTitle] = useState<string>(""); // State for title
+  const [title, setTitle] = useState<string>("");
   const [startTime, setStartTime] = useState<string>("");
   const [endTime, setEndTime] = useState<string>("");
-  const [description, setDescription] = useState<string>("");
   const [date, setDate] = useState<string>("");
+  const [description, setDescription] = useState<string>("");
   const [feedbackMessage, setFeedbackMessage] = useState<string | null>(null);
 
   useEffect(() => {
-    // Retrieve investorId from localStorage
     const storedInvestorId = localStorage.getItem("userId");
     if (storedInvestorId) {
       setInvestorId(storedInvestorId);
@@ -24,7 +24,6 @@ const Home: React.FC = () => {
       console.error("Investor ID not found in localStorage");
     }
 
-    // Retrieve startupId from URL
     const urlParams = new URLSearchParams(window.location.search);
     const idFromUrl = urlParams.get("id");
     if (idFromUrl) {
@@ -34,70 +33,79 @@ const Home: React.FC = () => {
     }
   }, []);
 
-const handleSend = async () => {
-  if (!startupId || !investorId) {
-    setFeedbackMessage("Startup ID or Investor ID is missing");
-    return;
-  }
+  const handleSend = async () => {
+    if (!startupId || !investorId) {
+      setFeedbackMessage("Startup ID or Investor ID is missing");
+      return;
+    }
 
-  const apiUrl = `http://127.0.0.1:8000/api/investor/${investorId}/schedule-meeting/${startupId}/`;
+    // Combine date and time into ISO 8601 format
+    const startDateTime = dayjs(`${date}T${startTime}`).toISOString();
+    const endDateTime = dayjs(`${date}T${endTime}`).toISOString();
 
-  const data = {
-    data: {
-      attributes: {
-        start_time: `${date}T${startTime}:00+00:00`,
-        end_time: `${date}T${endTime}:00+00:00`,
-        title: title,
-        description: description,
+    console.log("Start DateTime:", startDateTime);
+    console.log("End DateTime:", endDateTime);
+
+    const apiUrl = `http://127.0.0.1:8000/api/investor/${investorId}/schedule-meeting/${startupId}/`;
+
+    const data = {
+      data: {
+        attributes: {
+          start_time: startDateTime,
+          end_time: endDateTime,
+          title: title,
+          description: description,
+        },
       },
-    },
+    };
+
+    console.log("Data to be sent:", data);
+
+    try {
+      const response = await fetch(apiUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (response.ok) {
+        setFeedbackMessage("Meeting scheduled successfully");
+      } else {
+        setFeedbackMessage("Failed to schedule meeting");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      setFeedbackMessage("An error occurred while scheduling the meeting");
+    }
   };
 
-  // Log the data to the console
-  console.log("Data to be sent:", data);
-
-  try {
-    const response = await fetch(apiUrl, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
-
-    if (response.ok) {
-      setFeedbackMessage("Meeting scheduled successfully");
-    } else {
-      setFeedbackMessage("Failed to schedule meeting");
-    }
-  } catch (error) {
-    console.error("Error:", error);
-    setFeedbackMessage("An error occurred while scheduling the meeting");
-  }
-};
-
   const handleTimeChange = (setter: React.Dispatch<React.SetStateAction<string>>) => (value: any) => {
-    if (value && typeof value.format === 'function') {
-      setter(value.format("HH:mm"));
-    }
+    // Assuming value is an object with a string representation of time
+    const timeString = value?.toString() || ""; // Adjust based on actual structure
+    console.log("Time Value:", timeString);
+    setter(timeString);
   };
 
   return (
     <div className="flex flex-col items-center justify-center space-y-6">
-      {/* Feedback Message */}
       {feedbackMessage && (
         <div className="p-4 bg-blue-100 text-blue-800 rounded-md">
           {feedbackMessage}
         </div>
       )}
 
-      {/* Meeting Scheduling Form */}
       <div className="p-6 bg-white rounded-xl shadow-md">
         <DatePicker
           label="Day"
           className="max-w-[284px]"
           isRequired
-          onChange={(value) => setDate(value)}
+          onChange={(value: any) => {
+            const formattedDate = dayjs(value).format("YYYY-MM-DD");
+            console.log("Selected Date:", formattedDate);
+            setDate(formattedDate);
+          }}
         />
         <div className="flex flex-wrap gap-4 mt-2">
           <TimeInput
