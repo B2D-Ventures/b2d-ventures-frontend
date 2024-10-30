@@ -16,7 +16,7 @@ const Home: React.FC = () => {
             <Button style={{ backgroundColor: '#9710FF', color: '#fff' }}>
                 Manage Startup
             </Button>
-            <SearchBar />
+            {/* <SearchBar /> */}
         </div>
     </div>
     <div className="mt-4">

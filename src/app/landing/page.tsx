@@ -16,10 +16,10 @@ export default function Page() {
       <div className="flex flex-row h-[600px] bg-gradient-to-b from-purple to-[#4E0A81]">
         <div className="flex flex-col w-full items-start justify-center px-[135px]">
           <div className="text-white text-[48px] font-bold mb-8">
-            Be a part of the world's most ambitious ventures
+            Be a part of the world&apos;s most ambitious ventures
           </div>
           <div className="text-white text-[24px] mb-8">
-            B2D’s financial ecosystem unlocks private markets for investors and
+            B2D&apos;s financial ecosystem unlocks private markets for investors and
             institutions across the globe.
           </div>
           <div data-testid="invest-page"

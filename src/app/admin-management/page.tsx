@@ -25,7 +25,7 @@ export default function DealDashboard() {
           <div className="flex-col w-full">
             <div className="flex flex-row justify-between">
               <div className="text-[36px] font-bold">Deal Information</div>
-              <SearchBar />
+              {/* <SearchBar /> */}
             </div>
             <div className="flex flex-row justify-start gap-2">
               <div className="text-[24px] text-secondary">All</div>
