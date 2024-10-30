@@ -175,6 +175,7 @@ export default function DealDashboard({
             </div>
             {deal?.attributes.startup.id === localStorage.getItem("userId") && (
               <div
+                data-testid="edit-deal-button"
                 onClick={handleEditDeal.bind(null, id)}
                 className="flex items-center justify-center bg-white w-[378px] h-[44px] rounded-[8px] text-purple border-[2px] border-purple text-semi-bold hover:cursor-pointer"
               >
