@@ -43,6 +43,25 @@ export default function Dashboard() {
     const [error, setError] = useState<Error | null>(null);
     const [investments, setInvestments] = useState<Investment[]>([]);
 
+    // Function to calculate top performers
+    const getTopPerformers = (investments: Investment[]) => {
+        const investorTotals = new Map<string, number>();
+
+        investments.forEach((investment) => {
+            const investor = investment.attributes.investor;
+            const amount = parseFloat(investment.attributes.investment_amount);
+            
+            investorTotals.set(
+                investor, 
+                (investorTotals.get(investor) || 0) + amount
+            );
+        });
+
+        return Array.from(investorTotals.entries())
+            .sort(([, a], [, b]) => b - a)
+            .slice(0, 4);
+    };
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -113,7 +132,7 @@ export default function Dashboard() {
                 <p className="text-lg text-gray-600 mt-2 ml-4">
                     {statistics?.total_investments ?? 0} investors
                 </p>
-                {investments.slice(0, statistics?.total_investments).map((investment, index) => (
+                {investments.slice(0, 4).map((investment, index) => (
                     <React.Fragment key={investment.id}>
                         <div className="flex justify-between mt-4 mb-4">
                             <span className="text-base font-bold ml-4">
@@ -123,35 +142,33 @@ export default function Dashboard() {
                                 {parseFloat(investment.attributes.investment_amount).toLocaleString()} USD
                             </span>
                         </div>
-                        {index < 4 && <hr/>}
+                        {index < 3 && <hr/>}
                     </React.Fragment>
                 ))}
             </div>
+
+            {/* Bottom Section - Top Performers Column */}
             <div className="row-span-1 col-span-1 border-r border-gray-400 p-4 bg-green-300">
                 <p className="text-2xl font-bold mt-2 ml-4">Top Performers</p>
                 <p className="text-lg text-gray-600 mt-2 ml-4">
                     Top performing investments
                 </p>
-                <div className="flex justify-between mt-4 mb-4">
-                    <span className="text-base font-bold ml-4">Tech Fund</span>
-                    <span className="text-gray-500 mr-4">120,000 USD</span>
-                </div>
-                <hr/>
-                <div className="flex justify-between mt-4 mb-4">
-                    <span className="text-base font-bold ml-4">Green Energy</span>
-                    <span className="text-gray-500 mr-4">85,000 USD</span>
-                </div>
-                <hr/>
-                <div className="flex justify-between mt-4 mb-4">
-                    <span className="text-base font-bold ml-4">AI Ventures</span>
-                    <span className="text-gray-500 mr-4">65,000 USD</span>
-                </div>
-                <hr/>
-                <div className="flex justify-between mt-4 mb-4">
-                    <span className="text-base font-bold ml-4">Biotech</span>
-                    <span className="text-gray-500 mr-4">42,000 USD</span>
-                </div>
+                {getTopPerformers(investments).map(([investor, totalAmount], index) => (
+                    <React.Fragment key={investor}>
+                        <div className="flex justify-between mt-4 mb-4">
+                            <span className="text-base font-bold ml-4">
+                                {totalAmount.toLocaleString()} USD
+                            </span>
+                            <span className="text-gray-500 mr-4">
+                                {investor}
+                            </span>
+                        </div>
+                        {index < 4 && <hr/>}
+                    </React.Fragment>
+                ))}
             </div>
+
+            {/* Bottom Section - Investment Today Column */}
             <div className="row-span-1 col-span-1 p-4 bg-green-300">
                 <p className="text-2xl font-bold mt-2 ml-4">Investment Today</p>
                 <p className="text-2xl font-bold mt-2 ml-4">100.43 USD</p>
