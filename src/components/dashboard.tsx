@@ -170,13 +170,26 @@ export default function Dashboard() {
 
             {/* Bottom Section - Investment Today Column */}
             <div className="row-span-1 col-span-1 p-4 bg-green-300">
-                <p className="text-2xl font-bold mt-2 ml-4">Investment Today</p>
-                <p className="text-2xl font-bold mt-2 ml-4">100.43 USD</p>
+                <p className="text-2xl font-bold mt-2 ml-4 mb-2">Investment Today</p>
+                {/* Calculate today's total investment amount */}
+                {(() => {
+                    const today = new Date();
+                    const todayInvestments = investments.filter(inv => {
+                        const invDate = new Date(inv.attributes.investment_date);
+                        return invDate.toDateString() === today.toDateString();
+                    });
+                    const todayTotal = todayInvestments.reduce((sum, inv) => 
+                        sum + parseFloat(inv.attributes.investment_amount), 0
+                    );
+                    return (
+                        <p className="text-2xl font-bold mt-2 ml-4">
+                            {todayTotal.toLocaleString()} USD
+                        </p>
+                    );
+                })()}
                 <div className="mb-12">
-                    <span className="text-red ml-4">↓ 2.1%</span> 
-                    <span className="text-gray-500">Profit</span>
                 </div>
-                <LineChart />
+                <LineChart investments={investments} />
             </div>
         </div>
     );
