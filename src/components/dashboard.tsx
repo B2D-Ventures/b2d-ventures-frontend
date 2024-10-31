@@ -16,18 +16,34 @@ interface Statistics {
     upcoming_meetings: number;
 }
 
+interface Investment {
+    type: string;
+    id: string;
+    attributes: {
+        id: string;
+        investor: string;
+        deal: string;
+        investment_amount: string;
+        investment_date: string;
+    };
+}
+
+
 interface DashboardData {
     data: {
         attributes: {
             statistics: Statistics;
+            recent_investments: Investment[];
         };
     };
 }
+
 
 export default function Dashboard() {
     const [statistics, setStatistics] = useState<Statistics | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<Error | null>(null);
+    const [investments, setInvestments] = useState<Investment[]>([]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -43,6 +59,7 @@ export default function Dashboard() {
                 // Check if the data has the expected structure
                 if (jsonData?.data?.attributes?.statistics) {
                     setStatistics(jsonData.data.attributes.statistics);
+                    setInvestments(jsonData.data.attributes.recent_investments || []);
                 } else {
                     throw new Error('Invalid data structure received from API');
                 }
@@ -80,13 +97,12 @@ export default function Dashboard() {
             {/* Top Section */}
             <div className="row-span-1 col-span-2 border-b border-gray-400 p-4">
                 <div className="mt-4 ml-8">
-                    <h1 className="text-4xl font-bold">Elon Must</h1>
+                    <h1 className="text-4xl font-bold">Admin Dashboard</h1>
                     <p className="text-lg text-gray-600 mt-2">Investment Amount.</p>
                     <p className="text-2xl font-bold mt-2">
                         USD {statistics?.total_investment_amount?.toLocaleString() ?? '0'}
                     </p>
-                    <p className="text-gray-500 mt-4">Invest from 1-12 Dec, 2024</p>
-                    <BarChart />
+                    <BarChart investments={investments} />
                 </div>
             </div>
             <div className="row-span-1 col-span-1 border-b border-l border-gray-400 p-4">
