@@ -106,9 +106,9 @@ export default function Dashboard() {
                 </div>
             </div>
             <div className="row-span-1 col-span-1 border-b border-l border-gray-400 p-4">
-                <p className="text-2xl font-bold mt-2">Order Time</p>
-                <p className="text-lg text-gray-600 mt-2 mb-16">From 1-6 Dec, 2024</p>
-                <DoughnutChart />
+                <p className="text-2xl font-bold mt-2 mb-16">Stock Percentage</p>
+
+                <DoughnutChart investments={investments} />
             </div>
 
             {/* Bottom Section */}
