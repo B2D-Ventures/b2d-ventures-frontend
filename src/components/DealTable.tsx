@@ -3,48 +3,41 @@ import React, { useState, useEffect } from "react";
 import { Checkbox } from "@nextui-org/react";
 import axios from "axios";
 
-// type Deal = {
-//   id: string;
-//   startup: string;
-//   date: string;
-//   status: string;
-// };
+interface DealAttributes {
+  id: string;
+  name: string;
+  start_date: string;
+  status: string;
+}
 
-// const deals: Deal[] = [
-//   { id: '10000011', startup: 'Angrybid', date: '19/08/2024', status: 'WAITING' },
-//   { id: '10000012', startup: 'LEXI', date: '20/08/2024', status: 'APPROVE' },
-//   { id: '10000013', startup: 'Oily', date: '20/08/2024', status: 'DECLINE' },
-//   { id: '10000014', startup: 'LEXI', date: '20/08/2024', status: 'APPROVE' },
-//   { id: '10000015', startup: 'LEXI', date: '20/08/2024', status: 'APPROVE' },
-// ];
+interface Deal {
+  attributes: DealAttributes;
+}
 
-// const [deals, setDeals] = useState([]);
-
-function getStatusColor(status: String) {
-  switch (status) {
+function getStatusColor(status: string): string {
+  switch (status.toLowerCase()) {
     case "pending":
       return "text-orange-500";
     case "approved":
       return "text-green";
-    case "Decline":
-      return "text-red-500";
+    case "rejected":
+      return "text-red";
     default:
       return "";
   }
 }
 
-function formatDate(isoDate: string) {
+function formatDate(isoDate: string): string {
   const date = new Date(isoDate);
-  const options = { year: "numeric", month: "short", day: "numeric" };
-  return date.toLocaleDateString();
+  return date.toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" });
 }
 
 export default function DealTable() {
-  const [deals, setDeals] = useState([]);
+  const [deals, setDeals] = useState<Deal[]>([]);
 
   const fetchDeals = async () => {
     try {
-      const response = await axios.get("http://127.0.0.1:8000/api/admin/deals");
+      const response = await axios.get<{ data: Deal[] }>("http://127.0.0.1:8000/api/admin/deals");
       setDeals(response.data.data);
       console.log("Deals fetched:", response.data.data);
     } catch (error) {
@@ -79,6 +72,32 @@ export default function DealTable() {
     } catch (error) {
       console.error("Error approving deal:", error);
       alert("Error approving deal");
+    }
+  };
+
+  const handleRejectDeal = async (dealId: string) => {
+    try {
+      const response = await axios.put(
+        `http://127.0.0.1:8000/api/admin/${dealId}/deals/`,
+        {
+          data: {
+            attributes: {
+              action: "reject",
+            },
+          },
+        },
+        {
+          headers: {
+            "Content-Type": "application/vnd.api+json",
+          },
+        }
+      );
+      console.log("Deal rejected:", response.data);
+      alert("Deal rejected successfully");
+      await fetchDeals();
+    } catch (error) {
+      console.error("Error rejecting deal:", error);
+      alert("Error rejecting deal");
     }
   };
 

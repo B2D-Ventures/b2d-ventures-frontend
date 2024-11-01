@@ -4,7 +4,29 @@ import { useState, useEffect } from "react";
 import DetailCard from "@/components/DetailCard";
 import Image from "next/image";
 import axios from "axios";
-import { headers } from "next/headers";
+import Link from 'next/link';
+import { useRouter } from "next/navigation";
+
+interface DealAttributes {
+  id: string;
+  name: string;
+  content: string;
+  image_logo_url: string;
+  image_content_url: string;
+  allocation: string;
+  price_per_unit: string;
+  minimum_investment: string;
+  raised: string;
+  end_date: string;
+  image_background_url: string;
+  startup: {
+    id: string;
+  };
+}
+
+interface Deal {
+  attributes: DealAttributes;
+}
 
 function contentFormatter(content: string) {
   return content.replace(/<[^>]*>?/gm, "").replace(/\r\n/g, "<br/>");
@@ -16,12 +38,14 @@ export default function DealDashboard({
   params: { dealId: string };
 }) {
   const id = params.dealId;
-  const [deals, setDeals] = useState([]);
-  const [deal, setDeal] = useState({});
+  const [deals, setDeals] = useState<Deal[]>([]);
+  const [deal, setDeal] = useState<Deal | null>(null);
 
   const API_BASE_URL = "http://127.0.0.1:8000";
-  const DEFAULT_BG_IMAGE = "/images/lexi.png"; // Replace with your default background image path
-  const DEFAULT_ICON_IMAGE = "/images/icon.jpg"; // Replace with your default icon image path
+  const DEFAULT_BG_IMAGE = "/images/lexi.png";
+  const DEFAULT_ICON_IMAGE = "/images/icon.jpg";
+
+  const Router = useRouter();
 
   const getImageSrc = (imagePath?: string, isIcon: boolean = false) => {
     if (!imagePath) return isIcon ? DEFAULT_ICON_IMAGE : DEFAULT_BG_IMAGE;
@@ -33,7 +57,9 @@ export default function DealDashboard({
 
   const fetchDeal = async () => {
     try {
-      const response = await axios.get("http://127.0.0.1:8000/api/admin/deals");
+      const response = await axios.get<{ data: Deal[] }>(
+        "http://127.0.0.1:8000/api/admin/deals"
+      );
       setDeals(response.data.data);
       console.log("Deals fetched:", response.data.data);
     } catch (error) {
@@ -55,6 +81,24 @@ export default function DealDashboard({
     }
   }, [deals, id]);
 
+  const handleRequestData = (dealId: string, userId: string | null) => {
+    return async () => {
+      try {
+        const response = await axios.post(
+          `http://127.0.0.1:8000/api/investor/${userId}/deals/${dealId}/request-dataroom/`
+        );
+        alert(
+          "Data requested successfully! Please check your email for more details."
+        );
+      } catch (error) {
+        console.error("Error requesting data:", error);
+      }
+    };
+  };
+
+  const handleEditDeal = (dealId: string) => {
+    Router.push(`/edit-deal/${dealId}`);
+  };
 
   return (
     <div className="flex items-center justify-center">
@@ -64,7 +108,7 @@ export default function DealDashboard({
             <div className="flex flex-row gap-4 items-center">
               <div className="rounded-[8px] overflow-hidden shadow-sm">
                 <Image
-                  src={getImageSrc(deal?.attributes?.image_logo_url)}
+                  src={getImageSrc(deal?.attributes.image_logo_url)}
                   width={48}
                   height={48}
                   alt="logo"
@@ -72,7 +116,7 @@ export default function DealDashboard({
                 />
               </div>
               <div className="text-[48px] font-bold">
-                {deal && deal.attributes ? deal.attributes.name : "Loading..."}
+                {deal ? deal.attributes.name : "Loading..."}
               </div>
             </div>
             <div className="mt-1 text-[20px] text-secondary mb-5">
@@ -80,7 +124,7 @@ export default function DealDashboard({
               Decarbonization
             </div>
             <Image
-              src={getImageSrc(deal?.attributes?.image_content_url)}
+              src={getImageSrc(deal?.attributes.image_content_url)}
               width={793}
               height={412}
               alt="image"
@@ -89,34 +133,54 @@ export default function DealDashboard({
             <div
               className="mt-4"
               dangerouslySetInnerHTML={{
-                __html:
-                  deal && deal.attributes
-                    ? contentFormatter(deal.attributes.content)
-                    : "Loading...",
+                __html: deal
+                  ? contentFormatter(deal.attributes.content)
+                  : "Loading...",
               }}
             />
           </div>
           <div className="flex flex-col mt-[90px] gap-5">
             <div className="flex flex-row justify-between w-full">
-              <div className="flex items-center justify-center bg-white w-[313px] h-[44px] rounded-[8px] text-purple border-[2px] border-purple text-semi-bold">
+              <div
+                onClick={handleRequestData(id, localStorage.getItem("userId"))}
+                className="flex items-center justify-center bg-white w-[313px] h-[44px] rounded-[8px] text-purple border-[2px] border-purple text-semi-bold hover:cursor-pointer"
+              >
                 Request for private data
               </div>
-              <div className="flex items-center justify-center border-2 border-border w-[44px] h-[44px] rounded-[8px] text-white text-semi-bold">
-                <img src="/images/Phoneicon.png" alt="Fund Icon" className="w-6 h-6 opacity-50" />
-              </div>
+              <Link href={`/schedule-meeting?id=${deal?.attributes.startup.id}`}>
+                <button className="flex items-center justify-center border-2 border-border w-[44px] h-[44px] rounded-[8px] text-white font-semibold">
+                  <img
+                    src="/images/Phoneicon.png"
+                    alt="Fund Icon"
+                    className="w-6 h-6 opacity-50"
+                  />
+                </button>
+              </Link>
             </div>
             <div className="flex">
-              <DetailCard
-                allocation={deal?.attributes?.allocation}
-                pricePerFractionalUnit={deal?.attributes?.price_per_unit}
-                minimumInvestment={deal?.attributes?.minimum_investment}
-                raised={deal?.attributes?.raised}
-                fundingGoal={deal?.attributes?.allocation}
-                dealEnd={deal?.attributes?.end_date}
-                image_bg={deal?.attributes?.image_background_url}
-                dealId={id}
-              />
+              {deal && (
+                <DetailCard
+                  allocation={Number(deal.attributes.allocation)}
+                  pricePerFractionalUnit={Number(
+                    deal.attributes.price_per_unit
+                  )}
+                  minimumInvestment={Number(deal.attributes.minimum_investment)}
+                  raised={Number(deal.attributes.raised)}
+                  fundingGoal={Number(deal.attributes.allocation)}
+                  dealEnd={deal.attributes.end_date}
+                  image_bg={deal.attributes.image_background_url}
+                  dealId={id}
+                />
+              )}
             </div>
+            {deal?.attributes.startup.id === localStorage.getItem("userId") && (
+              <div
+                onClick={handleEditDeal.bind(null, id)}
+                className="flex items-center justify-center bg-white w-[378px] h-[44px] rounded-[8px] text-purple border-[2px] border-purple text-semi-bold hover:cursor-pointer"
+              >
+                Edit Deal
+              </div>
+            )}
           </div>
         </div>
       </div>
