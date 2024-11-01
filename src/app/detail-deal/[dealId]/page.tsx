@@ -142,6 +142,7 @@ export default function DealDashboard({
           <div className="flex flex-col mt-[90px] gap-5">
             <div className="flex flex-row justify-between w-full">
               <div
+                data-testid="request-button"
                 onClick={handleRequestData(id, localStorage.getItem("userId"))}
                 className="flex items-center justify-center bg-white w-[313px] h-[44px] rounded-[8px] text-purple border-[2px] border-purple text-semi-bold hover:cursor-pointer"
               >
