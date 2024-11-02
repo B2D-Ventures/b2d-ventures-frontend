@@ -39,7 +39,7 @@ export default function DealCard({
   };
 
   return (
-    <div className="w-[380px] h-[520px] rounded-md bg-white shadow-md relative">
+    <div data-testid="deal-card" className="w-[380px] h-[520px] rounded-md bg-white shadow-md relative">
       <Image
         src={getImageSrc(bgImage)}
         alt="deal card"
