@@ -9,6 +9,7 @@ interface SelectFormProps {
 export default function App({ value, onChange }: SelectFormProps) {
   return (
     <Select
+      data-testid="deal-filter"
       label="Filter"
       className="w-[218px]"
       variant="bordered"
@@ -27,7 +28,7 @@ export default function App({ value, onChange }: SelectFormProps) {
       <SelectItem key={"Funded"}>Funded</SelectItem>
       <SelectItem key={"100+ invesetors"}>100+ investors</SelectItem>
       <SelectItem key={"$100k+ raised"}>$100k+ raised</SelectItem>
-      <SelectItem key={"Tech Company"}>Tech Company</SelectItem>
+      <SelectItem key={"Tech Company"} data-testid="deal-filter-listbox">Tech Company</SelectItem>
       <SelectItem key={"Health Company"}>Health Company</SelectItem>
       <SelectItem key={"Artificial Intelligence (AI)"}>
         Artificial Intelligence (AI)
