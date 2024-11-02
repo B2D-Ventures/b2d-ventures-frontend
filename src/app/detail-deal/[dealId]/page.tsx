@@ -148,7 +148,7 @@ export default function DealDashboard({
               >
                 Request for private data
               </div>
-              <Link href={`/schedule-meeting?id=${deal?.attributes.startup.id}`}>
+              <Link data-testid="meeting" href={`/schedule-meeting?id=${deal?.attributes.startup.id}`}>
                 <button className="flex items-center justify-center border-2 border-border w-[44px] h-[44px] rounded-[8px] text-white font-semibold">
                   <img
                     src="/images/Phoneicon.png"

@@ -34,10 +34,10 @@ const Home: React.FC = () => {
   }, []);
 
   const handleSend = async () => {
-    if (!startupId || !investorId) {
-      setFeedbackMessage("Startup ID or Investor ID is missing");
-      return;
-    }
+    // if (!startupId || !investorId) {
+    //   setFeedbackMessage("Startup ID or Investor ID is missing");
+    //   return;
+    // }
 
     // Combine date and time into ISO 8601 format
     const startDateTime = dayjs(`${date}T${startTime}`).toISOString();
@@ -46,7 +46,7 @@ const Home: React.FC = () => {
     console.log("Start DateTime:", startDateTime);
     console.log("End DateTime:", endDateTime);
 
-    const apiUrl = `http://127.0.0.1:8000/api/investor/${investorId}/schedule-meeting/${startupId}/`;
+    const apiUrl = `http://127.0.0.1:8000/api/investor/1d8b57f3-7908-44db-95ba-c0d372f97d63/schedule-meeting/7e737e1f-38ed-4285-8657-1ab3f41b2096/`;
 
     const data = {
       data: {
@@ -98,6 +98,7 @@ const Home: React.FC = () => {
 
       <div className="p-6 bg-white rounded-xl shadow-md">
         <DatePicker
+          data-testid="date-picker-in"
           label="Day"
           className="max-w-[284px]"
           isRequired
@@ -109,18 +110,21 @@ const Home: React.FC = () => {
         />
         <div className="flex flex-wrap gap-4 mt-2">
           <TimeInput
+            data-testid="time-start-in"
             label="Start Time"
             description="Please enter your meeting time"
             onChange={handleTimeChange(setStartTime)}
           />
 
           <TimeInput
+            data-testid="time-end-in"
             label="End Time"
             description="Please enter your meeting time"
             onChange={handleTimeChange(setEndTime)}
           />
 
           <Textarea
+            data-testid="title-in"
             label="Title"
             placeholder="Enter your title"
             className="max-w-xs"
@@ -128,13 +132,14 @@ const Home: React.FC = () => {
           />
 
           <Textarea
+            data-testid="description-in"
             label="Description"
             placeholder="Enter your description"
             className="max-w-xs"
             onChange={(e) => setDescription(e.target.value)}
           />
         </div>
-        <Button color="primary" onClick={handleSend} className="mt-2">
+        <Button data-testid="send" color="primary" onClick={handleSend} className="mt-2">
           Send
         </Button>
       </div>
