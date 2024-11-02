@@ -124,7 +124,7 @@ export default function Navbar() {
       </div>
       {userName ? (
         <div className="flex ml-auto gap-6">
-          <div className="text-2xl text-base cursor-pointer hover:text-purple"
+          <div className="text-2xl text-base cursor-pointer hover:text-purple" data-testid="profile"
           onClick={handleProfileCLick}>Welcome, {userName}</div>
           <div className="text-2xl text-base text-secondary hover:cursor-pointer"
           onClick={handleLogout}

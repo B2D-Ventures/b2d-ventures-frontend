@@ -11,11 +11,11 @@ describe("edit deal", () => {
       },
     });
     cy.wait(3000);
-    cy.get(".grid.grid-cols-3 > div").eq(5).click();
+    cy.get(".grid.grid-cols-3 > div").eq(6).click();
     cy.get("[data-testid=edit-deal-button]").click();
     cy.get('[data-testid="content-input"]').type("TEST EDIT CONTENT");
     cy.get('[data-testid="submit-button"]').click();
     cy.visit("http://localhost:3000/startup");
-    cy.get(".grid.grid-cols-3 > div").eq(5).click();
+    cy.get(".grid.grid-cols-3 > div").eq(6).click();
   });
 });

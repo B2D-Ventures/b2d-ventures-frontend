@@ -3,11 +3,6 @@ import React, { useState, useEffect } from "react";
 import { Checkbox } from "@nextui-org/react";
 import axios from "axios";
 
-<<<<<<< HEAD
-
-function getStatusColor(status: String) {
-  switch (status) {
-=======
 interface DealAttributes {
   id: string;
   name: string;
@@ -21,7 +16,6 @@ interface Deal {
 
 function getStatusColor(status: string): string {
   switch (status.toLowerCase()) {
->>>>>>> main
     case "pending":
       return "text-orange-500";
     case "approved":
@@ -35,11 +29,7 @@ function getStatusColor(status: string): string {
 
 function formatDate(isoDate: string): string {
   const date = new Date(isoDate);
-<<<<<<< HEAD
-  return date.toLocaleDateString();
-=======
   return date.toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" });
->>>>>>> main
 }
 
 export default function DealTable() {
@@ -88,11 +78,7 @@ export default function DealTable() {
   const handleRejectDeal = async (dealId: string) => {
     try {
       const response = await axios.put(
-<<<<<<< HEAD
         `http://127.0.0.1:8000/api/admin/d5269102-2195-461d-980c-c626eed7e222/deals/`,
-=======
-        `http://127.0.0.1:8000/api/admin/${dealId}/deals/`,
->>>>>>> main
         {
           data: {
             attributes: {
@@ -106,21 +92,12 @@ export default function DealTable() {
           },
         }
       );
-<<<<<<< HEAD
       console.log("Deal approved:", response.data);
       alert("Deal approved successfully");
       await fetchDeals();
     } catch (error) {
       console.error("Error approving deal:", error);
       alert("Error approving deal");
-=======
-      console.log("Deal rejected:", response.data);
-      alert("Deal rejected successfully");
-      await fetchDeals();
-    } catch (error) {
-      console.error("Error rejecting deal:", error);
-      alert("Error rejecting deal");
->>>>>>> main
     }
   };
 
@@ -154,8 +131,6 @@ export default function DealTable() {
                 {deal.attributes.status}
               </td>
               <td className="py-2 px-4 border-b">
-<<<<<<< HEAD
-                
                   <Checkbox
                     onClick={
                       deal.attributes.status.toLowerCase() !== "approved"
@@ -178,39 +153,6 @@ export default function DealTable() {
                     defaultSelected={deal.attributes.status.toLowerCase() !== "rejected"}
                     isDisabled={deal.attributes.status.toLowerCase() === "rejected"}
                   />
-=======
-                <Checkbox
-                  onClick={
-                    deal.attributes.status.toLowerCase() !== "approved"
-                      ? () => handleApproveDeal(deal.attributes.id)
-                      : undefined
-                  }
-                  data-testid="approve-checkbox"
-                  defaultSelected={
-                    deal.attributes.status.toLowerCase() !== "approved"
-                  }
-                  color="warning"
-                  isDisabled={
-                    deal.attributes.status.toLowerCase() === "approved"
-                  }
-                />
-                <Checkbox
-                  isIndeterminate
-                  color="warning"
-                  onClick={
-                    deal.attributes.status.toLowerCase() !== "rejected"
-                      ? () => handleRejectDeal(deal.attributes.id)
-                      : undefined
-                  }
-                  data-testid="reject-checkbox"
-                  defaultSelected={
-                    deal.attributes.status.toLowerCase() !== "rejected"
-                  }
-                  isDisabled={
-                    deal.attributes.status.toLowerCase() === "rejected"
-                  }
-                />
->>>>>>> main
               </td>
             </tr>
           ))}

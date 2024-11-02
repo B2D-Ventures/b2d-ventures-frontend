@@ -6,7 +6,7 @@ import { DateValue } from "@nextui-org/react";
 import axios from "axios";
 import React, { useState, useRef, ChangeEvent } from "react";
 
-export default function formDeal() {
+export default function formDeal({ isEdit, id }: { isEdit: boolean; id: string }) {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [allocation, setAllocation] = useState("");
@@ -95,7 +95,25 @@ export default function formDeal() {
         formData.append("image_background", dealRef.current.files[0]);
       if (privateDataRef.current?.files?.[0])
         formData.append("dataroom", privateDataRef.current.files[0]);
-  
+      if (isEdit) {
+        const response = await axios.put(
+          `http://127.0.0.1:8000/api/startup/7e737e1f-38ed-4285-8657-1ab3f41b2096/deals/edad4c9c-3367-44bc-bc33-55d77190abcb/`,
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );  
+        if (response.status === 200 || response.status === 201) {
+          alert("Form submitted successfully");
+          console.log("Form submitted successfully");
+          // You might want to add some user feedback here, like showing a success message
+        } else {
+          console.error("Form submission failed");
+          // You might want to add some user feedback here, like showing an error message
+        } 
+      } else {
       // Send POST request
       const response = await axios.post(
         // `http://127.0.0.1:8000/api/startup/${localStorage.getItem("userId")}/deals/`,
@@ -107,7 +125,6 @@ export default function formDeal() {
           },
         }
       );
-  
       if (response.status === 200 || response.status === 201) {
         alert("Form submitted successfully");
         console.log("Form submitted successfully");
@@ -116,6 +133,16 @@ export default function formDeal() {
         console.error("Form submission failed");
         // You might want to add some user feedback here, like showing an error message
       }
+    }
+  
+      // if (response.status === 200 || response.status === 201) {
+      //   alert("Form submitted successfully");
+      //   console.log("Form submitted successfully");
+      //   // You might want to add some user feedback here, like showing a success message
+      // } else {
+      //   console.error("Form submission failed");
+      //   // You might want to add some user feedback here, like showing an error message
+      // }
     } catch (error) {
       console.error("Error submitting form:", error);
       // You might want to add some user feedback here, like showing an error message
