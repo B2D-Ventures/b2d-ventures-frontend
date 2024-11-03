@@ -50,33 +50,42 @@ export default function Home() {
   const [scheduleData, setScheduleData] = useState<Meeting[]>([]);
   const [error, setError] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [userRole, setUserRole] = useState<string>('');
 
   useEffect(() => {
     const fetchMeetings = async () => {
       try {
         const userId = localStorage.getItem("userId");
+        const role = localStorage.getItem("userRole");
+        
         if (!userId) {
           setError('User ID not found');
           return;
         }
+
+        if (!role) {
+          setError('User role not found');
+          return;
+        }
+
+        setUserRole(role);
 
         const response = await axios.get<ApiResponse>(
           'http://127.0.0.1:8000/api/admin/dashboard/',
           {
             headers: {
               'Content-Type': 'application/json',
-              // Add any authentication headers if required
-              // 'Authorization': `Bearer ${localStorage.getItem('token')}`,
             },
           }
         );
 
-        // Access the upcoming_meetings from the correct path in the response
         const meetings = response.data.data.attributes.upcoming_meetings;
         
         if (meetings && Array.isArray(meetings)) {
-          const filteredMeetings = meetings.filter(
-            meeting => meeting.attributes.investor.id === userId
+          const filteredMeetings = meetings.filter(meeting => 
+            role === 'investor' 
+              ? meeting.attributes.investor.id === userId
+              : meeting.attributes.startup.id === userId
           );
           setScheduleData(filteredMeetings);
         } else {
@@ -114,6 +123,12 @@ export default function Home() {
     }
   };
 
+  const getDisplayName = (meeting: Meeting): string => {
+    return userRole === 'investor' 
+      ? meeting.attributes.startup.name 
+      : meeting.attributes.investor.username;
+  };
+
   if (isLoading) {
     return <div className="text-center py-4">Loading...</div>;
   }
@@ -130,7 +145,7 @@ export default function Home() {
         scheduleData.map((meeting: Meeting) => (
           <div key={meeting.id}>
             <div className="grid grid-cols-5 gap-4 mt-4 mb-4">
-              <div className="text-black">{meeting.attributes.startup.name}</div>
+              <div className="text-black">{getDisplayName(meeting)}</div>
               <div className="text-secondary font-light ml-10">Date</div>
               <div className="text-black font-light">
                 {formatDate(meeting.attributes.start_time)}
