@@ -53,26 +53,6 @@ export default function DealDashboard() {
             </div>
             <div className="flex flex-row justify-start gap-2">
               {/* <div className="text-[24px] text-secondary">All</div> */}
-              {/* <Checkbox
-                classNames={{
-                  wrapper:
-                    "flex justify-center items-center bg-white border-[1px] rounded-[8px] text-white text-[20px]",
-                  label: "ml-2 text-secondary",
-                  icon: "text-purple",
-                }}
-              >
-                Approve
-              </Checkbox>
-              <Checkbox
-                classNames={{
-                  wrapper:
-                    "flex justify-center items-center bg-white border-[1px] rounded-[8px] text-white text-[20px]",
-                  label: "ml-2 text-secondary",
-                  icon: "text-purple",
-                }}
-              >
-                Funded
-              </Checkbox> */}
             </div>
             <div className="h-[520px] overflow-y-auto">
               <Accordian deals={recentDeals} />
