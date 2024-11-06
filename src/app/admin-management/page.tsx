@@ -2,7 +2,6 @@
 
 import AdminCard from "@/components/adminCardForManagement";
 import Accordian from "@/components/AccordainForAdmin";
-import { Checkbox } from "@nextui-org/react";
 import axios from "axios";
 import { useState } from "react";
 
