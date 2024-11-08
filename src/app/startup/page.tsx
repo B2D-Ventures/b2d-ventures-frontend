@@ -18,7 +18,7 @@ interface Deal {
     image_logo_url: string;
     image_content_url: string;
     type: string;
-    status: string;
+    status: string; // Added status attribute
   };
 }
 
@@ -77,9 +77,7 @@ const DealDashboard: React.FC = () => {
 
     // Apply type filter
     if (selectedFilter !== "") {
-      filtered = filtered.filter(
-        (deal) => deal.attributes.type === selectedFilter
-      );
+      filtered = filtered.filter((deal) => deal.attributes.type === selectedFilter);
     }
 
     // Apply search filter
@@ -122,24 +120,30 @@ const DealDashboard: React.FC = () => {
           </div>
         </div>
         <div className="grid grid-cols-3 gap-12">
-          {filteredDeals.map((deal) => (
-            <div
-              key={deal.attributes.id}
-              onClick={() => handleDealClick(deal.attributes.id)}
-              className="hover:cursor-pointer"
-            >
-              <DealCard
+          {filteredDeals.length > 0 ? (
+            filteredDeals.map((deal) => (
+              <div
                 key={deal.attributes.id}
-                name={deal.attributes.name}
-                description={deal.attributes.description}
-                fundingGoal={parseFloat(deal.attributes.allocation)}
-                raisedAmount={parseFloat(deal.attributes.raised)}
-                investorNumber={deal.attributes.investor_count}
-                icon={deal.attributes.image_logo_url}
-                bgImage={deal.attributes.image_content_url}
-              />
+                onClick={() => handleDealClick(deal.attributes.id)}
+                className="hover:cursor-pointer"
+              >
+                <DealCard
+                  key={deal.attributes.id}
+                  name={deal.attributes.name}
+                  description={deal.attributes.description}
+                  fundingGoal={parseFloat(deal.attributes.allocation)}
+                  raisedAmount={parseFloat(deal.attributes.raised)}
+                  investorNumber={deal.attributes.investor_count}
+                  icon={deal.attributes.image_logo_url}
+                  bgImage={deal.attributes.image_content_url}
+                />
+              </div>
+            ))
+          ) : (
+            <div className="w-full text-start text-[24px] text-gray-500">
+              No investment opportunities.
             </div>
-          ))}
+          )}
         </div>
       </div>
     </div>
