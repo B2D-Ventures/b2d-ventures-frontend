@@ -37,7 +37,7 @@ export default function DealTable() {
 
   const fetchDeals = async () => {
     try {
-      const response = await axios.get<{ data: Deal[] }>("http://127.0.0.1:8000/api/admin/deals");
+      const response = await axios.get<{ data: Deal[] }>("https://b2d-ventures-backend.onrender.com/api/admin/deals");
       setDeals(response.data.data);
       console.log("Deals fetched:", response.data.data);
     } catch (error) {
@@ -52,7 +52,7 @@ export default function DealTable() {
   const handleApproveDeal = async (dealId: string) => {
     try {
       const response = await axios.put(
-        `http://127.0.0.1:8000/api/admin/${dealId}/deals/`,
+        `https://b2d-ventures-backend.onrender.com/api/admin/${dealId}/deals/`,
         {
           data: {
             attributes: {
@@ -78,7 +78,7 @@ export default function DealTable() {
   const handleRejectDeal = async (dealId: string) => {
     try {
       const response = await axios.put(
-        `http://127.0.0.1:8000/api/admin/${dealId}/deals/`,
+        `https://b2d-ventures-backend.onrender.com/api/admin/${dealId}/deals/`,
         {
           data: {
             attributes: {

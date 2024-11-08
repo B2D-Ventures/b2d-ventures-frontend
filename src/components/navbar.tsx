@@ -4,7 +4,6 @@ import React, { useState, useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import Image from "next/image";
 import axios from "axios";
-import dashboard from "./dashboard";
 
 export default function Navbar() {
   const router = useRouter();
@@ -18,13 +17,16 @@ export default function Navbar() {
     if (storedUserName) {
       setUserName(storedUserName);
     }
+    console.log("current path", currentPath);
+    
     if (currentPath.startsWith("/google-auth")) {
       // Get the full URL
       const fullUrl = window.location.href;
+      console.log("fullurl", fullUrl)
       // create user
       axios
         .post(
-          "http://127.0.0.1:8000/api/auths/",
+          "https://b2d-ventures-backend.onrender.com/api/auths/",
           {
             data: {
               attributes: {

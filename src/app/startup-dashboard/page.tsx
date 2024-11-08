@@ -28,7 +28,7 @@ export default function DealDashboard() {
   const getStartupData = () => {
     if (true) {
       axios
-        .get(`http://127.0.0.1:8000/api/startup/${localStorage.getItem("userId")}/dashboard`)
+        .get(`https://b2d-ventures-backend.onrender.com/api/startup/${localStorage.getItem("userId")}/dashboard`)
         .then((response) => {
           console.log(response.data.data.attributes.investments);
           setInvestments(response.data.data.attributes.investments);

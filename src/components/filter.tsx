@@ -24,7 +24,7 @@ export default function App({ value, onChange }: SelectFormProps) {
       onChange={onChange}
       value={value}
     >
-      <SelectItem key={"Funded"}>Funded</SelectItem>
+      <SelectItem key={"Equity"}>Equity</SelectItem>
       <SelectItem key={"100+ invesetors"}>100+ investors</SelectItem>
       <SelectItem key={"$100k+ raised"}>$100k+ raised</SelectItem>
       <SelectItem key={"Tech Company"}>Tech Company</SelectItem>

@@ -59,15 +59,18 @@ export default function TermModal({
               </ModalHeader>
               <ModalBody>
                 <div className="flex text-[16px]">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  Nullam pulvinar risus non risus hendrerit venenatis.
-                  Pellentesque sit amet hendrerit risus, sed porttitor
-                  quam.Magna exercitation reprehenderit magna aute tempor
-                  cupidatat consequat elit dolor adipisicing. Mollit dolor
-                  eiusmod sunt ex incididunt cillum quis. Velit duis sit officia
-                  eiusmod Lorem aliqua enim laboris do dolor eiusmod. Et mollit
-                  incididunt nisi consectetur esse laborum eiusmod pariatur
-                  proident Lorem eiusmod et.
+                  By using our platform, you agree to these terms and
+                  conditions. Our platform facilitates investments in startups,
+                  and you acknowledge that all investments carry inherent risks.
+                  You must comply with all applicable laws and regulations when
+                  using our services. We are committed to protecting your
+                  privacy as outlined in our Privacy Policy. All content on this
+                  platform is protected by intellectual property laws and is
+                  owned by us or our licensors. We are not liable for any
+                  financial losses or damages resulting from your investment
+                  activities. We reserve the right to update these terms at any
+                  time, and continued use of the platform signifies your
+                  acceptance of any changes.
                 </div>
               </ModalBody>
               <ModalFooter className="flex flex-col">

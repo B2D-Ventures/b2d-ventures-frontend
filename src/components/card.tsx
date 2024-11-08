@@ -17,7 +17,7 @@ function fundingGoalFormat(amount: number) {
   return (amount / 1000).toLocaleString();
 }
 
-const API_BASE_URL = "http://127.0.0.1:8000";
+const API_BASE_URL = "https://b2d-ventures-backend.onrender.com/";
 const DEFAULT_BG_IMAGE = "/images/lexi.png"; // Replace with your default background image path
 const DEFAULT_ICON_IMAGE = "/images/icon.jpg"; // Replace with your default icon image path
 
@@ -39,15 +39,15 @@ export default function DealCard({
   };
 
   return (
-    <div className="w-[380px] h-[520px] rounded-md bg-white shadow-md relative">
+    <div className="w-[380px] h-[520px] rounded-md bg-white shadow-md relative flex flex-col">
       <Image
         src={getImageSrc(bgImage)}
         alt="deal card"
-        className="w-full min-h-[260px] object-cover rounded-t-md"
+        className="w-full min-h-[260px] max-h-[260px] object-cover rounded-t-md"
         width={380}
         height={260}
       />
-      <div className="p-6">
+      <div className="p-6 flex flex-col flex-grow">
         <div className="absolute top-[220px] shadow-md rounded-md w-[80px] h-[80px] overflow-hidden">
           <Image
             src={getImageSrc(icon)}
