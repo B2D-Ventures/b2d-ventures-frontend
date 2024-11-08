@@ -45,7 +45,7 @@ const DealDashboard: React.FC = () => {
   const fetchDeals = async () => {
     try {
       const response = await axios.get<{ data: Deal[] }>(
-        "http://127.0.0.1:8000/api/admin/deals"
+        "https://b2d-ventures-backend.onrender.com/api/admin/deals"
       );
       setDeals(response.data.data);
       setFilteredDeals(response.data.data);
@@ -117,6 +117,7 @@ const DealDashboard: React.FC = () => {
         </div>
         <div className="grid grid-cols-3 gap-12">
           {filteredDeals.map((deal) => (
+            
             <div
               key={deal.attributes.id}
               onClick={() => handleDealClick(deal.attributes.id)}

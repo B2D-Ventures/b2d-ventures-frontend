@@ -41,7 +41,7 @@ export default function DealDashboard({
   const [deals, setDeals] = useState<Deal[]>([]);
   const [deal, setDeal] = useState<Deal | null>(null);
 
-  const API_BASE_URL = "http://127.0.0.1:8000";
+  const API_BASE_URL = "https://b2d-ventures-backend.onrender.com/";
   const DEFAULT_BG_IMAGE = "/images/lexi.png";
   const DEFAULT_ICON_IMAGE = "/images/icon.jpg";
 
@@ -58,7 +58,7 @@ export default function DealDashboard({
   const fetchDeal = async () => {
     try {
       const response = await axios.get<{ data: Deal[] }>(
-        "http://127.0.0.1:8000/api/admin/deals"
+        "https://b2d-ventures-backend.onrender.com/api/admin/deals"
       );
       setDeals(response.data.data);
       console.log("Deals fetched:", response.data.data);
@@ -85,7 +85,7 @@ export default function DealDashboard({
     return async () => {
       try {
         const response = await axios.post(
-          `http://127.0.0.1:8000/api/investor/${userId}/deals/${dealId}/request-dataroom/`
+          `https://b2d-ventures-backend.onrender.com/api/investor/${userId}/deals/${dealId}/request-dataroom/`
         );
         alert(
           "Data requested successfully! Please check your email for more details."

@@ -66,7 +66,7 @@ export default function Dashboard() {
         const fetchData = async () => {
             try {
                 setIsLoading(true);
-                const response = await fetch('http://127.0.0.1:8000/api/admin/dashboard/');
+                const response = await fetch('https://b2d-ventures-backend.onrender.com/api/admin/dashboard/');
                 
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);

@@ -61,7 +61,7 @@ export default function Home() {
         }
 
         const response = await axios.get<ApiResponse>(
-          'http://127.0.0.1:8000/api/admin/dashboard/',
+          'https://b2d-ventures-backend.onrender.com/api/admin/dashboard/',
           {
             headers: {
               'Content-Type': 'application/json',

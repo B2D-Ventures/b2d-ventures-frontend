@@ -58,7 +58,7 @@ export default function InvestModal({
     console.log("Deal ID:", dealId);
     try {
       const response = await axios.post(
-        `http://127.0.0.1:8000/api/investor/${localStorage.getItem("userId")}/investments/${dealId}/`,
+        `https://b2d-ventures-backend.onrender.com/api/investor/${localStorage.getItem("userId")}/investments/${dealId}/`,
         {
           data: {
             attributes: {
