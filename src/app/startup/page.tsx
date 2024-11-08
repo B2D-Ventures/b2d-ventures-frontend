@@ -18,6 +18,7 @@ interface Deal {
     image_logo_url: string;
     image_content_url: string;
     type: string;
+    status: string;
   };
 }
 
@@ -71,9 +72,14 @@ const DealDashboard: React.FC = () => {
   const filterDeals = () => {
     let filtered = deals;
 
+    // Apply status filter
+    filtered = filtered.filter((deal) => deal.attributes.status === "approved");
+
     // Apply type filter
     if (selectedFilter !== "") {
-      filtered = filtered.filter((deal) => deal.attributes.type === selectedFilter);
+      filtered = filtered.filter(
+        (deal) => deal.attributes.type === selectedFilter
+      );
     }
 
     // Apply search filter
@@ -117,7 +123,6 @@ const DealDashboard: React.FC = () => {
         </div>
         <div className="grid grid-cols-3 gap-12">
           {filteredDeals.map((deal) => (
-            
             <div
               key={deal.attributes.id}
               onClick={() => handleDealClick(deal.attributes.id)}
