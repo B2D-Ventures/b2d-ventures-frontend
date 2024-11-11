@@ -17,7 +17,7 @@ const HomePage = () => {
     try {
       console.log("user token:", userToken); 
       const response = await axios.put(
-        `https://b2d-ventures-backend.onrender.com/api/auths/${userToken}/update-role/`,
+        `${process.env.NEXT_PUBLIC_URI}api/auths/${userToken}/update-role/`,
         {
           data: {
             attributes: {

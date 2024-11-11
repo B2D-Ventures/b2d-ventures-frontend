@@ -13,7 +13,7 @@ export default function DealDashboard() {
   const fetchDashboard = async () => {
     try {
       const response = await axios.get<{ data: any }>(
-        `https://b2d-ventures-backend.onrender.com/api/admin/dashboard/`
+        `${process.env.NEXT_PUBLIC_URI}api/admin/dashboard/`
       );
 
       console.log("Dashboard fetched:", response.data);

@@ -26,7 +26,7 @@ export default function Navbar() {
       // create user
       axios
         .post(
-          "https://b2d-ventures-backend.onrender.com/api/auths/",
+          `${process.env.NEXT_PUBLIC_URI}api/auths/`,
           {
             data: {
               attributes: {

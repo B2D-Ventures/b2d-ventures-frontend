@@ -127,7 +127,7 @@ export default function FormDeal({ isEdit, id }: FormDealProps) {
       if (!isEdit) {
         // Send POST request
         const response = await axios.post(
-          `https://b2d-ventures-backend.onrender.com/api/startup/${localStorage.getItem("userId")}/deals/`,
+          `${process.env.NEXT_PUBLIC_URI}api/startup/${localStorage.getItem("userId")}/deals/`,
           formData,
           {
             headers: {
@@ -149,7 +149,7 @@ export default function FormDeal({ isEdit, id }: FormDealProps) {
         console.log("formData", formData);
         // Send PUT request
         const response = await axios.put(
-          `https://b2d-ventures-backend.onrender.com/api/startup/${localStorage.getItem(
+          `${process.env.NEXT_PUBLIC_URI}api/startup/${localStorage.getItem(
             "userId"
           )}/deals/${id}/`,
           formData,
