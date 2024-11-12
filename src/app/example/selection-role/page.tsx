@@ -38,7 +38,6 @@ const HomePage = () => {
       router.push(`/startup?user=${encodeURIComponent(userToken)}&role=${role}`);
     } catch (error) {
       console.error("Error changing role:", error);
-      // Handle error (e.g., show error message to user)
     }
   };
 

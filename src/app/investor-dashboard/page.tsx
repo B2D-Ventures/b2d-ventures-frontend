@@ -70,6 +70,7 @@ export default function DealDashboard() {
       // console.log("Deals fetched:", response.data.data);
     } catch (error) {
       console.error("Error fetching deals:", error);
+      alert("Error fetching deals, please try again later.");
     }
   };
 

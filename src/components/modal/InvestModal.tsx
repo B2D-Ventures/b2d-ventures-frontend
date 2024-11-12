@@ -76,6 +76,7 @@ export default function InvestModal({
       alert("Investment accepted successfully");
     } catch (error) {
       console.error("Error accepting investment:", error);
+      alert("Error accepting investment, make sure you are currently log in as an investor and try again.")
     }
   }
 
