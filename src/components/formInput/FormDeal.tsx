@@ -141,6 +141,7 @@ export default function FormDeal({ isEdit, id }: FormDealProps) {
           // You might want to add some user feedback here, like showing a success message
         } else {
           console.error("Form submission failed");
+          alert("Form submission failed");
           // You might want to add some user feedback here, like showing an error message
         }
       } else {
@@ -165,11 +166,13 @@ export default function FormDeal({ isEdit, id }: FormDealProps) {
           // You might want to add some user feedback here, like showing a success message
         } else {
           console.error("Form submission failed");
+          alert("Form submission failed");
           // You might want to add some user feedback here, like showing an error message
         }
       }
     } catch (error) {
       console.error("Error submitting form:", error);
+      alert("Error submitting form, please try again later.");
       // You might want to add some user feedback here, like showing an error message
     }
   };

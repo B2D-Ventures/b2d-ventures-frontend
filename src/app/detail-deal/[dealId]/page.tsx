@@ -64,6 +64,7 @@ export default function DealDashboard({
       console.log("Deals fetched:", response.data.data);
     } catch (error) {
       console.error("Error fetching deals:", error);
+      alert("Error fetching deals, please try again later.");
     }
   };
 
@@ -91,7 +92,8 @@ export default function DealDashboard({
           "Data requested successfully! Please check your email for more details."
         );
       } catch (error) {
-        console.error("Error requesting data:", error);
+        console.error("Error requesting daaaaa:", error);
+        alert("Error requesting data, make sure you are login as an investor and try again.");
       }
     };
   };
