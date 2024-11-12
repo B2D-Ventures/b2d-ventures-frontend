@@ -26,7 +26,7 @@ export default function Navbar() {
       // create user
       axios
         .post(
-          "https://b2d-ventures-backend.onrender.com/api/auths/",
+          `${process.env.NEXT_PUBLIC_URI}api/auths/`,
           {
             data: {
               attributes: {
@@ -46,11 +46,15 @@ export default function Navbar() {
           const userRole = response.data.data.attributes.role;
           const userId = response.data.data.attributes.id;
           const userName = response.data.data.attributes.username;
+          const accessToken = response.data.data.jwt_tokens.jwt_access_token;
+          const refreshToken = response.data.data.jwt_tokens.jwt_refresh_token;
 
           // Store user name in local storage
           localStorage.setItem("userName", userName);
           localStorage.setItem("userId", userId);
           localStorage.setItem("userRole", userRole);
+          localStorage.setItem("accessToken", accessToken);
+          localStorage.setItem("refreshToken", refreshToken);
           setUserName(userName);
 
           // If the role is not admin, investor, or startup, redirect to selection-role page
@@ -81,6 +85,8 @@ export default function Navbar() {
     localStorage.removeItem("userName");
     localStorage.removeItem("userId");
     localStorage.removeItem("userRole");
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
     setUserName(null);
     alert("You have been logged out.");
   }

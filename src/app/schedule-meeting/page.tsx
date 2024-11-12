@@ -46,7 +46,7 @@ const Home: React.FC = () => {
     console.log("Start DateTime:", startDateTime);
     console.log("End DateTime:", endDateTime);
 
-    const apiUrl = `https://b2d-ventures-backend.onrender.com/api/investor/${investorId}/schedule-meeting/${startupId}/`;
+    const apiUrl = `${process.env.NEXT_PUBLIC_URI}api/investor/${investorId}/schedule-meeting/${startupId}/`;
 
     const data = {
       data: {

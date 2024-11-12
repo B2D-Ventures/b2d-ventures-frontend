@@ -60,7 +60,7 @@ export default function DealDashboard() {
   const fetchDashboard = async () => {
     try {
       const response = await axios.get<{ data: any }>(
-        `https://b2d-ventures-backend.onrender.com/api/investor/${localStorage.getItem("userId")}/dashboard`
+        `${process.env.NEXT_PUBLIC_URI}api/investor/${localStorage.getItem("userId")}/dashboard`
       );
 
       console.log("Dashboard fetched:", response.data.data.attributes.active_deals);

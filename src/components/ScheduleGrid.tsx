@@ -71,7 +71,7 @@ export default function Home() {
         setUserRole(role);
 
         const response = await axios.get<ApiResponse>(
-          'https://b2d-ventures-backend.onrender.com/api/admin/dashboard/',
+          `${process.env.NEXT_PUBLIC_URI}api/admin/dashboard/`,
           {
             headers: {
               'Content-Type': 'application/json',
