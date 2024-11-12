@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import DetailCard from "@/components/DetailCard";
 import Image from "next/image";
 import axios from "axios";
-import Link from 'next/link';
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 interface DealAttributes {
@@ -81,17 +81,75 @@ export default function DealDashboard({
     }
   }, [deals, id]);
 
+  // const handleRequestData = (dealId: string, userId: string | null) => {
+  //   return async () => {
+  //     try {
+  //       const response = await axios.post(
+  //         `${process.env.NEXT_PUBLIC_URI}api/investor/${userId}/deals/${dealId}/request-dataroom/`
+  //       );
+  //       alert(
+  //         "Data requested successfully! Please check your email for more details."
+  //       );
+  //     } catch (error) {
+  //       console.error("Error requesting data:", error);
+  //     }
+  //   };
+  // };
+  
   const handleRequestData = (dealId: string, userId: string | null) => {
     return async () => {
       try {
+        const accessToken = localStorage.getItem("accessToken");
         const response = await axios.post(
-          `${process.env.NEXT_PUBLIC_URI}api/investor/${userId}/deals/${dealId}/request-dataroom/`
+          `${process.env.NEXT_PUBLIC_URI}api/investor/${userId}/deals/${dealId}/request-dataroom/`,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
         );
         alert(
           "Data requested successfully! Please check your email for more details."
         );
-      } catch (error) {
-        console.error("Error requesting data:", error);
+      } catch (error: any) {
+        if (error.response && error.response.status === 401) {
+          // Token expired, try to refresh
+          try {
+            const refreshToken = localStorage.getItem("refreshToken");
+            const refreshResponse = await axios.post(
+              `${process.env.NEXT_PUBLIC_URI}api/auths/refresh-token/`,
+              {
+                data: {
+                  attributes: {
+                    "refresh-token": refreshToken,
+                  },
+                },
+              }
+            );
+
+            const newAccessToken = refreshResponse.data.data.access;
+            localStorage.setItem("accessToken", newAccessToken);
+
+            // Retry the original request with the new access token
+            const retryResponse = await axios.post(
+              `${process.env.NEXT_PUBLIC_URI}api/investor/${userId}/deals/${dealId}/request-dataroom/`,
+              {},
+              {
+                headers: {
+                  Authorization: `Bearer ${newAccessToken}`,
+                },
+              }
+            );
+            alert(
+              "Data requested successfully! Please check your email for more details."
+            );
+          } catch (refreshError) {
+            console.error("Error refreshing token:", refreshError);
+            alert("Session expired or you are not logged in. Please log in again.");
+          }
+        } else {
+          console.error("Error requesting data:", error);
+        }
       }
     };
   };
@@ -147,7 +205,9 @@ export default function DealDashboard({
               >
                 Request for private data
               </div>
-              <Link href={`/schedule-meeting?id=${deal?.attributes.startup.id}`}>
+              <Link
+                href={`/schedule-meeting?id=${deal?.attributes.startup.id}`}
+              >
                 <button className="flex items-center justify-center border-2 border-border w-[44px] h-[44px] rounded-[8px] text-white font-semibold">
                   <img
                     src="/images/Phoneicon.png"
