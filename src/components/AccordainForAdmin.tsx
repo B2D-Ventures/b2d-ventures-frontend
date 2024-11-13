@@ -101,7 +101,7 @@ export default function App({ deals }: AccordainForAdminProps) {
                 <Button
                   style={{ borderColor: "#FF0000", color: "#FF0000" }}
                   variant="bordered"
-                  onClick={() => handleRemove(deal.id)}
+                  onClick={() => handleRemove(deal.attributes.id)}
                 >
                   Remove
                 </Button>
