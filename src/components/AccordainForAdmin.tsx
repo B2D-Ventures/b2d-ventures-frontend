@@ -48,12 +48,13 @@ export default function App({ deals }: AccordainForAdminProps) {
     return date.toLocaleDateString();
   }
 
-  const handleRemove = async ({dealID}: {dealID: String}) => {
+  const handleRemove = async (dealID: string) => {
     try {
-      const response = await axios.get<{ data: any }>(
+      const response = await axios.delete(
         `${process.env.NEXT_PUBLIC_URI}api/admin/${dealID}/deals/`
       );
-      console.log("Dashboard fetched:", response.data);
+      console.log(response.data);
+      alert("Deal deleted.")
     } catch (error) {
       console.error("Error fetching deals:", error);
     }
@@ -100,7 +101,7 @@ export default function App({ deals }: AccordainForAdminProps) {
                 <Button
                   style={{ borderColor: "#FF0000", color: "#FF0000" }}
                   variant="bordered"
-                  onClick={() => handleRemove(deal.id)}
+                  onClick={() => handleRemove(deal.attributes.id)}
                 >
                   Remove
                 </Button>
