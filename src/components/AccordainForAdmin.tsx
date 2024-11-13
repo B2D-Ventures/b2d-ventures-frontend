@@ -50,10 +50,11 @@ export default function App({ deals }: AccordainForAdminProps) {
 
   const handleRemove = async ({dealID}: {dealID: String}) => {
     try {
-      const response = await axios.get<{ data: any }>(
+      const response = await axios.delete(
         `https://b2d-ventures-backend.onrender.com/api/admin/${dealID}/deals/`
       );
-      console.log("Dashboard fetched:", response.data);
+      console.log(response.data);
+      alert("Deal deleted.")
     } catch (error) {
       console.error("Error fetching deals:", error);
     }
