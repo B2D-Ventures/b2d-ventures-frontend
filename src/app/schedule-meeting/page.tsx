@@ -5,6 +5,7 @@ import { DatePicker } from "@nextui-org/react";
 import { Textarea } from "@nextui-org/react";
 import { Button } from "@nextui-org/button";
 import dayjs from "dayjs"; // Import dayjs for date manipulation
+import axios from "axios"; // Import axios
 
 const Home: React.FC = () => {
   const [startupId, setStartupId] = useState<string | null>(null);
@@ -43,10 +44,7 @@ const Home: React.FC = () => {
     const startDateTime = dayjs(`${date}T${startTime}`).toISOString();
     const endDateTime = dayjs(`${date}T${endTime}`).toISOString();
 
-    console.log("Start DateTime:", startDateTime);
-    console.log("End DateTime:", endDateTime);
-
-    const apiUrl = `https://b2d-ventures-backend.onrender.com/api/investor/${investorId}/schedule-meeting/${startupId}/`;
+    const apiUrl = `${process.env.NEXT_PUBLIC_URI}api/investor/${investorId}/schedule-meeting/${startupId}/`;
 
     const data = {
       data: {
@@ -62,22 +60,53 @@ const Home: React.FC = () => {
     console.log("Data to be sent:", data);
 
     try {
-      const response = await fetch(apiUrl, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
+      const accessToken = localStorage.getItem("accessToken");
+      const response = await axios.post(
+        apiUrl,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+      setFeedbackMessage("Meeting scheduled successfully");
+    } catch (error: any) {
+      if (error.response && error.response.status === 401) {
+        // Token expired, try to refresh
+        try {
+          const refreshToken = localStorage.getItem("refreshToken");
+          const refreshResponse = await axios.post(
+            `${process.env.NEXT_PUBLIC_URI}api/auths/refresh-token/`,
+            {
+              data: {
+                attributes: {
+                  "refresh-token": refreshToken,
+                },
+              },
+            }
+          );
 
-      if (response.ok) {
-        setFeedbackMessage("Meeting scheduled successfully");
+          const newAccessToken = refreshResponse.data.data.access;
+          localStorage.setItem("accessToken", newAccessToken);
+
+          // Retry the original request with the new access token
+          const retryResponse = await axios.post(
+            apiUrl,
+            {
+              headers: {
+                Authorization: `Bearer ${newAccessToken}`,
+              },
+            }
+          );
+          setFeedbackMessage("Meeting scheduled successfully");
+        } catch (refreshError) {
+          console.error("Error refreshing token:", refreshError);
+          alert("Session expired or you are not logged in. Please log in again.");
+        }
       } else {
-        setFeedbackMessage("Failed to schedule meeting");
+        console.error("Error:", error);
+        setFeedbackMessage("An error occurred while scheduling the meeting");
       }
-    } catch (error) {
-      console.error("Error:", error);
-      setFeedbackMessage("An error occurred while scheduling the meeting");
     }
   };
 

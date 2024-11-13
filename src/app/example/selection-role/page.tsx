@@ -15,9 +15,10 @@ const HomePage = () => {
     }
 
     try {
+      const accessToken = localStorage.getItem("accessToken");
       console.log("user token:", userToken); 
       const response = await axios.put(
-        `https://b2d-ventures-backend.onrender.com/api/auths/${userToken}/update-role/`,
+        `${process.env.NEXT_PUBLIC_URI}api/auths/${userToken}/update-role/`,
         {
           data: {
             attributes: {
@@ -27,7 +28,7 @@ const HomePage = () => {
         },
         {
           headers: {
-            "Content-Type": "application/vnd.api+json",
+            Authorization: `Bearer ${accessToken}`,
           },
         }
       );

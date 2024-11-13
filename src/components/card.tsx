@@ -17,7 +17,7 @@ function fundingGoalFormat(amount: number) {
   return (amount / 1000).toLocaleString();
 }
 
-const API_BASE_URL = "https://b2d-ventures-backend.onrender.com/";
+const API_BASE_URL = `${process.env.NEXT_PUBLIC_URI}`;
 const DEFAULT_BG_IMAGE = "/images/lexi.png"; // Replace with your default background image path
 const DEFAULT_ICON_IMAGE = "/images/icon.jpg"; // Replace with your default icon image path
 

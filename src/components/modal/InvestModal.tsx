@@ -31,7 +31,8 @@ export default function InvestModal({
   const maxMultiplier = 10;
 
   useEffect(() => {
-    const calculatedAmount = Number(sliderValue) * Number(pricePerUnit) + Number(minInvestAmount);
+    const calculatedAmount =
+      Number(sliderValue) * Number(pricePerUnit) + Number(minInvestAmount);
     setInvestmentAmount(isNaN(calculatedAmount) ? 0 : calculatedAmount);
   }, [sliderValue, pricePerUnit]);
 
@@ -51,34 +52,83 @@ export default function InvestModal({
       currency: "USD",
     }).format(amount);
   };
-
+  
   const handleAcceptInvestment = async () => {
     const totalInvestmentAmount = Number(investmentAmount);
     console.log("Investment amount:", totalInvestmentAmount);
     console.log("Deal ID:", dealId);
     try {
+      const accessToken = localStorage.getItem("accessToken");
       const response = await axios.post(
-        `https://b2d-ventures-backend.onrender.com/api/investor/${localStorage.getItem("userId")}/investments/${dealId}/`,
+        `${process.env.NEXT_PUBLIC_URI}api/investor/${localStorage.getItem(
+          "userId"
+        )}/investments/${dealId}/`,
         {
           data: {
             attributes: {
-              "investment_amount": totalInvestmentAmount,
+              investment_amount: totalInvestmentAmount,
             },
           },
         },
         {
           headers: {
-            "Content-Type": "application/vnd.api+json",
+            Authorization: `Bearer ${accessToken}`,
           },
         }
       );
-      console.log("Investment accepted:", response.data);
-      alert("Investment accepted successfully");
-    } catch (error) {
-      console.error("Error accepting investment:", error);
-      alert("Error accepting investment, make sure you are currently log in as an investor and try again.")
+      alert("Investment accepted successfully.");
+    } catch (error: any) {
+      if (error.response && error.response.status === 401) {
+        // Token expired, try to refresh
+        try {
+          const refreshToken = localStorage.getItem("refreshToken");
+          const refreshResponse = await axios.post(
+            `${process.env.NEXT_PUBLIC_URI}api/auths/refresh-token/`,
+            {
+              data: {
+                attributes: {
+                  "refresh-token": refreshToken,
+                },
+              },
+            }
+          );
+
+          const newAccessToken = refreshResponse.data.data.access;
+          localStorage.setItem("accessToken", newAccessToken);
+
+          // Retry the original request with the new access token
+          const retryResponse = await axios.post(
+            `${process.env.NEXT_PUBLIC_URI}api/investor/${localStorage.getItem(
+              "userId"
+            )}/investments/${dealId}/`,
+            {
+              data: {
+                attributes: {
+                  investment_amount: totalInvestmentAmount,
+                },
+              },
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${newAccessToken}`,
+              },
+            }
+          );
+          alert("Investment accepted successfully.");
+        } catch (refreshError) {
+          console.error("Error refreshing token:", refreshError);
+          alert(
+            "Session expired or you are not logged in. Please log in again."
+          );
+        }
+      } else {
+        console.error(
+          "Error accepting investment, make sure you are currently log in as an investor and try again.",
+          error
+        );
+      }
     }
-  }
+  };
 
   return (
     <div>
@@ -145,7 +195,9 @@ export default function InvestModal({
                     } border-[2px] border-purple rounded-[8px] text-white text-[20px] ${
                       sliderValue === 0 ? "" : "hover:cursor-pointer"
                     }`}
-                    onClick={sliderValue === 0 ? undefined : handleAcceptInvestment}
+                    onClick={
+                      sliderValue === 0 ? undefined : handleAcceptInvestment
+                    }
                   >
                     Accept
                   </div>

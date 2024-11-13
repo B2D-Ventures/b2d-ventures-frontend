@@ -19,7 +19,7 @@ interface Deal {
   };
 }
 
-const API_BASE_URL = "https://b2d-ventures-backend.onrender.com/";
+const API_BASE_URL = `${process.env.NEXT_PUBLIC_URI}`;
 const DEFAULT_BG_IMAGE = "/images/lexi.png"; // Replace with your default background image path
 const DEFAULT_ICON_IMAGE = "/images/icon.jpg"; // Replace with your default icon image path
 
@@ -51,7 +51,7 @@ export default function App({ deals }: AccordainForAdminProps) {
   const handleRemove = async (dealID: string) => {
     try {
       const response = await axios.delete(
-        `https://b2d-ventures-backend.onrender.com/api/admin/${dealID}/deals/`
+        `${process.env.NEXT_PUBLIC_URI}api/admin/${dealID}/deals/`
       );
       console.log(response.data);
       alert("Deal deleted.")
