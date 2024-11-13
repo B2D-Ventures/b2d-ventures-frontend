@@ -40,6 +40,64 @@ export default function DealDashboard() {
     }
   };
 
+  const fetchDashboard = async () => {
+    try {
+      const accessToken = localStorage.getItem("accessToken");
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_URI}api/startup/${localStorage.getItem("userId")}/dashboard`,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+      console.log(response.data.data.attributes.investments);
+      setInvestments(response.data.data.attributes.investments);
+      setTotalInvestment(response.data.data.attributes.profile.total_raised);
+    } catch (error: any) {
+      if (error.response && error.response.status === 401) {
+        // Token expired, try to refresh
+        try {
+          const refreshToken = localStorage.getItem("refreshToken");
+          const refreshResponse = await axios.post(
+            `${process.env.NEXT_PUBLIC_URI}api/auths/refresh-token/`,
+            {
+              data: {
+                attributes: {
+                  "refresh-token": refreshToken,
+                },
+              },
+            }
+          );
+
+          const newAccessToken = refreshResponse.data.data.access;
+          localStorage.setItem("accessToken", newAccessToken);
+
+          // Retry the original request with the new access token
+          const retryResponse = await axios.get<{ data: any }>(
+            `${process.env.NEXT_PUBLIC_URI}api/startup/${localStorage.getItem("userId")}/dashboard`,
+            {
+              headers: {
+                Authorization: `Bearer ${newAccessToken}`,
+              },
+            }
+          );
+          console.log(
+            "Dashboard fetched:",
+            refreshResponse.data.data.attributes.active_deals
+          );
+        } catch (refreshError) {
+          console.error("Error refreshing token:", refreshError);
+          alert(
+            "Session expired or you are not logged in. Please log in again."
+          );
+        }
+      } else {
+        console.error("Error fetching dashboard", error);
+      }
+    }
+  };
+
   useEffect(() => {
     // Move localStorage access to useEffect to ensure it runs only on the client side
     setUserName(localStorage.getItem("userName") || "");

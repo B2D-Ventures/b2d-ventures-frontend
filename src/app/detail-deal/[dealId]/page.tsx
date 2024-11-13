@@ -81,21 +81,6 @@ export default function DealDashboard({
       }
     }
   }, [deals, id]);
-
-  // const handleRequestData = (dealId: string, userId: string | null) => {
-  //   return async () => {
-  //     try {
-  //       const response = await axios.post(
-  //         `${process.env.NEXT_PUBLIC_URI}api/investor/${userId}/deals/${dealId}/request-dataroom/`
-  //       );
-  //       alert(
-  //         "Data requested successfully! Please check your email for more details."
-  //       );
-  //     } catch (error) {
-  //       console.error("Error requesting data:", error);
-  //     }
-  //   };
-  // };
   
   const handleRequestData = (dealId: string, userId: string | null) => {
     return async () => {

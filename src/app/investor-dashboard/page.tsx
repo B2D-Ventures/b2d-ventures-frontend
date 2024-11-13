@@ -44,7 +44,9 @@ export default function DealDashboard() {
 
     // Apply type filter
     if (selectedFilter !== "") {
-      filtered = filtered.filter((deal) => deal.attributes.type === selectedFilter);
+      filtered = filtered.filter(
+        (deal) => deal.attributes.type === selectedFilter
+      );
     }
 
     // Apply search filter
@@ -59,25 +61,73 @@ export default function DealDashboard() {
 
   const fetchDashboard = async () => {
     try {
+      const accessToken = localStorage.getItem("accessToken");
       const response = await axios.get<{ data: any }>(
-        `${process.env.NEXT_PUBLIC_URI}api/investor/${localStorage.getItem("userId")}/dashboard`
+        `${process.env.NEXT_PUBLIC_URI}api/investor/${localStorage.getItem(
+          "userId"
+        )}/dashboard`,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
       );
-
-      console.log("Dashboard fetched:", response.data.data.attributes.active_deals);
+      console.log(
+        "Dashboard fetched:",
+        response.data.data.attributes.active_deals
+      );
       setDeals(response.data.data.attributes.active_deals);
       setTotalInvestment(response.data.data.attributes.total_invested);
-      // setFilteredDeals(response.data.data);
-      // console.log("Deals fetched:", response.data.data);
-    } catch (error) {
-      console.error("Error fetching deals:", error);
-      alert("Error fetching deals, please try again later.");
+    } catch (error: any) {
+      if (error.response && error.response.status === 401) {
+        // Token expired, try to refresh
+        try {
+          const refreshToken = localStorage.getItem("refreshToken");
+          const refreshResponse = await axios.post(
+            `${process.env.NEXT_PUBLIC_URI}api/auths/refresh-token/`,
+            {
+              data: {
+                attributes: {
+                  "refresh-token": refreshToken,
+                },
+              },
+            }
+          );
+
+          const newAccessToken = refreshResponse.data.data.access;
+          localStorage.setItem("accessToken", newAccessToken);
+
+          // Retry the original request with the new access token
+          const retryResponse = await axios.get<{ data: any }>(
+            `${process.env.NEXT_PUBLIC_URI}api/investor/${localStorage.getItem(
+              "userId"
+            )}/dashboard`,
+            {
+              headers: {
+                Authorization: `Bearer ${newAccessToken}`,
+              },
+            }
+          );
+          console.log(
+            "Dashboard fetched:",
+            refreshResponse.data.data.attributes.active_deals
+          );
+        } catch (refreshError) {
+          console.error("Error refreshing token:", refreshError);
+          alert(
+            "Session expired or you are not logged in. Please log in again."
+          );
+        }
+      } else {
+        console.error("Error fetching dashboard", error);
+      }
     }
   };
 
   const onSearch = (query: string) => {
     setSearchQuery(query);
   };
-  
+
   return (
     <div className="flex items-center justify-center">
       <div className="flex flex-col px-[102px] py-[54px] gap-10 w-[1440px]">
@@ -93,15 +143,15 @@ export default function DealDashboard() {
               <InvestorCard name={name} totalInvestment={totalInvestment} />
             </div>
             <div className="text-3xl mt-8">Meeting Schedule</div>
-          <ScheduleGrid />
+            <ScheduleGrid />
           </div>
           <div className="flex-col w-full">
             <div className="flex flex-row justify-between">
               <div className="text-[36px] font-bold">Deal Information</div>
-              <SearchBar onSearch={onSearch}/>
+              <SearchBar onSearch={onSearch} />
             </div>
             <div className="h-[520px] overflow-y-auto">
-              <Accordian deals={filteredDeals}/>
+              <Accordian deals={filteredDeals} />
             </div>
           </div>
         </div>

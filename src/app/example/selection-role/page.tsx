@@ -15,6 +15,7 @@ const HomePage = () => {
     }
 
     try {
+      const accessToken = localStorage.getItem("accessToken");
       console.log("user token:", userToken); 
       const response = await axios.put(
         `${process.env.NEXT_PUBLIC_URI}api/auths/${userToken}/update-role/`,
@@ -27,7 +28,7 @@ const HomePage = () => {
         },
         {
           headers: {
-            "Content-Type": "application/vnd.api+json",
+            Authorization: `Bearer ${accessToken}`,
           },
         }
       );
