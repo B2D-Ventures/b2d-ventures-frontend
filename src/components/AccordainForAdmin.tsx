@@ -48,7 +48,7 @@ export default function App({ deals }: AccordainForAdminProps) {
     return date.toLocaleDateString();
   }
 
-  const handleRemove = async ({dealID}: {dealID: String}) => {
+  const handleRemove = async (dealID: string) => {
     try {
       const response = await axios.delete(
         `https://b2d-ventures-backend.onrender.com/api/admin/${dealID}/deals/`
