@@ -72,108 +72,185 @@ export default function FormDeal({ isEdit, id }: FormDealProps) {
     return dateObj.toISOString();
   };
 
-  const handleSubmit = async () => {
-    try {
-      // Convert dates to ISO 8601 format
-      const startDateISO = convertToISO8601(startDate);
-      const endDateISO = convertToISO8601(endDate);
+  const handleSubmit = () => {
+    // Convert dates to ISO 8601 format
+    const startDateISO = convertToISO8601(startDate);
+    const endDateISO = convertToISO8601(endDate);
 
-      // Create FormData object
-      const formData = new FormData();
-      if (name !== "") {
-        formData.append("name", name);
-      }
-      if (description !== "") {
-        formData.append("description", description);
-      }
-      if (allocation !== "") {
-        formData.append("allocation", parseFloat(allocation).toString());
-      }
-      if (pricePerUnit !== "") {
-        formData.append("price_per_unit", parseFloat(pricePerUnit).toString());
-      }
-      if (minInvestment !== "") {
-        formData.append(
-          "minimum_investment",
-          parseFloat(minInvestment).toString()
-        );
-      }
-      if (raised !== "") {
-        formData.append("raised", parseFloat(raised).toString());
-      }
-      if (businessType !== "") {
-        formData.append("type", businessType);
-      }
-      if (startDateISO !== "") {
-        formData.append("start_date", startDateISO);
-      }
-      if (endDateISO !== "") {
-        formData.append("end_date", endDateISO);
-      }
-      if (content !== "") {
-        formData.append("content", content);
-      }
+    // Create FormData object
+    const formData = new FormData();
+    if (name !== "") {
+      formData.append("name", name);
+    }
+    if (description !== "") {
+      formData.append("description", description);
+    }
+    if (allocation !== "") {
+      formData.append("allocation", parseFloat(allocation).toString());
+    }
+    if (pricePerUnit !== "") {
+      formData.append("price_per_unit", parseFloat(pricePerUnit).toString());
+    }
+    if (minInvestment !== "") {
+      formData.append(
+        "minimum_investment",
+        parseFloat(minInvestment).toString()
+      );
+    }
+    if (raised !== "") {
+      formData.append("raised", parseFloat(raised).toString());
+    }
+    if (businessType !== "") {
+      formData.append("type", businessType);
+    }
+    if (startDateISO !== "") {
+      formData.append("start_date", startDateISO);
+    }
+    if (endDateISO !== "") {
+      formData.append("end_date", endDateISO);
+    }
+    if (content !== "") {
+      formData.append("content", content);
+    }
 
-      // Append file data if files are selected
-      if (logoRef.current?.files?.[0])
-        formData.append("image_logo", logoRef.current.files[0]);
-      if (contentRef.current?.files?.[0])
-        formData.append("image_content", contentRef.current.files[0]);
-      if (dealRef.current?.files?.[0])
-        formData.append("image_background", dealRef.current.files[0]);
-      if (privateDataRef.current?.files?.[0])
-        formData.append("dataroom", privateDataRef.current.files[0]);
+    // Append file data if files are selected
+    if (logoRef.current?.files?.[0])
+      formData.append("image_logo", logoRef.current.files[0]);
+    if (contentRef.current?.files?.[0])
+      formData.append("image_content", contentRef.current.files[0]);
+    if (dealRef.current?.files?.[0])
+      formData.append("image_background", dealRef.current.files[0]);
+    if (privateDataRef.current?.files?.[0])
+      formData.append("dataroom", privateDataRef.current.files[0]);
 
-      if (!isEdit) {
-        // Send POST request
-        const response = await axios.post(
-          `${process.env.NEXT_PUBLIC_URI}api/startup/${localStorage.getItem("userId")}/deals/`,
-          formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          }
-        );
-        if (response.status === 200 || response.status === 201) {
+    if (!isEdit) {
+      return async () => {
+        try {
+          const accessToken = localStorage.getItem("accessToken");
+          const response = await axios.post(
+            `${process.env.NEXT_PUBLIC_URI}api/startup/${localStorage.getItem(
+              "userId"
+            )}/deals/`,
+            formData,
+            {
+              headers: {
+                Authorization: `Bearer ${accessToken}`,
+              },
+            }
+          );
           alert("Form submitted successfully");
           console.log("Form submitted successfully");
-          // You might want to add some user feedback here, like showing a success message
-        } else {
-          console.error("Form submission failed");
-          alert("Form submission failed");
-          // You might want to add some user feedback here, like showing an error message
-        }
-      } else {
-        console.log("deal id", id);
-        console.log("userId", localStorage.getItem("userId"));
-        console.log("formData", formData);
-        // Send PUT request
-        const response = await axios.put(
-          `${process.env.NEXT_PUBLIC_URI}api/startup/${localStorage.getItem(
-            "userId"
-          )}/deals/${id}/`,
-          formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
+        } catch (error: any) {
+          if (error.response && error.response.status === 401) {
+            // Token expired, try to refresh
+            try {
+              const refreshToken = localStorage.getItem("refreshToken");
+              const refreshResponse = await axios.post(
+                `${
+                  process.env.NEXT_PUBLIC_URI
+                }api/startup/${localStorage.getItem("userId")}/deals/`,
+                {
+                  data: {
+                    attributes: {
+                      "refresh-token": refreshToken,
+                    },
+                  },
+                }
+              );
+
+              const newAccessToken = refreshResponse.data.data.access;
+              localStorage.setItem("accessToken", newAccessToken);
+
+              // Retry the original request with the new access token
+              const retryResponse = await axios.post(
+                `${
+                  process.env.NEXT_PUBLIC_URI
+                }api/startup/${localStorage.getItem("userId")}/deals/`,
+                formData,
+                {
+                  headers: {
+                    Authorization: `Bearer ${newAccessToken}`,
+                  },
+                }
+              );
+              alert("Form submitted successfully");
+              console.log("Form submitted successfully");
+            } catch (refreshError) {
+              console.error("Error refreshing token:", refreshError);
+              alert(
+                "Session expired or you are not logged in. Please log in again."
+              );
+            }
+          } else {
+            console.error("Form submission failed");
+            alert("Form submission failed");
           }
-        );
-        if (response.status === 200 || response.status === 201) {
+        }
+      };
+    } else {
+      return async () => {
+        try {
+          const accessToken = localStorage.getItem("accessToken");
+          const response = await axios.put(
+            `${process.env.NEXT_PUBLIC_URI}api/startup/${localStorage.getItem(
+              "userId"
+            )}/deals/${id}/`,
+            formData,
+            {
+              headers: {
+                Authorization: `Bearer ${accessToken}`,
+              },
+            }
+          );
           alert("Form submitted successfully");
           console.log("Form submitted successfully");
-          // You might want to add some user feedback here, like showing a success message
-        } else {
-          console.error("Form submission failed");
-          alert("Form submission failed");
-          // You might want to add some user feedback here, like showing an error message
+        } catch (error: any) {
+          if (error.response && error.response.status === 401) {
+            // Token expired, try to refresh
+            try {
+              const refreshToken = localStorage.getItem("refreshToken");
+              const refreshResponse = await axios.post(
+                `${
+                  process.env.NEXT_PUBLIC_URI
+                }api/startup/${localStorage.getItem("userId")}/deals/`,
+                {
+                  data: {
+                    attributes: {
+                      "refresh-token": refreshToken,
+                    },
+                  },
+                }
+              );
+
+              const newAccessToken = refreshResponse.data.data.access;
+              localStorage.setItem("accessToken", newAccessToken);
+
+              // Retry the original request with the new access token
+              const retryResponse = await axios.put(
+                `${
+                  process.env.NEXT_PUBLIC_URI
+                }api/startup/${localStorage.getItem("userId")}/deals/${id}/`,
+                formData,
+                {
+                  headers: {
+                    Authorization: `Bearer ${newAccessToken}`,
+                  },
+                }
+              );
+              alert("Form submitted successfully");
+              console.log("Form submitted successfully");
+            } catch (refreshError) {
+              console.error("Error refreshing token:", refreshError);
+              alert(
+                "Session expired or you are not logged in. Please log in again."
+              );
+            }
+          } else {
+            console.error("Form submission failed");
+            alert("Form submission failed");
+          }
         }
-      }
-    } catch (error) {
-      console.error("Error submitting form:", error);
-      alert("Error submitting form, please try again later.");
-      // You might want to add some user feedback here, like showing an error message
+      };
     }
   };
 

@@ -1,11 +1,10 @@
 "use client";
 
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import StartupCard from "@/components/StartupCard";
 import Accordian from "@/components/AccordianForStartup";
 import SearchBar from "@/components/searchBar";
 import ScheduleGrid from "@/components/ScheduleGrid";
-import { Checkbox } from "@nextui-org/react";
 import axios from "axios";
 
 interface Deal {
@@ -25,26 +24,13 @@ export default function DealDashboard() {
   const [totalInvestment, setTotalInvestment] = useState<string>("");
   const [searchQuery, setSearchQuery] = useState<string>("");
 
-  const getStartupData = () => {
-    if (true) {
-      axios
-        .get(`${process.env.NEXT_PUBLIC_URI}api/startup/${localStorage.getItem("userId")}/dashboard`)
-        .then((response) => {
-          console.log(response.data.data.attributes.investments);
-          setInvestments(response.data.data.attributes.investments);
-          setTotalInvestment(response.data.data.attributes.profile.total_raised);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    }
-  };
-
-  const fetchDashboard = async () => {
+  const getStartupData = async () => {
     try {
       const accessToken = localStorage.getItem("accessToken");
       const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_URI}api/startup/${localStorage.getItem("userId")}/dashboard`,
+        `${process.env.NEXT_PUBLIC_URI}api/startup/${localStorage.getItem(
+          "userId"
+        )}/dashboard`,
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -75,16 +61,19 @@ export default function DealDashboard() {
 
           // Retry the original request with the new access token
           const retryResponse = await axios.get<{ data: any }>(
-            `${process.env.NEXT_PUBLIC_URI}api/startup/${localStorage.getItem("userId")}/dashboard`,
+            `${process.env.NEXT_PUBLIC_URI}api/startup/${localStorage.getItem(
+              "userId"
+            )}/dashboard`,
             {
               headers: {
                 Authorization: `Bearer ${newAccessToken}`,
               },
             }
           );
-          console.log(
-            "Dashboard fetched:",
-            refreshResponse.data.data.attributes.active_deals
+          console.log(retryResponse.data.data.attributes.investments);
+          setInvestments(retryResponse.data.data.attributes.investments);
+          setTotalInvestment(
+            retryResponse.data.data.attributes.profile.total_raised
           );
         } catch (refreshError) {
           console.error("Error refreshing token:", refreshError);
@@ -118,12 +107,14 @@ export default function DealDashboard() {
     // Apply search filter
     if (searchQuery !== "") {
       filtered = filtered.filter((investment) =>
-        investment.attributes.deal.toLowerCase().includes(searchQuery.toLowerCase())
+        investment.attributes.deal
+          .toLowerCase()
+          .includes(searchQuery.toLowerCase())
       );
     }
 
     setFilteredDeals(filtered);
-  }
+  };
 
   return (
     <div className="flex flex-col px-[102px] py-[54px] gap-10">
@@ -136,7 +127,7 @@ export default function DealDashboard() {
       <div className="w-full flex flex-row items-between gap-10">
         <div className="">
           <div className="flex flex-col">
-            <StartupCard name={userName} totalInvestment={totalInvestment}/>
+            <StartupCard name={userName} totalInvestment={totalInvestment} />
           </div>
           <div className="text-3xl mt-8">Meeting Schedule</div>
           <ScheduleGrid />
@@ -148,7 +139,7 @@ export default function DealDashboard() {
             <SearchBar onSearch={onSearch} />
           </div>
           <div className="h-[520px] overflow-y-auto">
-            <Accordian deals={filteredDeals}/>
+            <Accordian deals={filteredDeals} />
           </div>
         </div>
       </div>
