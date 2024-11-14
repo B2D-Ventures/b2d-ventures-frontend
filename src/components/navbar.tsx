@@ -17,12 +17,12 @@ export default function Navbar() {
     if (storedUserName) {
       setUserName(storedUserName);
     }
-    console.log("current path", currentPath);
     
     if (currentPath.startsWith("/google-auth")) {
       // Get the full URL
       const fullUrl = window.location.href;
-      console.log("fullurl", fullUrl)
+      console.log("fullurl", fullUrl);
+      localStorage.setItem("fullUrl", fullUrl);
       // create user
       axios
         .post(
