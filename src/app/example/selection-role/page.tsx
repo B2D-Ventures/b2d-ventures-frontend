@@ -31,14 +31,11 @@ const HomePage = () => {
           },
         }
       );
-
       console.log("Role changed successfully:", response.data);
-
-      // After successful role change, redirect to startup page with role
+      localStorage.setItem("userRole", role);
       router.push(`/startup?user=${encodeURIComponent(userToken)}&role=${role}`);
     } catch (error) {
       console.error("Error changing role:", error);
-      // Handle error (e.g., show error message to user)
     }
   };
 
@@ -50,6 +47,20 @@ const HomePage = () => {
     changeRole('pending_startup');
   };
 
+  function formatRole(role: string): string {
+    switch (role.toLocaleLowerCase()) {
+      case "investor":
+        return "Investor";
+      case "startup":
+        return "Startup";
+      case "pending_startup":
+        return "Startup (pending)";
+      case "pending_investor":
+        return "Investor (pending)";
+      default:
+        return "Unassigned";
+    }
+  }
 
   return (
     <div>

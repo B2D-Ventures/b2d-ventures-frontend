@@ -115,6 +115,21 @@ export default function Navbar() {
     }
   }
 
+  function formatRole(role: string): string {
+    switch (role.toLocaleLowerCase()) {
+      case "investor":
+        return "Investor";
+      case "startup":
+        return "Startup";
+      case "pending_startup":
+        return "Startup (pending)";
+      case "pending_investor":
+        return "Investor (pending)";
+      default:
+        return "Unassigned";
+    }
+  }
+
   return (
     <div className="w-full h-[90px] bg-white shadow-md flex px-[102px] items-center">
       <Image
@@ -134,6 +149,8 @@ export default function Navbar() {
         <div className="flex ml-auto gap-6">
           <div className="text-2xl text-base cursor-pointer hover:text-purple"
           onClick={handleProfileCLick}>Welcome, {userName}</div>
+          <div className="text-2xl text-base cursor-pointer text-purple"
+          >Role: {formatRole(localStorage.getItem("userRole") as string)}</div>
           <div className="text-2xl text-base text-secondary hover:cursor-pointer"
           onClick={handleLogout}
           >
