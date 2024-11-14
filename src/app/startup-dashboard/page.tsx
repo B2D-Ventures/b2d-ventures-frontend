@@ -39,7 +39,7 @@ export default function DealDashboard() {
       );
       console.log(response.data.data.attributes.investments);
       setInvestments(response.data.data.attributes.investments);
-      setTotalInvestment(response.data.data.attributes.profile.total_raised);
+      setTotalInvestment(response.data.data.attributes.profile.total_amount_raised);
     } catch (error: any) {
       if (error.response && error.response.status === 401) {
         // Token expired, try to refresh

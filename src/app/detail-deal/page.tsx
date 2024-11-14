@@ -65,10 +65,10 @@ export default function DealDashboard() {
             </div>
             <div className="flex">
               <DetailCard 
-                allocation={1000000}
+                target_amount={1000000}
                 pricePerFractionalUnit={100}
                 minimumInvestment={100}
-                raised={100000}
+                amount_raised={100000}
                 fundingGoal={1000000}
                 dealEnd={new Date().toISOString()}
                 image_bg="/images/lexi.png"

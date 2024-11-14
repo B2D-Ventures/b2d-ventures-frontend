@@ -13,10 +13,10 @@ interface DealAttributes {
   content: string;
   image_logo_url: string;
   image_content_url: string;
-  allocation: string;
+  target_amount: string;
   price_per_unit: string;
   minimum_investment: string;
-  raised: string;
+  amount_raised: string;
   end_date: string;
   image_background_url: string;
   startup: {
@@ -206,13 +206,13 @@ export default function DealDashboard({
             <div className="flex">
               {deal && (
                 <DetailCard
-                  allocation={Number(deal.attributes.allocation)}
+                  target_amount={Number(deal.attributes.target_amount)}
                   pricePerFractionalUnit={Number(
                     deal.attributes.price_per_unit
                   )}
                   minimumInvestment={Number(deal.attributes.minimum_investment)}
-                  raised={Number(deal.attributes.raised)}
-                  fundingGoal={Number(deal.attributes.allocation)}
+                  amount_raised={Number(deal.attributes.amount_raised)}
+                  fundingGoal={Number(deal.attributes.target_amount)}
                   dealEnd={deal.attributes.end_date}
                   image_bg={deal.attributes.image_background_url}
                   dealId={id}
