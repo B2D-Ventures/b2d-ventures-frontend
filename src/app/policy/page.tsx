@@ -148,9 +148,11 @@ const PolicyPage: React.FC = () => {
                     <p className="text-gray-600 mb-6">
                         If you have any questions about how we handle your data or would like to exercise your rights, please contact our Data Protection Officer.
                     </p>
-                    <button className="bg-purple text-white px-8 py-3 rounded-lg font-medium hover:bg-purple/90 transition-colors duration-300">
+                    <a 
+                        href="mailto:b2d.dpo@b2d.com" 
+                        className="inline-block bg-purple text-white px-8 py-3 rounded-lg font-medium hover:bg-purple/90 transition-colors duration-300">
                         Contact DPO
-                    </button>
+                    </a>
                 </div>
 
                 {/* Last Updated */}
