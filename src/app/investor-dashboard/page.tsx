@@ -12,8 +12,8 @@ interface Deal {
     id: string;
     name: string;
     description: string;
-    allocation: number;
-    raised: string;
+    target_amount: number;
+    amount_raised: string;
     investor_count: number;
     image_logo_url: string;
     image_content_url: string;

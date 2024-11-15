@@ -9,10 +9,10 @@ interface DealAttributes {
   content: string;
   image_logo_url: string;
   image_content_url: string;
-  allocation: string;
+  target_amount: string;
   price_per_unit: string;
   minimum_investment: string;
-  raised: string;
+  amount_raised: string;
   end_date: string;
   image_background_url: string;
   startup: {

@@ -5,10 +5,10 @@ import InvestModal from "./modal/InvestModal";
 import TermModal from "./modal/TermModal";
 
 interface DetailCardProps {
-  allocation: number;
+  target_amount: number;
   pricePerFractionalUnit: number;
   minimumInvestment: number;
-  raised: number;
+  amount_raised: number;
   fundingGoal: number;
   dealEnd: string;
   image_bg: string;
@@ -42,10 +42,10 @@ const formattedDate = formatDate("2024-08-06T17:00:00Z");
 console.log(formattedDate); // Output: Aug 6, 2024
 
 export default function DetailCard({
-  allocation,
+  target_amount,
   pricePerFractionalUnit,
   minimumInvestment,
-  raised,
+  amount_raised,
   fundingGoal,
   dealEnd,
   image_bg,
@@ -71,7 +71,7 @@ export default function DetailCard({
         <div className="flex justify-between items-center text-[16px]">
           <div className="text-secondary ">Allocation</div>
           <div className="text-black font-bold">
-            {numberToStringFormat(allocation)}
+            {numberToStringFormat(target_amount)}
           </div>
         </div>
         <div className="w-full h-[1px] bg-border my-2"></div>
@@ -87,7 +87,7 @@ export default function DetailCard({
         <div className="w-full h-[1px] bg-border my-2"></div>
         <div className="flex justify-between items-end">
           <div className="text-secondary text-[24px]">raised</div>
-          <div className="text-black font-bold text-[36px]">{numberToStringFormat(raised)}</div>
+          <div className="text-black font-bold text-[36px]">{numberToStringFormat(amount_raised)}</div>
         </div>
         <div className="w-full h-[175px] rounded-[8px] overflow-hidden my-1">
           <Image src={getImageSrc(image_bg)} width={378} height={10} alt="image" />
@@ -107,7 +107,7 @@ export default function DetailCard({
         <Progress
           aria-label="Downloading..."
           size="md"
-          value={raised / fundingGoal * 100}
+          value={amount_raised / fundingGoal * 100}
           showValueLabel={true}
           classNames={{
             base: "w-full h-[36px]",

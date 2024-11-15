@@ -12,8 +12,8 @@ interface Deal {
     id: string;
     name: string;
     description: string;
-    allocation: string;
-    raised: string;
+    target_amount: string;
+    amount_raised: string;
     investor_count: number;
     image_logo_url: string;
     image_content_url: string;
@@ -131,8 +131,8 @@ const DealDashboard: React.FC = () => {
                   key={deal.attributes.id}
                   name={deal.attributes.name}
                   description={deal.attributes.description}
-                  fundingGoal={parseFloat(deal.attributes.allocation)}
-                  raisedAmount={parseFloat(deal.attributes.raised)}
+                  fundingGoal={parseFloat(deal.attributes.target_amount)}
+                  raisedAmount={parseFloat(deal.attributes.amount_raised)}
                   investorNumber={deal.attributes.investor_count}
                   icon={deal.attributes.image_logo_url}
                   bgImage={deal.attributes.image_content_url}

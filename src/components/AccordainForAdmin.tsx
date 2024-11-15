@@ -85,11 +85,11 @@ export default function App({ deals }: AccordainForAdminProps) {
               <div className="text-secondary">investors</div>
             </div>
             <div className="flex flex-col">
-              <div className="text-[20px] font-bold">{numberToStringFormat(deal.attributes.raised)}</div>
+              <div className="text-[20px] font-bold">{numberToStringFormat(deal.attributes.amount_raised)}</div>
               <div className="text-secondary">raised</div>
             </div>
             <div className="flex flex-col">
-              <div className="text-[20px] font-bold">{numberToStringFormat(deal.attributes.allocation)}</div>
+              <div className="text-[20px] font-bold">{numberToStringFormat(deal.attributes.target_amount)}</div>
               <div className="text-secondary">Funding goal</div>
             </div>
             <div className="flex flex-col">
