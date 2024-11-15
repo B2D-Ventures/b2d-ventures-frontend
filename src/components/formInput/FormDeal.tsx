@@ -13,6 +13,7 @@ interface FormDealProps {
 }
 
 export default function FormDeal({ isEdit, id }: FormDealProps) {
+  const router = useRouter();
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [allocation, setAllocation] = useState("");
@@ -144,8 +145,6 @@ Summary:
       formData.append("image_background", dealRef.current.files[0]);
     if (privateDataRef.current?.files?.[0])
       formData.append("dataroom", privateDataRef.current.files[0]);
-
-    const router = useRouter();
 
     if (!isEdit) {
       try {
