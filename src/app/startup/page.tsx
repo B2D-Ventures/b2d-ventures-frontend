@@ -177,92 +177,93 @@ const DealDashboard: React.FC = () => {
   };
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Header Section */}
-        <div className="flex justify-between items-end mb-8">
-          <div>
-            <h1 className="text-4xl font-bold text-gray-900">
-              Investment Opportunities
-            </h1>
-            <p className="mt-2 text-lg text-gray-600">
-              Browse current investment opportunities on B2D.
-            </p>
-          </div>
-            {role === "startup" && (
-              <div className="flex w-full justify-end gap-4">
-                <div
-                  className="flex items-center justify-center rounded-[8px] w-[144px] h-[32px] bg-purple text-white hover:cursor-pointer"
-                  onClick={handleCreateDeal}
-                >
-                  Create Deal
-                </div>
-              </div>
-            )}
+  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    {/* Header Section */}
+    <div className="mb-8">
+      <h1 className="text-4xl font-bold text-gray-900">
+        Investment Opportunities
+      </h1>
+      <p className="mt-2 text-lg text-gray-600">
+        Browse current investment opportunities on B2D.
+      </p>
+    </div>
+
+    {/* Filters Section with Create Deal Button */}
+    <div className="mb-6">
+      <div className="flex flex-col sm:flex-row gap-4 mb-4">
+        <div className="flex flex-1 flex-col sm:flex-row gap-4">
+          <CategoryFilter value={selectedCategory} onChange={onCategoryChange} />
+          <SortFilter value={sortOption} onChange={onSortChange} />
+          <SearchBar onSearch={onSearch} />
         </div>
-
-        {/* Filters Section */}
-        <div className="mb-6">
-          <div className="flex gap-4 mb-4">
-            <CategoryFilter value={selectedCategory} onChange={onCategoryChange} />
-            <SortFilter value={sortOption} onChange={onSortChange} />
-            <SearchBar onSearch={onSearch} />
-          </div>
-
-          {/* Active Filters */}
-          {activeFilters.length > 0 && (
-            <div className="flex gap-2 flex-wrap">
-              {activeFilters.map((filter) => {
-                const [type, value] = filter.split(":");
-                return (
-                  <Chip
-                    key={filter}
-                    onClose={() => removeFilter(type)}
-                    variant="flat"
-                    className="bg-purple-100"
-                  >
-                    {`${type}: ${value}`}
-                  </Chip>
-                );
-              })}
-            </div>
-          )}
-        </div>
-
-        {/* Deals Grid */}
-        {isLoading ? (
-          <div className="flex justify-center items-center h-64">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600" />
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredDeals.length > 0 ? (
-              filteredDeals.map((deal) => (
-                <div
-                  key={deal.attributes.id}
-                  onClick={() => handleDealClick(deal.attributes.id)}
-                  className="transform transition-transform hover:scale-105"
-                >
-                  <DealCard
-                    name={deal.attributes.name}
-                    description={deal.attributes.description}
-                    fundingGoal={parseFloat(deal.attributes.target_amount)}
-                    raisedAmount={parseFloat(deal.attributes.amount_raised)}
-                    investorNumber={deal.attributes.investor_count}
-                    icon={deal.attributes.image_logo_url}
-                    bgImage={deal.attributes.image_content_url}
-                  />
-                </div>
-              ))
-            ) : (
-              <div className="col-span-full text-center text-gray-500 py-12">
-                No investment opportunities match your criteria.
-              </div>
-            )}
+        {role === "startup" && (
+          <div className="flex justify-start sm:justify-end">
+            <button
+              className="flex items-center justify-center rounded-[8px] w-[144px] h-[32px] bg-purple text-white hover:cursor-pointer"
+              onClick={handleCreateDeal}
+            >
+              Create Deal
+            </button>
           </div>
         )}
       </div>
+
+      {/* Active Filters */}
+      {activeFilters.length > 0 && (
+        <div className="flex gap-2 flex-wrap">
+          {activeFilters.map((filter) => {
+            const [type, value] = filter.split(":");
+            return (
+              <Chip
+                key={filter}
+                onClose={() => removeFilter(type)}
+                variant="flat"
+                className="bg-purple-100"
+              >
+                {`${type}: ${value}`}
+              </Chip>
+            );
+          })}
+        </div>
+      )}
     </div>
+
+    {/* Deals Grid */}
+    {isLoading ? (
+      <div className="flex justify-center items-center h-64">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600" />
+      </div>
+    ) : (
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {filteredDeals.length > 0 ? (
+          filteredDeals.map((deal) => (
+            <div
+              key={deal.attributes.id}
+              onClick={() => handleDealClick(deal.attributes.id)}
+              className="transform transition-transform hover:scale-105"
+            >
+              <DealCard
+                name={deal.attributes.name}
+                description={deal.attributes.description}
+                fundingGoal={parseFloat(deal.attributes.target_amount)}
+                raisedAmount={parseFloat(deal.attributes.amount_raised)}
+                investorNumber={deal.attributes.investor_count}
+                icon={deal.attributes.image_logo_url}
+                bgImage={deal.attributes.image_content_url}
+              />
+            </div>
+          ))
+        ) : (
+          <div className="col-span-full text-center text-gray-500 py-12">
+            No investment opportunities match your criteria.
+          </div>
+        )}
+      </div>
+    )}
+  </div>
+</div>
+
   );
-};
+}
 
 export default DealDashboard;
