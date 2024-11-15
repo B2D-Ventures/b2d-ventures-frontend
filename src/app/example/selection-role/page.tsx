@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import axios from "axios";
-import { useRouter, usePathname, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 const HomePage = () => {
   const router = useRouter();
@@ -15,8 +15,7 @@ const HomePage = () => {
     }
 
     try {
-      const accessToken = localStorage.getItem("accessToken");
-      console.log("user token:", userToken); 
+      console.log("user token:", userToken);
       const response = await axios.put(
         `${process.env.NEXT_PUBLIC_URI}api/auths/${userToken}/update-role/`,
         {
@@ -28,14 +27,12 @@ const HomePage = () => {
         },
         {
           headers: {
-            Authorization: `Bearer ${accessToken}`,
+            "Content-Type": "application/vnd.api+json",
           },
         }
       );
-
       console.log("Role changed successfully:", response.data);
-
-      // After successful role change, redirect to startup page with role
+      localStorage.setItem("userRole", role);
       router.push(`/startup?user=${encodeURIComponent(userToken)}&role=${role}`);
     } catch (error) {
       console.error("Error changing role:", error);
@@ -43,13 +40,12 @@ const HomePage = () => {
   };
 
   const handleInvestor = () => {
-    changeRole('investor');
+    changeRole('pending_investor');
   };
 
   const handleStartup = () => {
-    changeRole('startup');
+    changeRole('pending_startup');
   };
-
 
   return (
     <div>

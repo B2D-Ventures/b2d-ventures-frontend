@@ -117,15 +117,11 @@ export default function InvestModal({
           alert("Investment accepted successfully.");
         } catch (refreshError) {
           console.error("Error refreshing token:", refreshError);
-          alert(
-            "Session expired or you are not logged in. Please log in again."
-          );
+          alert("Please ensure you are logged in as a verified investor. Please try again later.");
         }
       } else {
-        console.error(
-          "Error accepting investment, make sure you are currently log in as an investor and try again.",
-          error
-        );
+        console.error("Error accepting investment.", error);
+        alert("Please ensure you are logged in as a verified investor. Please try again later.");
       }
     }
   };

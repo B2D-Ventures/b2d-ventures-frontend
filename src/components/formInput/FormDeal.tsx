@@ -177,9 +177,7 @@ export default function FormDeal({ isEdit, id }: FormDealProps) {
               console.log("Form submitted successfully");
             } catch (refreshError) {
               console.error("Error refreshing token:", refreshError);
-              alert(
-                "Session expired or you are not logged in. Please log in again."
-              );
+              alert("Please ensure you are logged in as a verified startup. Please try again later.");
             }
           } else {
             console.error("Form submission failed");
@@ -241,9 +239,7 @@ export default function FormDeal({ isEdit, id }: FormDealProps) {
               console.log("Form submitted successfully");
             } catch (refreshError) {
               console.error("Error refreshing token:", refreshError);
-              alert(
-                "Session expired or you are not logged in. Please log in again."
-              );
+              alert("Please ensure you are logged in as a verified startup. Please try again later.");
             }
           } else {
             console.error("Form submission failed");
