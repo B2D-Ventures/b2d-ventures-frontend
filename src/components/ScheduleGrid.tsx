@@ -138,27 +138,35 @@ export default function Home() {
   }
 
   return (
-    <div className="container mx-auto">
-      {scheduleData.length === 0 ? (
-        <div className="text-center py-4">No meetings found</div>
-      ) : (
-        scheduleData.map((meeting: Meeting) => (
-          <div key={meeting.id}>
-            <div className="grid grid-cols-5 gap-4 mt-4 mb-4">
-              <div className="text-black">{getDisplayName(meeting)}</div>
-              <div className="text-secondary font-light ml-10">Date</div>
-              <div className="text-black font-light">
-                {formatDate(meeting.attributes.start_time)}
+    <div className="w-full overflow-x-auto">
+      <div className="min-w-[300px] sm:min-w-none">
+        {scheduleData.length === 0 ? (
+          <div className="text-center py-4">No meetings found</div>
+        ) : (
+          scheduleData.map((meeting: Meeting) => (
+            <div key={meeting.id}>
+              <div className="grid grid-cols-1 sm:grid-cols-5 gap-2 sm:gap-4 mt-4 mb-4">
+                <div className="text-black text-sm sm:text-base">
+                  {getDisplayName(meeting)}
+                </div>
+                <div className="text-secondary font-light text-sm sm:text-base sm:ml-10">
+                  Date
+                </div>
+                <div className="text-black font-light text-sm sm:text-base">
+                  {formatDate(meeting.attributes.start_time)}
+                </div>
+                <div className="text-secondary font-light text-sm sm:text-base sm:ml-10">
+                  Time
+                </div>
+                <div className="text-black font-light text-sm sm:text-base">
+                  {formatTime(meeting.attributes.start_time)}
+                </div>
               </div>
-              <div className="text-secondary font-light ml-10">Time</div>
-              <div className="text-black font-light">
-                {formatTime(meeting.attributes.start_time)}
-              </div>
+              <hr className="my-2 sm:my-0" />
             </div>
-            <hr />
-          </div>
-        ))
-      )}
+          ))
+        )}
+      </div>
     </div>
   );
 }
