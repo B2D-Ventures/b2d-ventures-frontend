@@ -68,12 +68,14 @@ export default function SplitBackground({}) {
               />
             </div>
             <div className="flex justify-between mb-12 mx-12">
-              <button className="bg-[#FFFFFF] text-[#000000] py-2 px-4 rounded-lg border-2 border-[#D9D9D9] shadow-md hover:shadow-lg w-1/3">
+            <button 
+                onClick={() => router.push('/learnmore')}
+                className="bg-[#FFFFFF] text-[#000000] py-2 px-4 rounded-lg border-2 border-[#D9D9D9] shadow-md hover:shadow-lg w-1/3">
                 LEARN MORE
               </button>
-              <button className="bg-[#FFFFFF] text-[#000000] py-2 px-4 rounded-lg border-2 border-[#D9D9D9] shadow-md hover:shadow-lg w-1/3">
-                POLICY
-              </button>
+            <button className="bg-[#FFFFFF] text-[#000000] py-2 px-4 rounded-lg border-2 border-[#D9D9D9] shadow-md hover:shadow-lg w-1/3">
+              POLICY
+            </button>
             </div>
           </div>
 

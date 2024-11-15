@@ -67,7 +67,7 @@ export default function Page() {
             onClick={() => setActiveRole('investor')}
             className={`px-6 py-3 rounded-lg font-medium ${
               activeRole === 'investor'
-                ? 'bg-blue-600 text-white'
+                ? 'bg-purple text-white'
                 : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
             }`}
           >
@@ -77,7 +77,7 @@ export default function Page() {
             onClick={() => setActiveRole('startup')}
             className={`px-6 py-3 rounded-lg font-medium ${
               activeRole === 'startup'
-                ? 'bg-blue-600 text-white'
+                ? 'bg-purple text-white'
                 : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
             }`}
           >
@@ -93,8 +93,8 @@ export default function Page() {
               className="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition-shadow duration-300"
             >
               <div className="flex items-center mb-4">
-                <div className="bg-blue-100 rounded-full p-3 mr-4">
-                  <i className={`fas ${feature.icon} text-blue-600 text-xl`}></i>
+                <div className="bg-purple/10 rounded-full p-3 mr-4">
+                  <i className={`fas ${feature.icon} text-purple text-xl`}></i>
                 </div>
                 <h3 className="text-xl font-semibold text-gray-900">
                   {feature.title}
@@ -112,7 +112,7 @@ export default function Page() {
           </h2>
           <button 
             onClick={handleOnclick}
-            className="bg-blue-600 text-white px-8 py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors duration-300"
+            className="bg-purple text-white px-8 py-3 rounded-lg font-medium hover:bg-purple/90 transition-colors duration-300"
           >
             Join B2D Ventures Now
           </button>
