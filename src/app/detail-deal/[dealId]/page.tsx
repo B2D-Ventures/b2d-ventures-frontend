@@ -147,10 +147,12 @@ export default function DealDashboard({
   };
 
   return (
-    <div className="flex items-center justify-center">
-      <div className="flex px-[102px] py-[54px] gap-10">
-        <div className="flex flex-row justify-between gap-16">
-          <div className="flex flex-col w-[793px]">
+    <div className="flex items-center justify-center w-full">
+      <div className="w-full max-w-[1400px] px-4 sm:px-6 lg:px-[102px] py-6 lg:py-[54px]">
+        <div className="flex flex-col lg:flex-row gap-6 lg:gap-16">
+          {/* Left Column */}
+          <div className="flex flex-col w-full lg:w-[793px]">
+            {/* Header Section */}
             <div className="flex flex-row gap-4 items-center">
               <div className="rounded-[8px] overflow-hidden shadow-sm">
                 <Image
@@ -158,25 +160,32 @@ export default function DealDashboard({
                   width={48}
                   height={48}
                   alt="logo"
-                  className="w-[60px] h-[60px]"
+                  className="w-[40px] h-[40px] sm:w-[60px] sm:h-[60px]"
                 />
               </div>
-              <div className="text-[48px] font-bold">
+              <div className="text-2xl sm:text-3xl lg:text-[48px] font-bold">
                 {deal ? deal.attributes.name : "Loading..."}
               </div>
             </div>
-            <div className="mt-1 text-[20px] text-secondary mb-5">
+
+            {/* Description */}
+            <div className="mt-1 text-base sm:text-lg lg:text-[20px] text-secondary mb-5">
               {deal ? deal.attributes.description : "Loading"}
             </div>
-            <Image
-              src={getImageSrc(deal?.attributes.image_content_url)}
-              width={793}
-              height={412}
-              alt="image"
-              className="w-full h-[412px] rounded-[8px]"
-            />
+
+            {/* Main Image */}
+            <div className="relative w-full aspect-[16/9] lg:h-[412px]">
+              <Image
+                src={getImageSrc(deal?.attributes.image_content_url)}
+                fill
+                alt="image"
+                className="rounded-[8px] object-cover"
+              />
+            </div>
+
+            {/* Content */}
             <div
-              className="mt-4"
+              className="mt-4 text-sm sm:text-base"
               dangerouslySetInnerHTML={{
                 __html: deal
                   ? contentFormatter(deal.attributes.content)
@@ -184,33 +193,35 @@ export default function DealDashboard({
               }}
             />
           </div>
-          <div className="flex flex-col mt-[90px] gap-5">
-            <div className="flex flex-row justify-between w-full">
-              <div
+
+          {/* Right Column */}
+          <div className="flex flex-col mt-6 lg:mt-[90px] gap-5">
+            {/* Action Buttons */}
+            <div className="flex flex-row justify-between w-full gap-4">
+              <button
                 onClick={handleRequestData(id, localStorage.getItem("userId"))}
-                className="flex items-center justify-center bg-white w-[313px] h-[44px] rounded-[8px] text-purple border-[2px] border-purple text-semi-bold hover:cursor-pointer"
+                className="flex-1 lg:w-[313px] h-[44px] rounded-[8px] text-purple border-[2px] border-purple text-sm sm:text-base font-semibold hover:bg-purple hover:text-white transition-colors"
               >
                 Request for private data
-              </div>
+              </button>
               <Link
                 href={`/schedule-meeting?id=${deal?.attributes.startup.id}`}
+                className="flex items-center justify-center border-2 border-border w-[44px] h-[44px] rounded-[8px]"
               >
-                <button className="flex items-center justify-center border-2 border-border w-[44px] h-[44px] rounded-[8px] text-white font-semibold">
-                  <img
-                    src="/images/Phoneicon.png"
-                    alt="Fund Icon"
-                    className="w-6 h-6 opacity-50"
-                  />
-                </button>
+                <img
+                  src="/images/Phoneicon.png"
+                  alt="Fund Icon"
+                  className="w-6 h-6 opacity-50"
+                />
               </Link>
             </div>
-            <div className="flex">
+
+            {/* Detail Card */}
+            <div className="w-full">
               {deal && (
                 <DetailCard
                   target_amount={Number(deal.attributes.target_amount)}
-                  pricePerFractionalUnit={Number(
-                    deal.attributes.price_per_unit
-                  )}
+                  pricePerFractionalUnit={Number(deal.attributes.price_per_unit)}
                   minimumInvestment={Number(deal.attributes.minimum_investment)}
                   amount_raised={Number(deal.attributes.amount_raised)}
                   fundingGoal={Number(deal.attributes.target_amount)}
@@ -220,13 +231,15 @@ export default function DealDashboard({
                 />
               )}
             </div>
+
+            {/* Edit Deal Button */}
             {deal?.attributes.startup.id === localStorage.getItem("userId") && (
-              <div
-                onClick={handleEditDeal.bind(null, id)}
-                className="flex items-center justify-center bg-white w-[378px] h-[44px] rounded-[8px] text-purple border-[2px] border-purple text-semi-bold hover:cursor-pointer"
+              <button
+                onClick={() => handleEditDeal(id)}
+                className="w-full lg:w-[378px] h-[44px] rounded-[8px] text-purple border-[2px] border-purple text-sm sm:text-base font-semibold hover:bg-purple hover:text-white transition-colors"
               >
                 Edit Deal
-              </div>
+              </button>
             )}
           </div>
         </div>
