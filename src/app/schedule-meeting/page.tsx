@@ -1,8 +1,6 @@
 "use client"; // Ensure this is a client component
 import React, { useState, useEffect } from "react";
-import { TimeInput } from "@nextui-org/react";
-import { DatePicker } from "@nextui-org/react";
-import { Textarea } from "@nextui-org/react";
+import { TimeInput, DatePicker, Textarea } from "@nextui-org/react";
 import { Button } from "@nextui-org/button";
 import dayjs from "dayjs"; // Import dayjs for date manipulation
 import axios from "axios"; // Import axios
@@ -108,24 +106,24 @@ const Home: React.FC = () => {
   };
 
   const handleTimeChange = (setter: React.Dispatch<React.SetStateAction<string>>) => (value: any) => {
-    // Assuming value is an object with a string representation of time
     const timeString = value?.toString() || ""; // Adjust based on actual structure
     console.log("Time Value:", timeString);
     setter(timeString);
   };
 
   return (
-    <div className="flex flex-col items-center justify-center space-y-6">
+    <div className="flex flex-col items-center justify-center bg-gradient-to-b from-purple to-violet-400 min-h-screen p-4">
       {feedbackMessage && (
-        <div className="p-4 bg-blue-100 text-blue-800 rounded-md">
+        <div className="p-4 bg-green-100 text-green-800 rounded-md shadow-md mb-4 transition duration-300 ease-in-out transform hover:scale-105">
           {feedbackMessage}
         </div>
       )}
 
-      <div className="p-6 bg-white rounded-xl shadow-md">
+      <div className="p-6 bg-white rounded-xl shadow-lg w-full max-w-lg">
+        <h2 className="text-3xl font-bold text-center mb-4 text-purple">Schedule a Meeting</h2>
         <DatePicker
-          label="Day"
-          className="max-w-[284px]"
+          label="Select Date"
+          className="max-w-[284px] mb-4"
           isRequired
           onChange={(value: any) => {
             const formattedDate = dayjs(value).format("YYYY-MM-DD");
@@ -136,14 +134,16 @@ const Home: React.FC = () => {
         <div className="flex flex-wrap gap-4 mt-2">
           <TimeInput
             label="Start Time"
-            description="Please enter your meeting time"
+            description="Please enter your meeting start time"
             onChange={handleTimeChange(setStartTime)}
+            className="w-full max-w-[284px]"
           />
 
           <TimeInput
             label="End Time"
-            description="Please enter your meeting time"
+            description="Please enter your meeting end time"
             onChange={handleTimeChange(setEndTime)}
+            className="w-full max-w-[284px]"
           />
 
           <Textarea
@@ -160,8 +160,8 @@ const Home: React.FC = () => {
             onChange={(e) => setDescription(e.target.value)}
           />
         </div>
-        <Button color="primary" onClick={handleSend} className="mt-2">
-          Send
+        <Button color="primary" onClick={handleSend} className="mt-4 w-full transition duration-300 ease-in-out transform hover:scale-105">
+          Confirm
         </Button>
       </div>
     </div>
