@@ -98,7 +98,11 @@ export default function Navbar() {
   // Return the Navbar only if the current path is not "/example/login" or "/example/selection-role"
   if (
     currentPath === "/example/login" ||
-    currentPath === "/example/selection-role"
+    currentPath === "/example/selection-role" ||
+    currentPath === "/admin-approve-investor" ||
+    currentPath === "/admin-dashboard" ||
+    currentPath === "/admin-management" ||
+    currentPath === "/admin-approve"
   ) {
     return null;
   }
