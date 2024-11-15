@@ -73,7 +73,9 @@ export default function SplitBackground({}) {
                 className="bg-[#FFFFFF] text-[#000000] py-2 px-4 rounded-lg border-2 border-[#D9D9D9] shadow-md hover:shadow-lg w-1/3">
                 LEARN MORE
               </button>
-            <button className="bg-[#FFFFFF] text-[#000000] py-2 px-4 rounded-lg border-2 border-[#D9D9D9] shadow-md hover:shadow-lg w-1/3">
+            <button 
+                onClick={() => router.push('/policy')}
+                className="bg-[#FFFFFF] text-[#000000] py-2 px-4 rounded-lg border-2 border-[#D9D9D9] shadow-md hover:shadow-lg w-1/3">
               POLICY
             </button>
             </div>
