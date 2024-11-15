@@ -127,28 +127,50 @@ export default function DealDashboard() {
   };
 
   return (
-    <div className="flex items-center justify-center">
-      <div className="flex flex-col px-[102px] py-[54px] gap-10 w-[1440px]">
-        <div className="flex flex-col w-full">
-          <div className="text-[48px] font-bold">Investor Dashboard</div>
-          <div className="mt-1 text-[20px] text-secondary">
+    <div className="flex items-center justify-center min-h-screen w-full">
+      <div className="w-full max-w-[1440px] px-4 sm:px-6 lg:px-[102px] py-6 sm:py-8 lg:py-[54px]">
+        {/* Header Section */}
+        <div className="flex flex-col w-full mb-6 lg:mb-10">
+          <h1 className="text-3xl sm:text-4xl lg:text-[48px] font-bold">
+            Investor Dashboard
+          </h1>
+          <p className="mt-1 text-base sm:text-lg lg:text-[20px] text-secondary">
             Browse your current investment.
-          </div>
+          </p>
         </div>
-        <div className="w-full flex flex-row items-between gap-10">
-          <div className="">
-            <div className="flex flex-col">
-              <InvestorCard name={name} totalInvestment={totalInvestment} />
+
+        {/* Main Content */}
+        <div className="flex flex-col lg:flex-row gap-6 lg:gap-10">
+          {/* Left Column - Investor Card and Schedule */}
+          <div className="w-full lg:w-auto">
+            {/* Investor Card */}
+            <div className="mb-6">
+              <InvestorCard name={name} totalInvestment={parseFloat(totalInvestment)} />
             </div>
-            <div className="text-3xl mt-8">Meeting Schedule</div>
-            <ScheduleGrid />
+
+            {/* Meeting Schedule Section */}
+            <div>
+              <h2 className="text-2xl sm:text-3xl mb-4">Meeting Schedule</h2>
+              <div className="w-full lg:w-[400px]">
+                <ScheduleGrid />
+              </div>
+            </div>
           </div>
-          <div className="flex-col w-full">
-            <div className="flex flex-row justify-between">
-              <div className="text-[36px] font-bold">Deal Information</div>
-              <SearchBar onSearch={onSearch} />
+
+          {/* Right Column - Deal Information */}
+          <div className="flex-1">
+            {/* Search and Title Header */}
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+              <h2 className="text-2xl sm:text-3xl lg:text-[36px] font-bold">
+                Deal Information
+              </h2>
+              <div className="w-full sm:w-auto">
+                <SearchBar onSearch={onSearch} />
+              </div>
             </div>
-            <div className="h-[520px] overflow-y-auto">
+
+            {/* Accordion Section */}
+            <div className="h-[400px] sm:h-[450px] lg:h-[520px] overflow-y-auto">
               <Accordian deals={filteredDeals} />
             </div>
           </div>

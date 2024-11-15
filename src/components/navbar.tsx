@@ -9,6 +9,7 @@ export default function Navbar() {
   const router = useRouter();
   const currentPath = usePathname();
   const [userName, setUserName] = useState<string | null>(null);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   console.log(currentPath);
 
@@ -134,41 +135,121 @@ export default function Navbar() {
     }
   }
 
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
   return (
-    <div className="w-full h-[90px] bg-white shadow-md flex px-[102px] items-center">
-      <Image
-        src="/images/logo.png"
-        width={40}
-        height={40}
-        alt="B2D Logo"
-        className="h-12 w-12 ml-[-12px]"
-      />
-      <div
-        className="text-3xl font-bold cursor-pointer"
-        onClick={handleB2DClick}
-      >
-        B2D{" "}
-      </div>
-      {userName ? (
-        <div className="flex ml-auto gap-6">
-          <div className="text-2xl text-base cursor-pointer hover:text-purple"
-          onClick={handleProfileCLick}>Welcome, {userName}</div>
-          <div className="text-2xl text-base cursor-pointer text-purple"
-          >Role: {formatRole(localStorage.getItem("userRole") as string)}</div>
-          <div className="text-2xl text-base text-secondary hover:cursor-pointer"
-          onClick={handleLogout}
-          >
-            Log out
+    <nav className="w-full bg-white shadow-md">
+      {/* Main Navbar */}
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-[102px]">
+        <div className="flex justify-between items-center h-[70px] sm:h-[80px] lg:h-[90px]">
+          {/* Logo Section */}
+          <div className="flex items-center space-x-2">
+            <Image
+              src="/images/logo.png"
+              width={40}
+              height={40}
+              alt="B2D Logo"
+              className="h-8 w-8 sm:h-10 sm:w-10 lg:h-12 lg:w-12"
+            />
+            <div
+              className="text-lg sm:text-2xl lg:text-3xl font-bold cursor-pointer"
+              onClick={handleB2DClick}
+            >
+              B2D
+            </div>
+          </div>
+
+          {/* Desktop Menu */}
+          <div className="hidden md:flex items-center space-x-6">
+            {userName ? (
+              <>
+                <div 
+                  className="text-base lg:text-md cursor-pointer hover:text-purple"
+                  onClick={handleProfileCLick}
+                >
+                  Welcome, {userName}
+                </div>
+                <div className="text-base lg:text-md text-purple">
+                  Role: {formatRole(localStorage.getItem("userRole") as string)}
+                </div>
+                <div 
+                  className="text-base lg:text-md text-secondary hover:cursor-pointer"
+                  onClick={handleLogout}
+                >
+                  Log out
+                </div>
+              </>
+            ) : (
+              <div
+                className="text-base lg:text-lg hover:cursor-pointer"
+                onClick={handleLogin}
+              >
+                Log in
+              </div>
+            )}
+          </div>
+
+          {/* Mobile Menu Button */}
+          <div className="md:hidden">
+            <button
+              onClick={toggleMobileMenu}
+              className="p-2 rounded-md hover:bg-gray-100 focus:outline-none"
+            >
+              <svg
+                className="h-6 w-6"
+                fill="none"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                {isMobileMenuOpen ? (
+                  <path d="M6 18L18 6M6 6l12 12" />
+                ) : (
+                  <path d="M4 6h16M4 12h16M4 18h16" />
+                )}
+              </svg>
+            </button>
           </div>
         </div>
-      ) : (
-        <div
-          className="text-2xl text-base ml-auto hover:cursor-pointer"
-          onClick={handleLogin}
-        >
-          Log in
+      </div>
+
+      {/* Mobile Menu */}
+      {isMobileMenuOpen && (
+        <div className="md:hidden bg-white border-t border-gray-200">
+          <div className="px-4 pt-2 pb-3 space-y-3">
+            {userName ? (
+              <>
+                <div 
+                  className="block px-3 py-2 text-base font-medium hover:text-purple"
+                  onClick={handleProfileCLick}
+                >
+                  Welcome, {userName}
+                </div>
+                <div className="block px-3 py-2 text-base font-medium text-purple">
+                  Role: {formatRole(localStorage.getItem("userRole") as string)}
+                </div>
+                <div 
+                  className="block px-3 py-2 text-base font-medium text-secondary hover:cursor-pointer"
+                  onClick={handleLogout}
+                >
+                  Log out
+                </div>
+              </>
+            ) : (
+              <div
+                className="block px-3 py-2 text-base font-medium hover:cursor-pointer"
+                onClick={handleLogin}
+              >
+                Log in
+              </div>
+            )}
+          </div>
         </div>
       )}
-    </div>
+    </nav>
   );
 }

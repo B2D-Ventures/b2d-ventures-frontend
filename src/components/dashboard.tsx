@@ -109,87 +109,104 @@ export default function Dashboard() {
     }
 
     return (
-        <div className="min-h-screen grid grid-rows-2 grid-cols-3 gap-0">
-            {/* Top Section */}
-            <div className="row-span-1 col-span-2 border-b border-gray-400 p-4">
-                <div className="mt-4 ml-8">
-                    <h1 className="text-4xl font-bold">Admin Dashboard</h1>
-                    <p className="text-lg text-gray-600 mt-2">Investment Amount.</p>
-                    <p className="text-2xl font-bold mt-2">
-                        USD {statistics?.total_investment_amount?.toLocaleString() ?? '0'}
-                    </p>
-                    <BarChart investments={investments} />
-                </div>
-            </div>
-            <div className="row-span-1 col-span-1 border-b border-l border-gray-400 p-4">
-                <p className="text-2xl font-bold mt-2 mb-16">Stock Percentage</p>
-                <DoughnutChart investments={investments} />
-            </div>
-
-            {/* Bottom Section - Recent Investments Column */}
-            <div className="row-span-1 col-span-1 border-r border-gray-400 p-4 bg-green-300">
-                <p className="text-2xl font-bold mt-2 ml-4">Recent Investments</p>
-                <p className="text-lg text-gray-600 mt-2 ml-4">
-                    {statistics?.total_investments ?? 0} investors
-                </p>
-                {investments.slice(0, 4).map((investment, index) => (
-                    <React.Fragment key={investment.id}>
-                        <div className="flex justify-between mt-4 mb-4">
-                            <span className="text-base font-bold ml-4">
-                                {investment.attributes.investor}
-                            </span>
-                            <span className="text-gray-500 mr-4">
-                                {parseFloat(investment.attributes.investment_amount).toLocaleString()} USD
-                            </span>
-                        </div>
-                        {index < 3 && <hr/>}
-                    </React.Fragment>
-                ))}
-            </div>
-
-            {/* Bottom Section - Top Performers Column */}
-            <div className="row-span-1 col-span-1 border-r border-gray-400 p-4 bg-green-300">
-                <p className="text-2xl font-bold mt-2 ml-4">Top Performers</p>
-                <p className="text-lg text-gray-600 mt-2 ml-4">
-                    Top performing investments
-                </p>
-                {getTopPerformers(investments).map(([investor, totalAmount], index) => (
-                    <React.Fragment key={investor}>
-                        <div className="flex justify-between mt-4 mb-4">
-                            <span className="text-base font-bold ml-4">
-                                {totalAmount.toLocaleString()} USD
-                            </span>
-                            <span className="text-gray-500 mr-4">
-                                {investor}
-                            </span>
-                        </div>
-                        {index < 4 && <hr/>}
-                    </React.Fragment>
-                ))}
-            </div>
-
-            {/* Bottom Section - Investment Today Column */}
-            <div className="row-span-1 col-span-1 p-4 bg-green-300">
-                <p className="text-2xl font-bold mt-2 ml-4 mb-2">Investment Today</p>
-                {/* Calculate today's total investment amount */}
-                {(() => {
-                    const today = new Date();
-                    const todayInvestments = investments.filter(inv => {
-                        const invDate = new Date(inv.attributes.investment_date);
-                        return invDate.toDateString() === today.toDateString();
-                    });
-                    const todayTotal = todayInvestments.reduce((sum, inv) => 
-                        sum + parseFloat(inv.attributes.investment_amount), 0
-                    );
-                    return (
-                        <p className="text-2xl font-bold mt-2 ml-4">
-                            {todayTotal.toLocaleString()} USD
+        <div className="min-h-screen">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
+                {/* Top Section - Investment Overview */}
+                <div className="md:col-span-2 bg-white rounded-lg shadow-lg p-4">
+                    <div className="space-y-4">
+                        <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold">Admin Dashboard</h1>
+                        <p className="text-base lg:text-lg text-gray-600">Investment Amount</p>
+                        <p className="text-xl lg:text-2xl font-bold">
+                            USD {statistics?.total_investment_amount?.toLocaleString() ?? '0'}
                         </p>
-                    );
-                })()}
-                <div className="mb-12">
+                        <div className="w-full h-[300px] md:h-[400px]">
+                            <BarChart investments={investments} />
+                        </div>
+                    </div>
                 </div>
-                <LineChart investments={investments} />
+
+                {/* Top Section - Stock Percentage */}
+                <div className="bg-white rounded-lg shadow-lg p-4">
+                    <p className="text-xl lg:text-2xl font-bold mb-4">Stock Percentage</p>
+                    <div className="w-full h-[250px] md:h-[300px]">
+                        <DoughnutChart investments={investments} />
+                    </div>
+                </div>
+
+                {/* Bottom Section - Recent Investments */}
+                <div className="bg-green-300 rounded-lg shadow-lg p-4">
+                    <div className="space-y-4">
+                        <p className="text-xl lg:text-2xl font-bold">Recent Investments</p>
+                        <p className="text-base lg:text-lg text-gray-600">
+                            {statistics?.total_investments ?? 0} investors
+                        </p>
+                        <div className="space-y-4">
+                            {investments.slice(0, 4).map((investment, index) => (
+                                <div key={investment.id}>
+                                    <div className="flex justify-between items-center py-2">
+                                        <span className="text-sm lg:text-base font-bold">
+                                            {investment.attributes.investor}
+                                        </span>
+                                        <span className="text-sm lg:text-base text-gray-500">
+                                            {parseFloat(investment.attributes.investment_amount).toLocaleString()} USD
+                                        </span>
+                                    </div>
+                                    {index < 3 && <hr className="border-gray-400"/>}
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+
+                {/* Bottom Section - Top Performers */}
+                <div className="bg-green-300 rounded-lg shadow-lg p-4">
+                    <div className="space-y-4">
+                        <p className="text-xl lg:text-2xl font-bold">Top Performers</p>
+                        <p className="text-base lg:text-lg text-gray-600">
+                            Top performing investments
+                        </p>
+                        <div className="space-y-4">
+                            {getTopPerformers(investments).map(([investor, totalAmount], index) => (
+                                <div key={investor}>
+                                    <div className="flex justify-between items-center py-2">
+                                        <span className="text-sm lg:text-base font-bold">
+                                            {totalAmount.toLocaleString()} USD
+                                        </span>
+                                        <span className="text-sm lg:text-base text-gray-500">
+                                            {investor}
+                                        </span>
+                                    </div>
+                                    {index < 3 && <hr className="border-gray-400"/>}
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+
+                {/* Bottom Section - Investment Today */}
+                <div className="bg-green-300 rounded-lg shadow-lg p-4">
+                    <div className="space-y-4">
+                        <p className="text-xl lg:text-2xl font-bold">Investment Today</p>
+                        {(() => {
+                            const today = new Date();
+                            const todayInvestments = investments.filter(inv => {
+                                const invDate = new Date(inv.attributes.investment_date);
+                                return invDate.toDateString() === today.toDateString();
+                            });
+                            const todayTotal = todayInvestments.reduce((sum, inv) => 
+                                sum + parseFloat(inv.attributes.investment_amount), 0
+                            );
+                            return (
+                                <p className="text-xl lg:text-2xl font-bold">
+                                    {todayTotal.toLocaleString()} USD
+                                </p>
+                            );
+                        })()}
+                        <div className="w-full h-[200px] md:h-[250px]">
+                            <LineChart investments={investments} />
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     );

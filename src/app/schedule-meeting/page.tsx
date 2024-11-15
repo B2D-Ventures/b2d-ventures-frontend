@@ -112,9 +112,9 @@ const Home: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center bg-gradient-to-b from-purple to-violet-400 min-h-screen p-4">
+    <div className="flex flex-col items-center justify-center bg-gradient-to-t from-purple to-violet-400 min-h-screen p-4">
       {feedbackMessage && (
-        <div className="p-4 bg-green-100 text-green-800 rounded-md shadow-md mb-4 transition duration-300 ease-in-out transform hover:scale-105">
+        <div className="p-4 bg-white text-green rounded-md shadow-md mb-4 transition duration-300 ease-in-out transform hover:scale-105">
           {feedbackMessage}
         </div>
       )}

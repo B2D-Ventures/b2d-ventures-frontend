@@ -39,33 +39,46 @@ export default function App({ deals }: { deals: Deal[] }) {
         <AccordionItem
           key={deal.attributes.id}
           aria-label="Accordion 1"
-          title={deal.attributes.name}
+          title={
+            <span className="text-base sm:text-lg lg:text-xl">
+              {deal.attributes.name}
+            </span>
+          }
           startContent={
             <Image
               src={getImageSrc(deal.attributes.image_logo_url)}
               width={48}
               height={48}
               alt="logo"
-              className="w-[40px] h-[40px] rounded-[8px] overflow-hidden shadow-sm"
+              className="w-[32px] h-[32px] sm:w-[36px] sm:h-[36px] lg:w-[40px] lg:h-[40px] 
+                         rounded-[8px] overflow-hidden shadow-sm"
             />
           }
         >
-          <div className="grid grid-cols-3 pl-12">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pl-4 sm:pl-8 lg:pl-12">
             <div className="flex flex-col">
-              <div className="text-[20px] font-bold">
+              <div className="text-base sm:text-lg lg:text-[20px] font-bold">
                 {deal.attributes.investor_count}
               </div>
-              <div className="text-secondary">Investment number</div>
+              <div className="text-sm sm:text-base text-secondary">
+                Investment number
+              </div>
             </div>
             <div className="flex flex-col">
-              <div className="text-[20px] font-bold">
+              <div className="text-base sm:text-lg lg:text-[20px] font-bold">
                 ${deal.attributes.amount_raised}
               </div>
-              <div className="text-secondary">raised</div>
+              <div className="text-sm sm:text-base text-secondary">
+                raised
+              </div>
             </div>
             <div className="flex flex-col">
-              <div className="text-[20px] font-bold">{numberToStringFormat(deal.attributes.target_amount)}</div>
-              <div className="text-secondary">Funding goal</div>
+              <div className="text-base sm:text-lg lg:text-[20px] font-bold">
+                {numberToStringFormat(deal.attributes.target_amount)}
+              </div>
+              <div className="text-sm sm:text-base text-secondary">
+                Funding goal
+              </div>
             </div>
           </div>
         </AccordionItem>
