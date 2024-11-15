@@ -5,10 +5,6 @@ import { useRouter } from "next/navigation";
 
 const Home: React.FC = () => {
   const router = useRouter();
-  const handleClick = () => {
-    router.push("/admin-management");
-  };
-
   return (
     <div className="container mx-auto p-10">
       <div className="flex justify-between items-center">
