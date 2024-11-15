@@ -11,6 +11,7 @@ interface DealAttributes {
   id: string;
   name: string;
   content: string;
+  description: string;
   image_logo_url: string;
   image_content_url: string;
   target_amount: string;
@@ -165,8 +166,7 @@ export default function DealDashboard({
               </div>
             </div>
             <div className="mt-1 text-[20px] text-secondary mb-5">
-              Wireless Building Automation: Cost-effective Energy Management &
-              Decarbonization
+              {deal ? deal.attributes.description : "Loading"}
             </div>
             <Image
               src={getImageSrc(deal?.attributes.image_content_url)}
