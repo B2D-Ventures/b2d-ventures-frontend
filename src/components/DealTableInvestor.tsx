@@ -102,7 +102,7 @@ export default function DealTable() {
         }
       );
       console.log("Role changed successfully:", response.data);
-      localStorage.setItem("userId", response.data.id);
+      localStorage.setItem("userId", response.data.attributes.id);
       alert("Investor was approves succesfully.");
     } catch (error) {
       console.error("Error changing role:", error);

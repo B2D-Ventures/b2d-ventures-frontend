@@ -27,6 +27,19 @@ function getStatusColor(status: string): string {
   }
 }
 
+function formatWord(role: string): string {
+    switch (role.toLocaleLowerCase()) {
+      case "pending":
+        return "Pending";
+      case "approved":
+        return "Approved";
+      case "rejected":
+        return "Rejected";
+      default:
+        return "Unknown";
+    }
+  }
+
 function formatDate(isoDate: string): string {
   const date = new Date(isoDate);
   return date.toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" });
@@ -34,7 +47,7 @@ function formatDate(isoDate: string): string {
 
 export default function DealTable() {
   const [deals, setDeals] = useState<Deal[]>([]);
-
+  
   const fetchDeals = async () => {
     try {
       const response = await axios.get<{ data: Deal[] }>(`${process.env.NEXT_PUBLIC_URI}api/admin/deals`);
@@ -128,7 +141,7 @@ export default function DealTable() {
                   deal.attributes.status
                 )}`}
               >
-                {deal.attributes.status}
+                {formatWord(deal.attributes.status)}
               </td>
               <td className="py-2 px-4 border-b">
                 <Checkbox

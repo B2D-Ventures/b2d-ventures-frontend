@@ -47,21 +47,6 @@ const HomePage = () => {
     changeRole('pending_startup');
   };
 
-  function formatRole(role: string): string {
-    switch (role.toLocaleLowerCase()) {
-      case "investor":
-        return "Investor";
-      case "startup":
-        return "Startup";
-      case "pending_startup":
-        return "Startup (pending)";
-      case "pending_investor":
-        return "Investor (pending)";
-      default:
-        return "Unassigned";
-    }
-  }
-
   return (
     <div>
       <div
