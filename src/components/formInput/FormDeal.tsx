@@ -29,7 +29,18 @@ export default function FormDeal({ isEdit, id }: FormDealProps) {
   const dealRef = useRef<HTMLInputElement>(null);
   const privateDataRef = useRef<HTMLInputElement>(null);
 
+  const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5 MB
+
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (files && files.length > 0) {
+      const file = files[0];
+      if (file.size > MAX_FILE_SIZE) {
+        alert("File size exceeds the 5MB limit. Please choose a smaller file.");
+        e.target.value = ""; // Clear the file input
+        return;
+      }
+    }
     countUploadedFiles();
   };
 
@@ -177,7 +188,9 @@ export default function FormDeal({ isEdit, id }: FormDealProps) {
               console.log("Form submitted successfully");
             } catch (refreshError) {
               console.error("Error refreshing token:", refreshError);
-              alert("Please ensure you are logged in as a verified startup. Please try again later.");
+              alert(
+                "Please ensure you are logged in as a verified startup. Please try again later."
+              );
             }
           } else {
             console.error("Form submission failed");
@@ -239,7 +252,9 @@ export default function FormDeal({ isEdit, id }: FormDealProps) {
               console.log("Form submitted successfully");
             } catch (refreshError) {
               console.error("Error refreshing token:", refreshError);
-              alert("Please ensure you are logged in as a verified startup. Please try again later.");
+              alert(
+                "Please ensure you are logged in as a verified startup. Please try again later."
+              );
             }
           } else {
             console.error("Form submission failed");
@@ -265,7 +280,7 @@ export default function FormDeal({ isEdit, id }: FormDealProps) {
         </div>
         <div className="w-full">
           <FormInput
-            label="description"
+            label="Description"
             has$={false}
             placeholder="Enter startup description"
             type="text"
@@ -295,7 +310,7 @@ export default function FormDeal({ isEdit, id }: FormDealProps) {
         </div>
         <div className="w-full">
           <FormInput
-            label="Minimun investmen"
+            label="Minimum investment"
             has$={true}
             placeholder="0.00"
             type="number"
