@@ -4,6 +4,7 @@ import Select from "@/components/formInput/Select";
 import TextArea from "@/components/formInput/TextArea";
 import { DateValue } from "@nextui-org/react";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 import React, { useState, useRef, ChangeEvent } from "react";
 
 interface FormDealProps {
@@ -21,7 +22,17 @@ export default function FormDeal({ isEdit, id }: FormDealProps) {
   const [businessType, setBusinessType] = useState("");
   const [startDate, setStartDate] = useState<DateValue | undefined>(undefined);
   const [endDate, setEndDate] = useState<DateValue | undefined>(undefined);
-  const [content, setContent] = useState("");
+  const [content, setContent] = useState(`Highlights:
+            - example content
+            - example content
+Opportunity:
+            example content
+Product:
+            example content
+Growth and traction:
+            example content
+Summary:
+            example content`);
   const [fileCount, setFileCount] = useState(0);
 
   const logoRef = useRef<HTMLInputElement>(null);
@@ -83,7 +94,7 @@ export default function FormDeal({ isEdit, id }: FormDealProps) {
     return dateObj.toISOString();
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     // Convert dates to ISO 8601 format
     const startDateISO = convertToISO8601(startDate);
     const endDateISO = convertToISO8601(endDate);
@@ -134,134 +145,133 @@ export default function FormDeal({ isEdit, id }: FormDealProps) {
     if (privateDataRef.current?.files?.[0])
       formData.append("dataroom", privateDataRef.current.files[0]);
 
+    const router = useRouter();
+
     if (!isEdit) {
-      return async () => {
-        try {
-          const accessToken = localStorage.getItem("accessToken");
-          const response = await axios.post(
-            `${process.env.NEXT_PUBLIC_URI}api/startup/${localStorage.getItem(
-              "userId"
-            )}/deals/`,
-            formData,
-            {
-              headers: {
-                Authorization: `Bearer ${accessToken}`,
-              },
-            }
-          );
-          alert("Form submitted successfully");
-          console.log("Form submitted successfully");
-        } catch (error: any) {
-          if (error.response && error.response.status === 401) {
-            // Token expired, try to refresh
-            try {
-              const refreshToken = localStorage.getItem("refreshToken");
-              const refreshResponse = await axios.post(
-                `${
-                  process.env.NEXT_PUBLIC_URI
-                }api/startup/${localStorage.getItem("userId")}/deals/`,
-                {
-                  data: {
-                    attributes: {
-                      "refresh-token": refreshToken,
-                    },
-                  },
-                }
-              );
-
-              const newAccessToken = refreshResponse.data.data.access;
-              localStorage.setItem("accessToken", newAccessToken);
-
-              // Retry the original request with the new access token
-              const retryResponse = await axios.post(
-                `${
-                  process.env.NEXT_PUBLIC_URI
-                }api/startup/${localStorage.getItem("userId")}/deals/`,
-                formData,
-                {
-                  headers: {
-                    Authorization: `Bearer ${newAccessToken}`,
-                  },
-                }
-              );
-              alert("Form submitted successfully");
-              console.log("Form submitted successfully");
-            } catch (refreshError) {
-              console.error("Error refreshing token:", refreshError);
-              alert(
-                "Please ensure you are logged in as a verified startup. Please try again later."
-              );
-            }
-          } else {
-            console.error("Form submission failed");
-            alert("Form submission failed");
+      try {
+        const accessToken = localStorage.getItem("accessToken");
+        const response = await axios.post(
+          `${process.env.NEXT_PUBLIC_URI}api/startup/${localStorage.getItem(
+            "userId"
+          )}/deals/`,
+          formData,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
           }
+        );
+        alert("Form submitted successfully");
+        console.log("Form submitted successfully");
+        router.push("/startup");
+      } catch (error: any) {
+        if (error.response && error.response.status === 401) {
+          // Token expired, try to refresh
+          try {
+            const refreshToken = localStorage.getItem("refreshToken");
+            const refreshResponse = await axios.post(
+              `${process.env.NEXT_PUBLIC_URI}api/startup/${localStorage.getItem(
+                "userId"
+              )}/deals/`,
+              {
+                data: {
+                  attributes: {
+                    "refresh-token": refreshToken,
+                  },
+                },
+              }
+            );
+
+            const newAccessToken = refreshResponse.data.data.access;
+            localStorage.setItem("accessToken", newAccessToken);
+
+            // Retry the original request with the new access token
+            const retryResponse = await axios.post(
+              `${process.env.NEXT_PUBLIC_URI}api/startup/${localStorage.getItem(
+                "userId"
+              )}/deals/`,
+              formData,
+              {
+                headers: {
+                  Authorization: `Bearer ${newAccessToken}`,
+                },
+              }
+            );
+            alert("Form submitted successfully");
+            console.log("Form submitted successfully");
+          } catch (refreshError) {
+            console.error("Error refreshing token:", refreshError);
+            alert(
+              "Please ensure you are logged in as a verified startup. Please try again later."
+            );
+          }
+        } else {
+          console.error("Form submission failed");
+          alert("Form submission failed");
         }
-      };
+      }
     } else {
-      return async () => {
-        try {
-          const accessToken = localStorage.getItem("accessToken");
-          const response = await axios.put(
-            `${process.env.NEXT_PUBLIC_URI}api/startup/${localStorage.getItem(
-              "userId"
-            )}/deals/${id}/`,
-            formData,
-            {
-              headers: {
-                Authorization: `Bearer ${accessToken}`,
-              },
-            }
-          );
-          alert("Form submitted successfully");
-          console.log("Form submitted successfully");
-        } catch (error: any) {
-          if (error.response && error.response.status === 401) {
-            // Token expired, try to refresh
-            try {
-              const refreshToken = localStorage.getItem("refreshToken");
-              const refreshResponse = await axios.post(
-                `${
-                  process.env.NEXT_PUBLIC_URI
-                }api/startup/${localStorage.getItem("userId")}/deals/`,
-                {
-                  data: {
-                    attributes: {
-                      "refresh-token": refreshToken,
-                    },
-                  },
-                }
-              );
-
-              const newAccessToken = refreshResponse.data.data.access;
-              localStorage.setItem("accessToken", newAccessToken);
-
-              // Retry the original request with the new access token
-              const retryResponse = await axios.put(
-                `${
-                  process.env.NEXT_PUBLIC_URI
-                }api/startup/${localStorage.getItem("userId")}/deals/${id}/`,
-                formData,
-                {
-                  headers: {
-                    Authorization: `Bearer ${newAccessToken}`,
-                  },
-                }
-              );
-              alert("Form submitted successfully");
-              console.log("Form submitted successfully");
-            } catch (refreshError) {
-              console.error("Error refreshing token:", refreshError);
-              alert(
-                "Please ensure you are logged in as a verified startup. Please try again later."
-              );
-            }
-          } else {
-            console.error("Form submission failed");
-            alert("Form submission failed");
+      try {
+        const accessToken = localStorage.getItem("accessToken");
+        const response = await axios.put(
+          `${process.env.NEXT_PUBLIC_URI}api/startup/${localStorage.getItem(
+            "userId"
+          )}/deals/${id}/`,
+          formData,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
           }
+        );
+        alert("Form submitted successfully");
+        console.log("Form submitted successfully");
+      } catch (error: any) {
+        if (error.response && error.response.status === 401) {
+          // Token expired, try to refresh
+          try {
+            const refreshToken = localStorage.getItem("refreshToken");
+            const refreshResponse = await axios.post(
+              `${process.env.NEXT_PUBLIC_URI}api/startup/${localStorage.getItem(
+                "userId"
+              )}/deals/`,
+              {
+                data: {
+                  attributes: {
+                    "refresh-token": refreshToken,
+                  },
+                },
+              }
+            );
+
+            const newAccessToken = refreshResponse.data.data.access;
+            localStorage.setItem("accessToken", newAccessToken);
+
+            // Retry the original request with the new access token
+            const retryResponse = await axios.put(
+              `${process.env.NEXT_PUBLIC_URI}api/startup/${localStorage.getItem(
+                "userId"
+              )}/deals/${id}/`,
+              formData,
+              {
+                headers: {
+                  Authorization: `Bearer ${newAccessToken}`,
+                },
+              }
+            );
+            alert("Form submitted successfully");
+            console.log("Form submitted successfully");
+          } catch (refreshError) {
+            console.error("Error refreshing token:", refreshError);
+            alert(
+              "Please ensure you are logged in as a verified startup. Please try again later."
+            );
+          }
+        } else {
+          console.error("Form submission failed");
+          alert("Form submission failed");
         }
-      };
+      }
     }
   };
 
@@ -290,7 +300,7 @@ export default function FormDeal({ isEdit, id }: FormDealProps) {
         </div>
         <div className="w-full">
           <FormInput
-            label="Allocation"
+            label="Target amount"
             has$={true}
             placeholder="0.00"
             type="number"
@@ -320,7 +330,7 @@ export default function FormDeal({ isEdit, id }: FormDealProps) {
         </div>
         <div className="w-full">
           <FormInput
-            label="Raised"
+            label="Amount raised"
             has$={true}
             placeholder="0.00"
             type="number"
@@ -352,6 +362,9 @@ export default function FormDeal({ isEdit, id }: FormDealProps) {
           <div className="w-[100px]">Content</div>
           <div className="w-[100px]">Deal</div>
           <div className="w-[100px]">Private data</div>
+          <div className="text-[12px] ml-auto">
+            {"("} File size less than 5MB. {")"}
+          </div>
         </div>
         <div className="w-full flex flex-row mt-[-4px] text-purple items-end">
           <div className="flex w-[100px]">
@@ -424,7 +437,16 @@ export default function FormDeal({ isEdit, id }: FormDealProps) {
         </div>
         <div className="w-full mt-1">
           <TextArea
-            placeholder="Enter content"
+            placeholder={`Highlights:
+            - example content
+            - example content
+            - example content
+            - example content
+            - example content
+What's new:
+            example content
+Our goal:
+            example content`}
             value={content}
             onChange={(e) => setContent(e.target.value)}
           />

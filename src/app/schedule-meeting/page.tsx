@@ -44,8 +44,6 @@ const Home: React.FC = () => {
     const startDateTime = dayjs(`${date}T${startTime}`).toISOString();
     const endDateTime = dayjs(`${date}T${endTime}`).toISOString();
 
-    const apiUrl = `${process.env.NEXT_PUBLIC_URI}api/investor/${investorId}/schedule-meeting/${startupId}/`;
-
     const data = {
       data: {
         attributes: {
@@ -56,13 +54,11 @@ const Home: React.FC = () => {
         },
       },
     };
-
-    console.log("Data to be sent:", data);
-
     try {
       const accessToken = localStorage.getItem("accessToken");
       const response = await axios.post(
-        apiUrl,
+        `${process.env.NEXT_PUBLIC_URI}api/investor/${investorId}/schedule-meeting/${startupId}/`,
+        data,
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -88,16 +84,17 @@ const Home: React.FC = () => {
 
           const newAccessToken = refreshResponse.data.data.access;
           localStorage.setItem("accessToken", newAccessToken);
-
           // Retry the original request with the new access token
           const retryResponse = await axios.post(
-            apiUrl,
+            `${process.env.NEXT_PUBLIC_URI}api/investor/${investorId}/schedule-meeting/${startupId}/`,
+            data,
             {
               headers: {
                 Authorization: `Bearer ${newAccessToken}`,
               },
             }
           );
+          console.log(retryResponse);
           setFeedbackMessage("Meeting scheduled successfully");
         } catch (refreshError) {
           console.error("Error refreshing token:", refreshError);
