@@ -48,39 +48,50 @@ const HomePage = () => {
   };
 
   return (
-    <div>
-      <div
-        className="flex h-screen items-center justify-center"
+    <div className="min-h-screen w-full">
+      <div 
+        className="flex min-h-screen items-center justify-center"
         style={{
           background: "linear-gradient(to right, #FFFFFF 50%, #4E0A81 50%)",
         }}
       >
-        <div
-          className="bg-white rounded-lg shadow-lg border-2 border-[#D9D9D9]"
-          style={{ width: "1288px", height: "631px" }}
+        <div 
+          className="bg-white rounded-lg shadow-lg border-2 border-[#D9D9D9] w-[90%] md:w-[80%] lg:w-[1288px] h-[500px] md:h-[550px] lg:h-[631px]"
         >
           <div className="flex h-full">
-            <div className="flex-1 bg-white text-center mt-12 mb-12">
-              <div className="inline-block space-x-2 mb-24">
-                <p className="text-[#625B71] text-4xl font-bold inline">
-                  Please select
-                </p>
-                <p className="text-[#000000] text-4xl font-bold inline">
+            <div className="flex-1 bg-white text-center">
+              {/* Header Section */}
+              <div className="mt-12 lg:mt-24 mb-12 lg:mb-24">
+                <span className="text-[#625B71] text-2xl md:text-3xl lg:text-4xl font-bold">
+                  Please select{' '}
+                </span>
+                <span className="text-[#000000] text-2xl md:text-3xl lg:text-4xl font-bold">
                   your Role
-                </p>
+                </span>
               </div>
-              <div className="flex-col items-center justify-center">
-                <div className="my-12">
+
+              {/* Buttons Section */}
+              <div className="flex flex-col items-center justify-center space-y-8 lg:space-y-12">
+                <div className="w-full">
                   <button
-                    className="bg-[#FFFFFF] text-[#000000] py-2 px-6 rounded-xl border-2 border-[#D9D9D9] shadow-md hover:shadow-lg w-1/5 font-medium"
+                    className="bg-[#FFFFFF] text-[#000000] py-3 px-8 rounded-xl 
+                             border-2 border-[#D9D9D9] shadow-md hover:shadow-lg 
+                             w-[200px] md:w-[250px] lg:w-[300px]
+                             text-base md:text-lg lg:text-xl font-medium
+                             transition-all duration-300"
                     onClick={handleInvestor}
                   >
                     INVESTOR
                   </button>
                 </div>
-                <div className="my-12">
+
+                <div className="w-full">
                   <button
-                    className="bg-[#FFFFFF] text-[#000000] py-2 px-6 rounded-xl border-2 border-[#D9D9D9] shadow-md hover:shadow-lg w-1/5 font-medium"
+                    className="bg-[#FFFFFF] text-[#000000] py-3 px-8 rounded-xl 
+                             border-2 border-[#D9D9D9] shadow-md hover:shadow-lg 
+                             w-[200px] md:w-[250px] lg:w-[300px]
+                             text-base md:text-lg lg:text-xl font-medium
+                             transition-all duration-300"
                     onClick={handleStartup}
                   >
                     STARTUP
