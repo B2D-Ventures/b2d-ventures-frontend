@@ -17,6 +17,12 @@ const Home: React.FC = () => {
           <p className="text-lg text-black-600 mt-2">Approve startup deals.</p>
         </div>
         <div className="flex items-center space-x-4">
+        <Button
+            onClick={() => router.push("/admin-dashboard")}
+            style={{ backgroundColor: "#9710FF", color: "#fff" }}
+          >
+            Dashboard
+          </Button>
           <Button
             onClick={handleClick}
             style={{ backgroundColor: "#9710FF", color: "#fff" }}
