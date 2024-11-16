@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { Checkbox } from "@nextui-org/react";
+import { Button } from "@nextui-org/react";
 import axios from "axios";
 
 interface DealAttributes {
@@ -47,6 +47,7 @@ function formatDate(isoDate: string): string {
 
 export default function DealTable() {
   const [deals, setDeals] = useState<Deal[]>([]);
+  const [actionStates, setActionStates] = useState<{ [key: string]: string }>({});
   
   const fetchDeals = async () => {
     try {
@@ -64,7 +65,7 @@ export default function DealTable() {
 
   const handleApproveDeal = async (dealId: string) => {
     try {
-      const response = await axios.put(
+      await axios.put(
         `${process.env.NEXT_PUBLIC_URI}api/admin/${dealId}/deals/`,
         {
           data: {
@@ -79,7 +80,7 @@ export default function DealTable() {
           },
         }
       );
-      console.log("Deal approved:", response.data);
+      setActionStates({ ...actionStates, [dealId]: "approved" });
       alert("Deal approved successfully");
       await fetchDeals();
     } catch (error) {
@@ -90,7 +91,7 @@ export default function DealTable() {
 
   const handleRejectDeal = async (dealId: string) => {
     try {
-      const response = await axios.put(
+      await axios.put(
         `${process.env.NEXT_PUBLIC_URI}api/admin/${dealId}/deals/`,
         {
           data: {
@@ -105,7 +106,7 @@ export default function DealTable() {
           },
         }
       );
-      console.log("Deal rejected:", response.data);
+      setActionStates({ ...actionStates, [dealId]: "rejected" });
       alert("Deal rejected successfully");
       await fetchDeals();
     } catch (error) {
@@ -114,72 +115,139 @@ export default function DealTable() {
     }
   };
 
+  const renderActionButtons = (deal: Deal) => {
+    const status = deal.attributes.status.toLowerCase();
+    const actionState = actionStates[deal.attributes.id];
+
+    // If status is approved
+    if (status === "approved") {
+      return (
+        <div className="flex gap-2">
+          <Button isDisabled color="default">Accept</Button>
+          <Button 
+            color="danger"
+            onClick={() => handleRejectDeal(deal.attributes.id)}
+          >
+            Reject
+          </Button>
+        </div>
+      );
+    }
+
+    // If status is rejected
+    if (status === "rejected") {
+      return (
+        <div className="flex gap-2">
+          <Button 
+            color="primary"
+            onClick={() => handleApproveDeal(deal.attributes.id)}
+          >
+            Accept
+          </Button>
+          <Button isDisabled color="default">Reject</Button>
+        </div>
+      );
+    }
+
+    // If status is pending
+    return (
+      <div className="flex gap-2">
+        <Button 
+          color="primary"
+          onClick={() => handleApproveDeal(deal.attributes.id)}
+        >
+          Accept
+        </Button>
+        <Button 
+          color="danger"
+          onClick={() => handleRejectDeal(deal.attributes.id)}
+        >
+          Reject
+        </Button>
+      </div>
+    );
+  };
+
   return (
-    <div className="overflow-x-auto">
-      <table className="min-w-full bg-white border border-gray-200">
-        <thead>
-          <tr>
-            <th className="py-2 px-4 border-b text-left">Deal id.</th>
-            <th className="py-2 px-4 border-b text-left">Startup</th>
-            <th className="py-2 px-4 border-b text-left">Date</th>
-            <th className="py-2 px-4 border-b text-left">Status</th>
-            <th className="py-2 px-4 border-b text-left">Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {deals.map((deal) => (
-            <tr key={deal.attributes.id}>
-              <td className="py-2 px-4 border-b">
-                {deal.attributes.id.slice(0, 8)}
-              </td>
-              <td className="py-2 px-4 border-b">{deal.attributes.name}</td>
-              <td className="py-2 px-4 border-b">
-                {formatDate(deal.attributes.start_date)}
-              </td>
-              <td
-                className={`py-2 px-4 border-b ${getStatusColor(
-                  deal.attributes.status
-                )}`}
-              >
+    <div className="w-full overflow-x-auto rounded-lg shadow-sm">
+      {/* Card-based layout for mobile */}
+      <div className="block sm:hidden">
+        {deals.map((deal) => (
+          <div key={deal.attributes.id} 
+               className="bg-white p-4 mb-4 rounded-lg border border-gray-200">
+            <div className="flex justify-between items-start mb-3">
+              <div>
+                <p className="font-semibold">{deal.attributes.name}</p>
+                <p className="text-sm text-gray-600">
+                  ID: {deal.attributes.id.slice(0, 8)}
+                </p>
+              </div>
+              <span className={`px-2 py-1 rounded-full text-sm ${getStatusColor(
+                deal.attributes.status
+              )} bg-opacity-10`}>
                 {formatWord(deal.attributes.status)}
-              </td>
-              <td className="py-2 px-4 border-b">
-                <Checkbox
-                  onClick={
-                    deal.attributes.status.toLowerCase() !== "approved"
-                      ? () => handleApproveDeal(deal.attributes.id)
-                      : undefined
-                  }
-                  data-testid="approve-checkbox"
-                  defaultSelected={
-                    deal.attributes.status.toLowerCase() !== "approved"
-                  }
-                  color="warning"
-                  isDisabled={
-                    deal.attributes.status.toLowerCase() === "approved"
-                  }
-                />
-                <Checkbox
-                  isIndeterminate
-                  color="warning"
-                  onClick={
-                    deal.attributes.status.toLowerCase() !== "rejected"
-                      ? () => handleRejectDeal(deal.attributes.id)
-                      : undefined
-                  }
-                  data-testid="reject-checkbox"
-                  defaultSelected={
-                    deal.attributes.status.toLowerCase() !== "rejected"
-                  }
-                  isDisabled={
-                    deal.attributes.status.toLowerCase() === "rejected"
-                  }
-                />
-              </td>
+              </span>
+            </div>
+            <div className="text-sm text-gray-600 mb-3">
+              {formatDate(deal.attributes.start_date)}
+            </div>
+            <div className="flex justify-end gap-2">
+              {renderActionButtons(deal)}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Table layout for tablet and desktop */}
+      <div className="hidden sm:block">
+        <table className="min-w-full bg-white">
+          <thead className="bg-gray-50">
+            <tr>
+              <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Deal id.
+              </th>
+              <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Startup
+              </th>
+              <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Date
+              </th>
+              <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Status
+              </th>
+              <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Action
+              </th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody className="bg-white divide-y divide-gray-200">
+            {deals.map((deal) => (
+              <tr key={deal.attributes.id} 
+                  className="hover:bg-gray-50 transition-colors">
+                <td className="py-4 px-4 whitespace-nowrap text-sm">
+                  {deal.attributes.id.slice(0, 8)}
+                </td>
+                <td className="py-4 px-4 whitespace-nowrap">
+                  {deal.attributes.name}
+                </td>
+                <td className="py-4 px-4 whitespace-nowrap text-sm">
+                  {formatDate(deal.attributes.start_date)}
+                </td>
+                <td className="py-4 px-4 whitespace-nowrap">
+                  <span className={`px-2 py-1 rounded-full text-sm ${getStatusColor(
+                    deal.attributes.status
+                  )} bg-opacity-10`}>
+                    {formatWord(deal.attributes.status)}
+                  </span>
+                </td>
+                <td className="py-4 px-4 whitespace-nowrap">
+                  {renderActionButtons(deal)}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }
