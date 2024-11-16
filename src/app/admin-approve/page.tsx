@@ -8,7 +8,7 @@ const Home: React.FC = () => {
   const handleClick = () => {
     router.push("/admin-management");
   };
-
+  
   return (
     <div className="w-full min-h-screen">
       <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-10 py-4 sm:py-6 lg:py-10">
@@ -22,7 +22,7 @@ const Home: React.FC = () => {
               Admin Approve Dashboard
             </h1>
             <p className="text-base sm:text-lg text-black-600 mt-1 sm:mt-2">
-              Approve startup deals.
+              Approve startup's deals.
             </p>
           </div>
 
