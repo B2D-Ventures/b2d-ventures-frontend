@@ -29,6 +29,17 @@ const Home: React.FC = () => {
           {/* Buttons Section */}
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center 
                         gap-2 sm:gap-4 w-full sm:w-auto">
+                        <Button
+              onClick={() => router.push("/admin-approve-investor")}
+              className="w-full sm:w-auto px-4 py-2 text-sm sm:text-base"
+              style={{ 
+                backgroundColor: "#9710FF", 
+                color: "#fff",
+                minWidth: "120px"
+              }}
+            >
+              Approve role
+            </Button>
             <Button
               onClick={() => router.push("/admin-dashboard")}
               className="w-full sm:w-auto px-4 py-2 text-sm sm:text-base"

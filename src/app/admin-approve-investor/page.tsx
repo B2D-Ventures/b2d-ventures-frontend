@@ -1,24 +1,28 @@
 "use client";
 import DealTable from "@/components/DealTableInvestor";
-import { Button } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 
 const Home: React.FC = () => {
   const router = useRouter();
-  const handleClick = () => {
-    router.push("/admin-management");
-  };
 
   return (
-    <div className="container mx-auto p-10">
-      <div className="flex justify-between items-center">
-        <div>
-          <h1 className="text-4xl font-bold">Admin Approve Investor</h1>
-          <p className="text-lg text-black-600 mt-2">Approve investor to make them able to invest.</p>
+    <div className="w-full min-h-screen">
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-10 py-4 sm:py-6 lg:py-10">
+        {/* Header Section */}
+        <div className="flex flex-col gap-2 sm:gap-4 mb-4 sm:mb-6">
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold 
+                       text-gray-900 break-words">
+            Admin Approve Investor
+          </h1>
+          <p className="text-base sm:text-lg text-gray-600">
+            Approve investor to make them able to invest.
+          </p>
         </div>
-      </div>
-      <div className="mt-4">
-        <DealTable />
+
+        {/* Table Section */}
+        <div className="mt-4 sm:mt-6">
+          <DealTable />
+        </div>
       </div>
     </div>
   );
