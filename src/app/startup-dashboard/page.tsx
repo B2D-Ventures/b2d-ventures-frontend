@@ -115,29 +115,54 @@ export default function DealDashboard() {
   };
 
   return (
-    <div className="flex flex-col px-[102px] py-[54px] gap-10">
-      <div className="flex flex-col w-full">
-        <div className="text-[48px] font-bold">Startup Dashboard</div>
-        <div className="mt-1 text-[20px] text-secondary">
-          See and manage your investment
-        </div>
-      </div>
-      <div className="w-full flex flex-row items-between gap-10">
-        <div className="">
-          <div className="flex flex-col">
-            <StartupCard name={userName} totalInvestment={totalInvestment} />
-          </div>
-          <div className="text-3xl mt-8">Meeting Schedule</div>
-          <ScheduleGrid />
+    <div className="min-h-screen flex justify-center w-full">
+      <div className="w-full max-w-[1440px] px-4 sm:px-6 lg:px-[102px] py-6 sm:py-8 lg:py-[54px]">
+        {/* Header Section */}
+        <div className="flex flex-col w-full mb-6 lg:mb-10">
+          <h1 className="text-3xl sm:text-4xl lg:text-[48px] font-bold">
+            Startup Dashboard
+          </h1>
+          <p className="mt-1 text-base sm:text-lg lg:text-[20px] text-secondary">
+            See and manage your investment
+          </p>
         </div>
 
-        <div className="flex-col w-full">
-          <div className="flex flex-row justify-between">
-            <div className="text-[36px] font-bold">Investment</div>
-            <SearchBar onSearch={onSearch} />
+        {/* Main Content */}
+        <div className="flex flex-col lg:flex-row gap-6 lg:gap-10">
+          {/* Left Column - Startup Card and Schedule */}
+          <div className="w-full lg:w-auto">
+            {/* Startup Card */}
+            <div className="mb-6">
+              <StartupCard name={userName} totalInvestment={totalInvestment} />
+            </div>
+
+            {/* Meeting Schedule Section */}
+            <div>
+              <h2 className="text-2xl sm:text-3xl mb-4">Meeting Schedule</h2>
+              <div className="w-full lg:w-[400px]">
+                <ScheduleGrid />
+              </div>
+            </div>
           </div>
-          <div className="h-[520px] overflow-y-auto">
-            <Accordian deals={filteredDeals} />
+
+          {/* Right Column - Investment Information */}
+          <div className="flex-1">
+            {/* Search and Title Header */}
+            <div className="flex flex-col sm:flex-row justify-between items-start 
+                          sm:items-center gap-4 mb-6">
+              <h2 className="text-2xl sm:text-3xl lg:text-[36px] font-bold">
+                Investment
+              </h2>
+              <div className="w-full sm:w-auto">
+                <SearchBar onSearch={onSearch} />
+              </div>
+            </div>
+
+            {/* Accordion Section */}
+            <div className="h-[400px] sm:h-[450px] lg:h-[520px] overflow-y-auto 
+                          scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
+              <Accordian deals={filteredDeals} />
+            </div>
           </div>
         </div>
       </div>
