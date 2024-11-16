@@ -14,6 +14,10 @@ interface Deal {
   attributes: DealAttributes;
 }
 
+interface DealTableProps {
+  searchQuery: string;
+}
+
 function getStatusColor(status: string): string {
   switch (status.toLowerCase()) {
     case "pending":
