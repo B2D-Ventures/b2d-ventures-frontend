@@ -77,7 +77,7 @@ export default function DealCard({
               </div>
               <div className="flex">
                 <div className="text-base font-semi-bold">
-                  {investorNumber} investors
+                  {investorNumber} investments
                 </div>
               </div>
             </div>
