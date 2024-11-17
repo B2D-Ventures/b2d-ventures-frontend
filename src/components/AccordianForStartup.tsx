@@ -32,6 +32,7 @@ export default function App({ deals }: { deals: Deal[] }) {
     <Accordion>
       {deals.map((deal) => (
         <AccordionItem
+          data-testid="startup-accordian"
           key={deal.attributes.id}
           aria-label="Accordion 1"
           title={`${dealNameFormatter(deal.attributes.deal)} - ${deal.attributes.investor}`}
@@ -45,7 +46,7 @@ export default function App({ deals }: { deals: Deal[] }) {
             </div>
             <div className="flex flex-col">
               <div className="text-[20px] font-bold">
-                ${numberToStringFormat(deal.attributes.investment_amount)}
+                {numberToStringFormat(deal.attributes.investment_amount)}
               </div>
               <div className="text-secondary">Investment amount</div>
             </div>
