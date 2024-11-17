@@ -34,8 +34,8 @@ const filterFunctions = {
   status: (deals: Deal[]) => 
     deals.filter((deal) => deal.attributes.status === "approved"),
 
-  category: (deals: Deal[], category: string) =>
-    category ? deals.filter((deal) => deal.attributes.category === category) : deals,
+  category: (deals: Deal[], type: string) =>
+    type ? deals.filter((deal) => deal.attributes.type === type) : deals,
 
   search: (deals: Deal[], query: string) =>
     query
