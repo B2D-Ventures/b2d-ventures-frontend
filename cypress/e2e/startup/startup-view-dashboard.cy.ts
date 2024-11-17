@@ -12,7 +12,7 @@ interface UserAttributes {
     before(() => {
       const userName = "Yanatchara JERAJA";
       cy.window().then((win) => {
-        win.localStorage.setItem("userName", userName);
+        win.localStorage.setItem("userName",  userName);
         win.localStorage.setItem("userRole", "startup");
         expect(win.localStorage.getItem("userRole")).to.equal("startup");
         window.localStorage.setItem(
