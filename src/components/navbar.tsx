@@ -23,7 +23,6 @@ export default function Navbar() {
       // Get the full URL
       const fullUrl = window.location.href;
       console.log("fullurl", fullUrl);
-      localStorage.setItem("fullUrl", fullUrl);
       // create user
       axios
         .post(
