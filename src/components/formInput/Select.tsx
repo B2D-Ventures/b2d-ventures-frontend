@@ -27,15 +27,18 @@ export default function SelectForm({ value, onChange }: SelectFormProps) {
         value={value}
         onChange={onChange}
       >
-        <SelectItem key={"Funded"}>Funded</SelectItem>
-        <SelectItem key={"100+ invesetors"}>100+ investors</SelectItem>
-        <SelectItem key={"$100k+ raised"}>$100k+ raised</SelectItem>
-        <SelectItem key={"Tech Company"} data-testid="select-value">Tech Company</SelectItem>
-        <SelectItem key={"Health Company"}>Health Company</SelectItem>
-        <SelectItem key={"Artificial Intelligence (AI)"}>Artificial Intelligence (AI)</SelectItem>
-        <SelectItem key={"Blockchain"}>Blockchain</SelectItem>
-        <SelectItem key={"Asia-Pacific"}>Asia-Pacific</SelectItem>
-        <SelectItem key={"Growth phase"}>Growth phase</SelectItem>
+      <SelectItem key={"Renewable Energy"} data-testid="select-value">Renewable Energy</SelectItem>
+      <SelectItem key={"Biotechnology"}>Biotechnology</SelectItem>
+      <SelectItem key={"Artificial Intelligence"}>Artificial Intelligence</SelectItem>
+      <SelectItem key={"Sustainable Fashion"}>Sustainable Fashion</SelectItem>
+      <SelectItem key={"Space Exploration"}>Space Exploration</SelectItem>
+      <SelectItem key={"Healthcare"}>Healthcare</SelectItem>
+      <SelectItem key={"Education Technology"}>Education Technology</SelectItem>
+      <SelectItem key={"Quantum Computing"}>Quantum Computing</SelectItem>
+      <SelectItem key={"Water Technology"}>Water Technology</SelectItem>
+      <SelectItem key={"Neuroscience AI"}>Neuroscience AI</SelectItem>
+      <SelectItem key={"Agriculture Technology"}>Agriculture Technology</SelectItem>
+      <SelectItem key={"Environmental Technology"}>Environmental Technology</SelectItem>
       </Select>
     </div>
   );
