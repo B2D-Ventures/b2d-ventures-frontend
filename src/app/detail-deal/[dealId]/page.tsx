@@ -199,6 +199,7 @@ export default function DealDashboard({
             {/* Action Buttons */}
             <div className="flex flex-row justify-between w-full gap-4">
               <button
+                data-testid="request-data-button"
                 onClick={handleRequestData(id, localStorage.getItem("userId"))}
                 className="flex-1 lg:w-[313px] h-[44px] rounded-[8px] text-purple border-[2px] border-purple text-sm sm:text-base font-semibold hover:bg-purple hover:text-white transition-colors"
               >
