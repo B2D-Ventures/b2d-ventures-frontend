@@ -56,8 +56,7 @@ interface UserAttributes {
       cy.visit(`${Cypress.env("base_url")}/startup-dashboard`);
   
       cy.get('[data-testid="startup-accordian"]').should("be.visible");
-      cy.get('[data-testid="startup-accordian"]').eq(0).click();
-  
+      cy.get('[data-testid="startup-accordian"]').first().click({ force: true });
     });
   });
   
