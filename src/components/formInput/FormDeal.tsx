@@ -274,191 +274,221 @@ Summary:
     }
   };
 
-  return (
-    <div className="flex flex-row w-[1236px] h-[585px] items-center justify-center border-[2px] border-border rounded-[8px] px-10 py-8 gap-10">
-      <div className="flex flex-col w-full h-full items-start justify-start gap-3">
-        <div className="w-full">
-          <FormInput
-            label="Name"
-            has$={false}
-            placeholder="Enter startup name"
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
-        </div>
-        <div className="w-full">
-          <FormInput
-            label="Description"
-            has$={false}
-            placeholder="Enter startup description"
-            type="text"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-          />
-        </div>
-        <div className="w-full">
-          <FormInput
-            label="Target amount"
-            has$={true}
-            placeholder="0.00"
-            type="number"
-            value={allocation}
-            onChange={(e) => setAllocation(e.target.value)}
-          />
-        </div>
-        <div className="w-full">
-          <FormInput
-            label="Price per unit"
-            has$={true}
-            placeholder="0.00"
-            type="number"
-            value={pricePerUnit}
-            onChange={(e) => setPricePerUnit(e.target.value)}
-          />
-        </div>
-        <div className="w-full">
-          <FormInput
-            label="Minimum investment"
-            has$={true}
-            placeholder="0.00"
-            type="number"
-            value={minInvestment}
-            onChange={(e) => setMinInvestment(e.target.value)}
-          />
-        </div>
-        <div className="w-full">
-          <FormInput
-            label="Amount raised"
-            has$={true}
-            placeholder="0.00"
-            type="number"
-            value={raised}
-            onChange={(e) => setRaised(e.target.value)}
-          />
-        </div>
-      </div>
-      <div className="flex flex-col w-full h-full items-start justify-start gap-3">
-        <div className="w-full">
-          <Select onChange={onSelectChange} />
-        </div>
-        <div className="w-full flex flex-row gap-4">
+return (
+    <div className="w-full max-w-[1400px] mx-auto p-4 md:p-6">
+      <div className="flex flex-col lg:flex-row gap-6 border-[2px] border-border rounded-[8px] p-4 md:p-6 lg:p-8">
+        {/* Left Column */}
+        <div className="flex flex-col w-full lg:w-1/2 gap-4">
           <div className="w-full">
-            <div className="w-full text-[16px] text-secondary mb-3">
-              Start date
-            </div>
-            <DatePicker value={startDate} onChange={(e) => setStartDate(e)} />
+            <FormInput
+              label="Name"
+              has$={false}
+              placeholder="Enter startup name"
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
           </div>
           <div className="w-full">
-            <div className="w-full text-[16px] text-secondary mb-3">
-              End date
+            <FormInput
+              label="Description"
+              has$={false}
+              placeholder="Enter startup description"
+              type="text"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+            />
+          </div>
+          <div className="w-full">
+            <FormInput
+              label="Target amount"
+              has$={true}
+              placeholder="0.00"
+              type="number"
+              value={allocation}
+              onChange={(e) => setAllocation(e.target.value)}
+            />
+          </div>
+          <div className="w-full">
+            <FormInput
+              label="Price per unit"
+              has$={true}
+              placeholder="0.00"
+              type="number"
+              value={pricePerUnit}
+              onChange={(e) => setPricePerUnit(e.target.value)}
+            />
+          </div>
+          <div className="w-full">
+            <FormInput
+              label="Minimum investment"
+              has$={true}
+              placeholder="0.00"
+              type="number"
+              value={minInvestment}
+              onChange={(e) => setMinInvestment(e.target.value)}
+            />
+          </div>
+          <div className="w-full">
+            <FormInput
+              label="Amount raised"
+              has$={true}
+              placeholder="0.00"
+              type="number"
+              value={raised}
+              onChange={(e) => setRaised(e.target.value)}
+            />
+          </div>
+          {/* Business Type moved to left column */}
+          <div className="w-full">
+            <Select onChange={onSelectChange} />
+          </div>
+        </div>
+
+        {/* Right Column */}
+        <div className="flex flex-col w-full lg:w-1/2 gap-4">
+          {/* Date Picker Section */}
+          <div className="w-full flex flex-col sm:flex-row gap-4">
+            <div className="w-full">
+              <div className="text-[16px] text-secondary mb-3">Start date</div>
+              <DatePicker value={startDate} onChange={(e) => setStartDate(e)} />
             </div>
-            <DatePicker value={endDate} onChange={(e) => setEndDate(e)} />
+            <div className="w-full">
+              <div className="text-[16px] text-secondary mb-3">End date</div>
+              <DatePicker value={endDate} onChange={(e) => setEndDate(e)} />
+            </div>
           </div>
-        </div>
-        <div className="flex w-full text-[16px] text-secondary">
-          <div className="w-[100px]">Logo</div>
-          <div className="w-[100px]">Content</div>
-          <div className="w-[100px]">Deal</div>
-          <div className="w-[100px]">Private data</div>
-          <div className="text-[12px] ml-auto">
-            {"("} File size less than 5MB. {")"}
+
+          {/* File Upload Section */}
+          <div className="flex flex-col gap-4">
+            <div className="flex justify-end text-[12px] text-secondary">
+              (File size should less than 5MB.)
+            </div>
+            
+            {/* File Upload Stack - Changed to vertical layout */}
+            <div className="flex flex-col gap-4">
+              {/* Logo Upload */}
+              <div className="flex flex-col gap-2">
+                <label htmlFor="logo" className="text-[16px] text-secondary">
+                  Logo
+                </label>
+                <input
+                  type="file"
+                  id="logo"
+                  name="logo"
+                  accept="image/*"
+                  className="block w-full text-sm text-gray-500
+                    file:mr-4 file:py-2 file:px-4
+                    file:rounded-full file:border-0
+                    file:text-sm file:font-semibold
+                    file:bg-violet-50 file:text-violet-700
+                    hover:file:bg-violet-100 file:cursor-pointer"
+                  ref={logoRef}
+                  onChange={handleFileChange}
+                />
+              </div>
+
+              {/* Content Upload */}
+              <div className="flex flex-col gap-2">
+                <label htmlFor="content" className="text-[16px] text-secondary">
+                  Content
+                </label>
+                <input
+                  type="file"
+                  id="content"
+                  name="content"
+                  accept="image/*"
+                  className="block w-full text-sm text-gray-500
+                    file:mr-4 file:py-2 file:px-4
+                    file:rounded-full file:border-0
+                    file:text-sm file:font-semibold
+                    file:bg-violet-50 file:text-violet-700
+                    hover:file:bg-violet-100 file:cursor-pointer"
+                  ref={contentRef}
+                  onChange={handleFileChange}
+                />
+              </div>
+
+              {/* Deal Upload */}
+              <div className="flex flex-col gap-2">
+                <label htmlFor="deal" className="text-[16px] text-secondary">
+                  Deal
+                </label>
+                <input
+                  type="file"
+                  id="deal"
+                  name="deal"
+                  accept="image/*"
+                  className="block w-full text-sm text-gray-500
+                    file:mr-4 file:py-2 file:px-4
+                    file:rounded-full file:border-0
+                    file:text-sm file:font-semibold
+                    file:bg-violet-50 file:text-violet-700
+                    hover:file:bg-violet-100 file:cursor-pointer"
+                  ref={dealRef}
+                  onChange={handleFileChange}
+                />
+              </div>
+
+              {/* Private Data Upload */}
+              <div className="flex flex-col gap-2">
+                <label htmlFor="privateData" className="text-[16px] text-secondary">
+                  Private Data
+                </label>
+                <input
+                  type="file"
+                  id="privateData"
+                  name="privateData"
+                  accept="image/*, application/pdf"
+                  className="block w-full text-sm text-gray-500
+                    file:mr-4 file:py-2 file:px-4
+                    file:rounded-full file:border-0
+                    file:text-sm file:font-semibold
+                    file:bg-violet-50 file:text-violet-700
+                    hover:file:bg-violet-100 file:cursor-pointer"
+                  ref={privateDataRef}
+                  onChange={handleFileChange}
+                />
+              </div>
+            </div>
+
+            {/* File Count */}
+            <div className="flex justify-end text-secondary text-sm">
+              uploaded {fileCount} file{fileCount !== 1 ? "s" : ""}
+            </div>
           </div>
-        </div>
-        <div className="w-full flex flex-row mt-[-4px] text-purple items-end">
-          <div className="flex w-[100px]">
-            <input
-              type="file"
-              id="logo"
-              name="logo"
-              accept="image/*"
-              className="w-[90px] mt-1 block w-full text-sm text-gray-500
-                file:mr-4 file:py-2 file:px-2
-                file:rounded-full file:border-0
-                file:text-sm file:font-semibold
-                file:bg-violet-50 file:text-violet-700
-                hover:file:bg-violet-100 file:cursor-pointer"
-              ref={logoRef}
-              onChange={handleFileChange}
-            />
-          </div>
-          <div className="flex w-[100px]">
-            <input
-              type="file"
-              id="Content"
-              name="Content"
-              accept="image/*"
-              className="w-[90px] mt-1 block w-full text-sm text-gray-500
-                file:mr-4 file:py-2 file:px-2
-                file:rounded-full file:border-0
-                file:text-sm file:font-semibold
-                file:bg-violet-50 file:text-violet-700
-                hover:file:bg-violet-100 file:cursor-pointer"
-              ref={contentRef}
-              onChange={handleFileChange}
-            />
-          </div>
-          <div className="flex w-[100px]">
-            <input
-              type="file"
-              id="Deal"
-              name="Deal"
-              accept="image/*"
-              className="w-[90px] mt-1 block w-full text-sm text-gray-500
-                file:mr-4 file:py-2 file:px-2
-                file:rounded-full file:border-0
-                file:text-sm file:font-semibold
-                file:bg-violet-50 file:text-violet-700
-                hover:file:bg-violet-100 file:cursor-pointer"
-              ref={dealRef}
-              onChange={handleFileChange}
-            />
-          </div>
-          <div className="flex w-[100px]">
-            <input
-              type="file"
-              id="Private data"
-              name="Private data"
-              accept="image/*, application/pdf"
-              className="w-[90px] mt-1 block w-full text-sm text-gray-500
-                file:mr-4 file:py-2 file:px-2
-                file:rounded-full file:border-0
-                file:text-sm file:font-semibold
-                file:bg-violet-50 file:text-violet-700
-                hover:file:bg-violet-100 file:cursor-pointer"
-              ref={privateDataRef}
-              onChange={handleFileChange}
-            />
-          </div>
-          <div className="flex text-secondary ml-auto">
-            uploaded {fileCount} file{fileCount !== 1 ? "s" : ""}
-          </div>
-        </div>
-        <div className="w-full mt-1">
-          <TextArea
-            placeholder={`Highlights:
+
+          {/* Text Area */}
+          <div className="w-full flex-grow min-h-[200px]">
+            <TextArea
+              placeholder={`Highlights:
             - example content
             - example content
-            - example content
-            - example content
-            - example content
-What's new:
+Opportunity:
             example content
-Our goal:
+Product:
+            example content
+Growth and traction:
+            example content
+Summary:
             example content`}
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
-          />
-        </div>
-        <div className="flex w-full justify-end items-center mt-7 hover:cursor-pointer">
-          <div
-            className="flex w-full h-[44px] items-center justify-center bg-purple rounded-[8px] text-white text-[20px] font-bold"
-            onClick={handleSubmit}
-          >
-            Submit
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+            />
           </div>
+
         </div>
       </div>
+          {/* Submit Button */}
+          <div className="w-full flex justify-center mt-4">
+            <button
+              className="w-[200px] h-[44px] bg-purple rounded-[8px] text-white text-[20px] font-bold
+                hover:opacity-90 transition-opacity"
+              onClick={handleSubmit}
+            >
+              Submit
+            </button>
+          </div>
     </div>
   );
 }
