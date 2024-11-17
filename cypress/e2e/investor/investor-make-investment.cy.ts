@@ -50,16 +50,19 @@ describe("template spec", () => {
     );
   });
 
-  it("Startup is able to view investment", () => {
+  it("Invest", () => {
     cy.visit(`${Cypress.env("base_url")}/startup`);
-    cy.get('[data-testid="category-filter"]').click();
-
-    // Wait for the dropdown items to be visible and stable
-    cy.get('[data-testid="category-filter-item"]', { timeout: 10000 })
-      .should("be.visible")
-      .then(($el) => {
-        // Ensure the element is stable before clicking
-        cy.wrap($el).click({ force: true });
-      });
+    cy.wait(2000);
+    cy.get('[data-testid="deal-card"]').eq(0).click();
+    cy.get('[data-testid="fund-button"]').click();
+    cy.get('[data-testid="checkbox"]').should("be.visible");
+    cy.get('[data-testid="checkbox"]').click();
+    cy.get('[data-testid="next"]').should("be.visible");
+    cy.get('[data-testid="next"]').click();
+    cy.get('[data-testid="accept"]').should("be.visible");
+    cy.get('[data-testid="accept"]').click();
+    cy.wait(2000);
+    cy.visit(`${Cypress.env("base_url")}/startup`);
+    cy.get('[data-testid="deal-card"]').eq(0).click();
   });
 });
