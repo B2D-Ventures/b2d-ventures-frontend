@@ -19,7 +19,7 @@ return (
     
     <div className="w-full h-[1px] bg-border my-2 sm:my-3 lg:my-4"></div>
     
-    <div className="w-full text-xl sm:text-2xl lg:text-[32px] 
+    <div className="w-full text-xl mb-4 sm:text-2xl lg:text-[32px] 
                   text-secondary font-light">
       Total raised
     </div>

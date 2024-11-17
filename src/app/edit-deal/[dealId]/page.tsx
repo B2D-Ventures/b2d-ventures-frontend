@@ -28,8 +28,8 @@ export default function EditDealDashboard({
   const id = params.dealId;
   return (
     <div className="flex items-center justify-center">
-      <div className="flex flex-col px-[102px] py-[54px] gap-10 w-[1440px]">
-        <div className="flex flex-col w-full">
+      <div className="flex flex-col px-6 py-10 gap-10 w-[1440px] ">
+        <div className="flex flex-col w-full px-[20px]">
           <div className="text-[48px] font-bold">Edit Deal</div>
           <div className="mt-1 text-[20px] text-secondary">
             Edit your deal on B2D.
