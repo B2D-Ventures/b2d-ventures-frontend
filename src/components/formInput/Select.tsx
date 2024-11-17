@@ -30,7 +30,7 @@ export default function SelectForm({ value, onChange }: SelectFormProps) {
         <SelectItem key={"Funded"}>Funded</SelectItem>
         <SelectItem key={"100+ invesetors"}>100+ investors</SelectItem>
         <SelectItem key={"$100k+ raised"}>$100k+ raised</SelectItem>
-        <SelectItem key={"Tech Company"}>Tech Company</SelectItem>
+        <SelectItem key={"Tech Company"} data-testid="select-value">Tech Company</SelectItem>
         <SelectItem key={"Health Company"}>Health Company</SelectItem>
         <SelectItem key={"Artificial Intelligence (AI)"}>Artificial Intelligence (AI)</SelectItem>
         <SelectItem key={"Blockchain"}>Blockchain</SelectItem>

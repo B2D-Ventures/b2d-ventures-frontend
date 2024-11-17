@@ -169,9 +169,7 @@ Summary:
           try {
             const refreshToken = localStorage.getItem("refreshToken");
             const refreshResponse = await axios.post(
-              `${process.env.NEXT_PUBLIC_URI}api/startup/${localStorage.getItem(
-                "userId"
-              )}/deals/`,
+              `${process.env.NEXT_PUBLIC_URI}api/auths/refresh-token/`,
               {
                 data: {
                   attributes: {
@@ -231,9 +229,7 @@ Summary:
           try {
             const refreshToken = localStorage.getItem("refreshToken");
             const refreshResponse = await axios.post(
-              `${process.env.NEXT_PUBLIC_URI}api/startup/${localStorage.getItem(
-                "userId"
-              )}/deals/`,
+              `${process.env.NEXT_PUBLIC_URI}api/auths/refresh-token/`,
               {
                 data: {
                   attributes: {

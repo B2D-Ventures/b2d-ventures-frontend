@@ -238,6 +238,7 @@ const DealDashboard: React.FC = () => {
         {filteredDeals.length > 0 ? (
           filteredDeals.map((deal) => (
             <div
+              data-testid="deal-card"
               key={deal.attributes.id}
               onClick={() => handleDealClick(deal.attributes.id)}
               className="transform transition-transform hover:scale-105"

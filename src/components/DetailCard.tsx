@@ -93,6 +93,7 @@ export default function DetailCard({
           <Image src={getImageSrc(image_bg)} width={378} height={10} alt="image" />
         </div>
         <div
+          data-testid="fund-button"
           className="w-full h-[44px] bg-purple rounded-[8px] my-2 flex items-center justify-center text-white text-[24px] font-bold hover:cursor-pointer"
           onClick={handleFundClick}
         >

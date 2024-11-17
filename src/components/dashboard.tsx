@@ -112,7 +112,7 @@ export default function Dashboard() {
         <div className="min-h-screen">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
                 {/* Top Section - Investment Overview */}
-                <div className="md:col-span-2 bg-white rounded-lg shadow-lg p-4">
+                <div className="md:col-span-2 bg-white rounded-lg shadow-lg p-4" data-testid="general-inform">
                     <div className="space-y-4">
                         <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold">Admin Dashboard</h1>
                         <p className="text-base lg:text-lg text-gray-600">Investment Amount</p>
@@ -126,7 +126,7 @@ export default function Dashboard() {
                 </div>
 
                 {/* Top Section - Stock Percentage */}
-                <div className="bg-white rounded-lg shadow-lg p-4">
+                <div className="bg-white rounded-lg shadow-lg p-4" data-testid="Stock Percentage">
                     <p className="text-xl lg:text-2xl font-bold mb-4">Stock Percentage</p>
                     <div className="w-full h-[250px] md:h-[300px]">
                         <DoughnutChart investments={investments} />
@@ -134,7 +134,7 @@ export default function Dashboard() {
                 </div>
 
                 {/* Bottom Section - Recent Investments */}
-                <div className="bg-green-300 rounded-lg shadow-lg p-4">
+                <div className="bg-green-300 rounded-lg shadow-lg p-4" data-testid="Recent Investments">
                     <div className="space-y-4">
                         <p className="text-xl lg:text-2xl font-bold">Recent Investments</p>
                         <p className="text-base lg:text-lg text-gray-600">
@@ -159,7 +159,7 @@ export default function Dashboard() {
                 </div>
 
                 {/* Bottom Section - Top Performers */}
-                <div className="bg-green-300 rounded-lg shadow-lg p-4">
+                <div className="bg-green-300 rounded-lg shadow-lg p-4" data-testid="Top Performers">
                     <div className="space-y-4">
                         <p className="text-xl lg:text-2xl font-bold">Top Performers</p>
                         <p className="text-base lg:text-lg text-gray-600">
@@ -184,7 +184,7 @@ export default function Dashboard() {
                 </div>
 
                 {/* Bottom Section - Investment Today */}
-                <div className="bg-green-300 rounded-lg shadow-lg p-4">
+                <div className="bg-green-300 rounded-lg shadow-lg p-4" data-testid="Investment Today">
                     <div className="space-y-4">
                         <p className="text-xl lg:text-2xl font-bold">Investment Today</p>
                         {(() => {

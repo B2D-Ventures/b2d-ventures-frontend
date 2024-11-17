@@ -12,6 +12,7 @@ export default function TextArea({ placeholder, value, onChange }: TextAreaProps
     <div className="flex flex-col items-center justify-center gap-1">
       <div className="w-full text-[16px] text-secondary">Content</div>
       <Textarea
+        data-testid="content-input"
         placeholder={placeholder}
         style={{ height: "120px" }}
         classNames={{

@@ -8,6 +8,7 @@ interface FormInputProps {
   type: string;
   value?: string; 
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  testid?: string;
 }
 
 export default function FormInput({
@@ -17,11 +18,13 @@ export default function FormInput({
   type,
   value,
   onChange,
+  testid,
 }: FormInputProps) {
   return (
     <div className="flex flex-col items-center justify-center gap-1">
       <div className="w-full text-[16px] text-secondary">{label}</div>
       <Input
+        data-testid={testid}
         value={value}
         onChange={onChange}
         type={type}

@@ -194,6 +194,7 @@ export default function InvestModal({
                     onClick={
                       sliderValue === 0 ? undefined : handleAcceptInvestment
                     }
+                    data-testid="accept"
                   >
                     Accept
                   </div>
