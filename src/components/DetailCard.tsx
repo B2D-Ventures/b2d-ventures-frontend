@@ -86,7 +86,7 @@ export default function DetailCard({
         </div>
         <div className="w-full h-[1px] bg-border my-2"></div>
         <div className="flex justify-between items-end">
-          <div className="text-secondary text-[24px]">raised</div>
+          <div className="text-secondary text-[24px]">Raised</div>
           <div className="text-black font-bold text-[36px]">{numberToStringFormat(amount_raised)}</div>
         </div>
         <div className="w-full h-[175px] rounded-[8px] overflow-hidden my-1">
