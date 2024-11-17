@@ -109,7 +109,7 @@ Summary:
       formData.append("description", description);
     }
     if (allocation !== "") {
-      formData.append("allocation", parseFloat(allocation).toString());
+      formData.append("target_amount", parseFloat(allocation).toString());
     }
     if (pricePerUnit !== "") {
       formData.append("price_per_unit", parseFloat(pricePerUnit).toString());
@@ -121,7 +121,7 @@ Summary:
       );
     }
     if (raised !== "") {
-      formData.append("raised", parseFloat(raised).toString());
+      formData.append("amount_raised", parseFloat(raised).toString());
     }
     if (businessType !== "") {
       formData.append("type", businessType);
@@ -270,11 +270,11 @@ Summary:
     }
   };
 
-return (
+  return (
     <div className="w-full max-w-[1400px] mx-auto p-4 md:p-6">
       <div className="flex flex-col lg:flex-row gap-6 border-[2px] border-border rounded-[8px] p-4 md:p-6 lg:p-8">
         {/* Left Column */}
-        <div className="flex flex-col w-full lg:w-1/2 gap-4">
+        <div className="flex flex-col w-full lg:w-1/2 gap-[22px]">
           <div className="w-full">
             <FormInput
               label="Name"
@@ -340,7 +340,6 @@ return (
             <Select onChange={onSelectChange} />
           </div>
         </div>
-
         {/* Right Column */}
         <div className="flex flex-col w-full lg:w-1/2 gap-4">
           {/* Date Picker Section */}
@@ -360,7 +359,7 @@ return (
             <div className="flex justify-end text-[12px] text-secondary">
               (File size should less than 5MB.)
             </div>
-            
+
             {/* File Upload Stack - Changed to vertical layout */}
             <div className="flex flex-col gap-4">
               {/* Logo Upload */}
@@ -428,7 +427,10 @@ return (
 
               {/* Private Data Upload */}
               <div className="flex flex-col gap-2">
-                <label htmlFor="privateData" className="text-[16px] text-secondary">
+                <label
+                  htmlFor="privateData"
+                  className="text-[16px] text-secondary"
+                >
                   Private Data
                 </label>
                 <input
@@ -472,19 +474,18 @@ Summary:
               onChange={(e) => setContent(e.target.value)}
             />
           </div>
-
         </div>
       </div>
-          {/* Submit Button */}
-          <div className="w-full flex justify-center mt-4">
-            <button
-              className="w-[200px] h-[44px] bg-purple rounded-[8px] text-white text-[20px] font-bold
+      {/* Submit Button */}
+      <div className="w-full flex justify-center mt-4">
+        <button
+          className="w-[200px] h-[44px] bg-purple rounded-[8px] text-white text-[20px] font-bold
                 hover:opacity-90 transition-opacity"
-              onClick={handleSubmit}
-            >
-              Submit
-            </button>
-          </div>
+          onClick={handleSubmit}
+        >
+          Submit
+        </button>
+      </div>
     </div>
   );
 }
