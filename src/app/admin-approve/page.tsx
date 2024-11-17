@@ -22,7 +22,7 @@ const Home: React.FC = () => {
               Admin Approve Dashboard
             </h1>
             <p className="text-base sm:text-lg text-black-600 mt-1 sm:mt-2">
-              Approve startup's deals.
+              Approve startup deals.
             </p>
           </div>
 
