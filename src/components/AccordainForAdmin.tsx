@@ -64,6 +64,7 @@ export default function App({ deals }: AccordainForAdminProps) {
     <Accordion>
       {deals.map((deal) => (
         <AccordionItem
+          data-testid="deal-item"
           key={deal.attributes.id}
           aria-label="Accordion 1"
           title={deal.attributes.name}

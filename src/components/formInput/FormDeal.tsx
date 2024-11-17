@@ -169,9 +169,7 @@ Summary:
           try {
             const refreshToken = localStorage.getItem("refreshToken");
             const refreshResponse = await axios.post(
-              `${process.env.NEXT_PUBLIC_URI}api/startup/${localStorage.getItem(
-                "userId"
-              )}/deals/`,
+              `${process.env.NEXT_PUBLIC_URI}api/auths/refresh-token/`,
               {
                 data: {
                   attributes: {
@@ -231,9 +229,7 @@ Summary:
           try {
             const refreshToken = localStorage.getItem("refreshToken");
             const refreshResponse = await axios.post(
-              `${process.env.NEXT_PUBLIC_URI}api/startup/${localStorage.getItem(
-                "userId"
-              )}/deals/`,
+              `${process.env.NEXT_PUBLIC_URI}api/auths/refresh-token/`,
               {
                 data: {
                   attributes: {
@@ -279,6 +275,7 @@ Summary:
       <div className="flex flex-col w-full h-full items-start justify-start gap-3">
         <div className="w-full">
           <FormInput
+            testid="name-input"
             label="Name"
             has$={false}
             placeholder="Enter startup name"
@@ -289,6 +286,7 @@ Summary:
         </div>
         <div className="w-full">
           <FormInput
+            testid="description-input"
             label="Description"
             has$={false}
             placeholder="Enter startup description"
@@ -299,6 +297,7 @@ Summary:
         </div>
         <div className="w-full">
           <FormInput
+            testid="allocation-input"
             label="Target amount"
             has$={true}
             placeholder="0.00"
@@ -309,6 +308,7 @@ Summary:
         </div>
         <div className="w-full">
           <FormInput
+            testid="price-input"
             label="Price per unit"
             has$={true}
             placeholder="0.00"
@@ -319,6 +319,7 @@ Summary:
         </div>
         <div className="w-full">
           <FormInput
+            testid="min-investment-input"
             label="Minimum investment"
             has$={true}
             placeholder="0.00"
@@ -329,6 +330,7 @@ Summary:
         </div>
         <div className="w-full">
           <FormInput
+            testid="raised-input"
             label="Amount raised"
             has$={true}
             placeholder="0.00"
@@ -339,7 +341,7 @@ Summary:
         </div>
       </div>
       <div className="flex flex-col w-full h-full items-start justify-start gap-3">
-        <div className="w-full">
+        <div className="w-full" data-testid="select-type">
           <Select onChange={onSelectChange} />
         </div>
         <div className="w-full flex flex-row gap-4">
@@ -347,13 +349,17 @@ Summary:
             <div className="w-full text-[16px] text-secondary mb-3">
               Start date
             </div>
-            <DatePicker value={startDate} onChange={(e) => setStartDate(e)} />
+            <div>
+              <DatePicker value={startDate} onChange={(e) => setStartDate(e)} testid="start-date-input"/>
+            </div>
           </div>
           <div className="w-full">
             <div className="w-full text-[16px] text-secondary mb-3">
               End date
             </div>
-            <DatePicker value={endDate} onChange={(e) => setEndDate(e)} />
+            <div>
+              <DatePicker value={endDate} onChange={(e) => setEndDate(e)} testid="end-date-input"/>
+            </div>
           </div>
         </div>
         <div className="flex w-full text-[16px] text-secondary">
@@ -452,6 +458,7 @@ Our goal:
         </div>
         <div className="flex w-full justify-end items-center mt-7 hover:cursor-pointer">
           <div
+            data-testid="submit-button"
             className="flex w-full h-[44px] items-center justify-center bg-purple rounded-[8px] text-white text-[20px] font-bold"
             onClick={handleSubmit}
           >

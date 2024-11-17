@@ -122,6 +122,7 @@ const Home: React.FC = () => {
       <div className="p-6 bg-white rounded-xl shadow-lg w-full max-w-lg">
         <h2 className="text-3xl font-bold text-center mb-4 text-purple">Schedule a Meeting</h2>
         <DatePicker
+          data-testid="date-meeting"
           label="Select Date"
           className="max-w-[284px] mb-4"
           isRequired
@@ -133,6 +134,7 @@ const Home: React.FC = () => {
         />
         <div className="flex flex-wrap gap-4 mt-2">
           <TimeInput
+            data-testid="start-time-meeting"
             label="Start Time"
             description="Please enter your meeting start time"
             onChange={handleTimeChange(setStartTime)}
@@ -140,6 +142,7 @@ const Home: React.FC = () => {
           />
 
           <TimeInput
+            data-testid="end-time-meeting"
             label="End Time"
             description="Please enter your meeting end time"
             onChange={handleTimeChange(setEndTime)}
@@ -147,6 +150,7 @@ const Home: React.FC = () => {
           />
 
           <Textarea
+            data-testid="title-meeting"
             label="Title"
             placeholder="Enter your title"
             className="max-w-xs"
@@ -154,13 +158,14 @@ const Home: React.FC = () => {
           />
 
           <Textarea
+            data-testid="description-meeting"
             label="Description"
             placeholder="Enter your description"
             className="max-w-xs"
             onChange={(e) => setDescription(e.target.value)}
           />
         </div>
-        <Button color="primary" onClick={handleSend} className="mt-4 w-full transition duration-300 ease-in-out transform hover:scale-105">
+        <Button data-testid="confirm-button" color="primary" onClick={handleSend} className="mt-4 w-full transition duration-300 ease-in-out transform hover:scale-105">
           Confirm
         </Button>
       </div>

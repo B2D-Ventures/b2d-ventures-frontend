@@ -28,18 +28,18 @@ export default function DealDashboard() {
     try {
       const accessToken = localStorage.getItem("accessToken");
       const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_URI}api/startup/${localStorage.getItem(
-          "userId"
-        )}/dashboard`,
+        `${process.env.NEXT_PUBLIC_URI}api/startup/${localStorage.getItem("userId")}/dashboard`,
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
         }
       );
+      console.log("jj", response.data.data.attributes);
       console.log(response.data.data.attributes.investments);
       setInvestments(response.data.data.attributes.investments);
-      setTotalInvestment(response.data.data.attributes.profile.total_amount_raised);
+      console.log("amount", response.data.data.attributes.profile.total_raised);
+      setTotalInvestment(response.data.data.attributes.profile.total_raised);
     } catch (error: any) {
       if (error.response && error.response.status === 401) {
         // Token expired, try to refresh
@@ -72,9 +72,8 @@ export default function DealDashboard() {
           );
           console.log(retryResponse.data.data.attributes.investments);
           setInvestments(retryResponse.data.data.attributes.investments);
-          setTotalInvestment(
-            retryResponse.data.data.attributes.profile.total_raised
-          );
+          console.log("retry amount", retryResponse.data.data.attributes.profile.total_raised);
+          setTotalInvestment(retryResponse.data.data.attributes.profile.total_raised);
         } catch (refreshError) {
           console.error("Error refreshing token:", refreshError);
           alert("Please ensure you are logged in as a verified startup. Please try again later.");

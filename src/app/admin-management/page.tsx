@@ -4,23 +4,26 @@ import AdminCard from "@/components/adminCardForManagement";
 import Accordian from "@/components/AccordainForAdmin";
 import axios from "axios";
 import { useState } from "react";
-
+import { useRouter } from "next/navigation"; // Import the useRouter hook
+import { Button } from "@nextui-org/react"; // Import Button from your UI library
 
 export default function DealDashboard() {
   const [total_invested, setTotalInvestment] = useState<string>("");
   const [recentDeals, setRecentDeals] = useState<any[]>([]);
+  const router = useRouter(); // Initialize the router
 
   const fetchDashboard = async () => {
     try {
       const response = await axios.get<{ data: any }>(
         `${process.env.NEXT_PUBLIC_URI}api/admin/dashboard/`
       );
-
       console.log("Dashboard fetched:", response.data);
+      const dealResponse = await axios.get<{ data: any }>(
+        `${process.env.NEXT_PUBLIC_URI}api/admin/deals/`
+      );
+      console.log("Deals fetched:", dealResponse.data);
       setTotalInvestment(response.data.data.attributes.statistics.total_investments);
-      setRecentDeals(response.data.data.attributes.recent_deals);
-      // setFilteredDeals(response.data.data);
-      // console.log("Deals fetched:", response.data.data);
+      setRecentDeals(dealResponse.data.data);
     } catch (error) {
       console.error("Error fetching deals:", error);
     }
@@ -36,13 +39,13 @@ export default function DealDashboard() {
         <div className="flex flex-col w-full">
           <div className="text-[48px] font-bold">Admin management</div>
           <div className="mt-1 text-[20px] text-secondary">
-          Manage startup deal.
+            Manage startup deal.
           </div>
         </div>
         <div className="w-full flex flex-row items-between gap-10">
           <div className="">
             <div className="flex flex-col">
-                <AdminCard totalStartup={total_invested} />
+              <AdminCard totalStartup={total_invested} />
             </div>
           </div>
           <div className="flex-col w-full">
@@ -53,8 +56,17 @@ export default function DealDashboard() {
             <div className="flex flex-row justify-start gap-2">
               {/* <div className="text-[24px] text-secondary">All</div> */}
             </div>
-            <div className="h-[520px] overflow-y-auto">
-              <Accordian deals={recentDeals} />
+            <div className="h-[520px] overflow-y-auto" data-testid="accordian-deal">
+              <Accordian deals={recentDeals}/>
+            </div>
+            {/* Add the Back to Approve Deal button here */}
+            <div className="mt-4">
+              <Button
+                onClick={() => router.push("/admin-approve")}
+                color="primary"
+              >
+                Back to Approve Deal
+              </Button>
             </div>
           </div>
         </div>
