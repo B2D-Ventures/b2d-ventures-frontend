@@ -50,7 +50,7 @@ interface UserAttributes {
       );
     });
   
-    it("Startup is able to view investment", () => {
+    it("Investor is able to request for private dataroom", () => {
         cy.visit(`${Cypress.env("base_url")}/startup`);
         cy.wait(2000);
         cy.get('[data-testid="deal-card"]').eq(0).click();
