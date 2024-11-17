@@ -37,6 +37,7 @@ export default function App({ deals }: { deals: Deal[] }) {
     <Accordion>
       {deals.map((deal) => (
         <AccordionItem
+          data-testid="investor-accordion"
           key={deal.attributes.id}
           aria-label="Accordion 1"
           title={
