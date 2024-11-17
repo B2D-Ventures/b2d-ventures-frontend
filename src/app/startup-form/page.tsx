@@ -5,11 +5,11 @@ import FormDeal from "@/components/formInput/FormDeal";
 
 export default function DealDashboard() {
   return (
-    <div className="flex items-center justify-center">
-      <div className="flex flex-col px-[102px] py-[54px] gap-10 w-[1440px]">
+    <div className="flex items-center justify-center min-h-screen">
+      <div className="flex flex-col px-6 py-10 gap-10 w-full max-w-4xl">
         <div className="flex flex-col w-full">
-          <div className="text-[48px] font-bold">Create Deal</div>
-          <div className="mt-1 text-[20px] text-secondary">
+          <div className="text-4xl font-bold">Create Deal</div>
+          <div className="mt-1 text-lg text-secondary">
             Browse current investment opportunities on B2D.
           </div>
         </div>

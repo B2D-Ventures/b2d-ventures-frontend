@@ -14,7 +14,7 @@ interface DealCardProps {
 }
 
 function fundingGoalFormat(amount: number) {
-  return (amount / 1000).toLocaleString();
+  return (amount / 1000000).toLocaleString();
 }
 
 const API_BASE_URL = `${process.env.NEXT_PUBLIC_URI}`;
@@ -65,7 +65,7 @@ export default function DealCard({
           <div className="mt-2 flex items-center">
             <div className="text-base text-secondary">Funding goal</div>
             <div className="text-base ml-auto">
-              ${fundingGoalFormat(fundingGoal)}k
+              ${fundingGoalFormat(fundingGoal)}M
             </div>
           </div>
           <div className="mt-2 grid grid-cols-2">
@@ -77,7 +77,7 @@ export default function DealCard({
               </div>
               <div className="flex">
                 <div className="text-base font-semi-bold">
-                  {investorNumber} investors
+                  {investorNumber} investments
                 </div>
               </div>
             </div>
