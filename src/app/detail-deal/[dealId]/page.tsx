@@ -235,6 +235,7 @@ export default function DealDashboard({
             {/* Edit Deal Button */}
             {deal?.attributes.startup.id === localStorage.getItem("userId") && (
               <button
+                data-testid="edit-deal-button"
                 onClick={() => handleEditDeal(id)}
                 className="w-full lg:w-[378px] h-[44px] rounded-[8px] text-purple border-[2px] border-purple text-sm sm:text-base font-semibold hover:bg-purple hover:text-white transition-colors"
               >
