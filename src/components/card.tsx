@@ -48,13 +48,13 @@ export default function DealCard({
         height={260}
       />
       <div className="p-6 flex flex-col flex-grow">
-        <div className="absolute top-[220px] rounded-md w-[80px] h-[80px] overflow-hidden flex items-center justify-center"> {/* this line is icon height */}
+      <div className="absolute top-[220px] w-[80px] h-[80px] overflow-hidden drop-shadow-md flex items-center justify-center rounded-md">
           <Image
             src={getImageSrc(icon)}
             alt="icon"
             width={80}
             height={80}
-            className="w-full object-cover rounded-md shadow-md"
+            className="rounded-md object-contain"
           />
         </div>
         <div className="mt-6">
