@@ -251,6 +251,7 @@ const DealDashboard: React.FC = () => {
                 investorNumber={deal.attributes.investor_count}
                 icon={deal.attributes.image_logo_url}
                 bgImage={deal.attributes.image_content_url}
+                type={deal.attributes.type}
               />
             </div>
           ))
