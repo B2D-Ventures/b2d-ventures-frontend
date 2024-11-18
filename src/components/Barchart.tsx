@@ -25,6 +25,7 @@ const BarChart: React.FC<BarChartProps> = ({ investments }) => {
     const chartRef = useRef<HTMLCanvasElement | null>(null);
     const chartInstanceRef = useRef<Chart | null>(null);
 
+
     useEffect(() => {
         const ctx = chartRef.current?.getContext("2d");
         if (ctx && investments.length > 0) {
