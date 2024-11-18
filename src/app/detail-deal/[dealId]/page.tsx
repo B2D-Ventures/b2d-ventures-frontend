@@ -154,15 +154,15 @@ export default function DealDashboard({
           <div className="flex flex-col w-full lg:w-[793px]">
             {/* Header Section */}
             <div className="flex flex-row gap-4 items-center">
-              <div className="rounded-[8px] overflow-hidden shadow-sm">
-                <Image
-                  src={getImageSrc(deal?.attributes.image_logo_url)}
-                  width={48}
-                  height={48}
-                  alt="logo"
-                  className="w-[40px] h-[40px] sm:w-[60px] sm:h-[60px]"
-                />
-              </div>
+            <div className="relative w-[80px] h-[80px] overflow-hidden drop-shadow-md flex items-center justify-center rounded-md">
+              <Image
+                src={getImageSrc(deal?.attributes.image_logo_url, true)}
+                alt="icon"
+                width={80}
+                height={80}
+                className="rounded-md object-contain"
+              />
+            </div>
               <div className="text-2xl sm:text-3xl lg:text-[48px] font-bold">
                 {deal ? deal.attributes.name : "Loading..."}
               </div>
