@@ -89,7 +89,7 @@ export default function DetailCard({
           <div className="text-secondary text-[24px]">Raised</div>
           <div className="text-black font-bold text-[36px]">{numberToStringFormat(amount_raised)}</div>
         </div>
-        <div className="w-full h-[175px] rounded-[8px] overflow-hidden my-1">
+        <div className="w-full rounded-[8px] overflow-hidden my-1 flex items-center justify-center"> {/* adjust thi line */}
           <Image src={getImageSrc(image_bg)} width={378} height={10} alt="image" />
         </div>
         <div
