@@ -67,7 +67,7 @@ export default function DetailCard({
 
   return (
     <>
-      <div className="w-[378px] h-[647px] bg-wwhite border-[2px] border-border rounded-[8px] px-6 py-10">
+      <div className="bg-white border-[2px] border-border rounded-[8px] px-6 py-10">
         <div className="flex justify-between items-center text-[16px]">
           <div className="text-secondary ">Allocation</div>
           <div className="text-black font-bold">
