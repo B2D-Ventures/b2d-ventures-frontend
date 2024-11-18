@@ -182,7 +182,7 @@ export default function Page() {
       {/* Disclaimer Section */}
       <div className="flex items-center justify-center text-white text-center p-6 lg:h-[120px] bg-[#4E0A81] text-[14px] lg:text-base">
         Private investments are highly risky, illiquid and may result in total
-        loss of capital. Learn more
+        loss of capital.
       </div>
     </div>
   );

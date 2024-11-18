@@ -138,22 +138,26 @@ export default function Dashboard() {
                     <div className="space-y-4">
                         <p className="text-xl lg:text-2xl font-bold">Recent Investments</p>
                         <p className="text-base lg:text-lg text-gray-600">
-                            {statistics?.total_investments ?? 0} investors
+                            5 recent investments
                         </p>
                         <div className="space-y-4">
-                            {investments.slice(0, 4).map((investment, index) => (
-                                <div key={investment.id}>
-                                    <div className="flex justify-between items-center py-2">
-                                        <span className="text-sm lg:text-base font-bold">
-                                            {investment.attributes.investor}
-                                        </span>
-                                        <span className="text-sm lg:text-base text-gray-500">
-                                            {parseFloat(investment.attributes.investment_amount).toLocaleString()} USD
-                                        </span>
+                            {investments
+                                .sort((a, b) => new Date(b.attributes.investment_date).getTime() - new Date(a.attributes.investment_date).getTime()) // Sort by date descending
+                                .slice(0, 5) // Get first 4 items 
+                                .map((investment, index) => (
+                                    <div key={investment.id}>
+                                        <div className="flex justify-between items-center py-2">
+                                            <span className="text-sm lg:text-base font-bold">
+                                                {investment.attributes.investor}
+                                            </span>
+                                            <span className="text-sm lg:text-base text-gray-500">
+                                                {parseFloat(investment.attributes.investment_amount).toLocaleString()} USD
+                                            </span>
+                                        </div>
+                                        {index < 4 && <hr className="border-gray-400"/>}
                                     </div>
-                                    {index < 3 && <hr className="border-gray-400"/>}
-                                </div>
-                            ))}
+                                ))
+                            }
                         </div>
                     </div>
                 </div>
@@ -161,24 +165,27 @@ export default function Dashboard() {
                 {/* Bottom Section - Top Performers */}
                 <div className="bg-green-300 rounded-lg shadow-lg p-4" data-testid="Top Performers">
                     <div className="space-y-4">
-                        <p className="text-xl lg:text-2xl font-bold">Top Performers</p>
+                        <p className="text-xl lg:text-2xl font-bold">Top Investors</p>
                         <p className="text-base lg:text-lg text-gray-600">
-                            Top performing investments
+                            Top 5 investors
                         </p>
                         <div className="space-y-4">
-                            {getTopPerformers(investments).map(([investor, totalAmount], index) => (
-                                <div key={investor}>
-                                    <div className="flex justify-between items-center py-2">
-                                        <span className="text-sm lg:text-base font-bold">
-                                            {totalAmount.toLocaleString()} USD
-                                        </span>
-                                        <span className="text-sm lg:text-base text-gray-500">
-                                            {investor}
-                                        </span>
+                            {getTopPerformers(investments)
+                                .slice(0, 5) // Limit to top 5 investors
+                                .map(([investor, totalAmount], index) => (
+                                    <div key={investor}>
+                                        <div className="flex justify-between items-center py-2">
+                                            <span className="text-sm lg:text-base font-bold">
+                                                {totalAmount.toLocaleString()} USD
+                                            </span>
+                                            <span className="text-sm lg:text-base text-gray-500">
+                                                {investor}
+                                            </span>
+                                        </div>
+                                        {index < 4 && <hr className="border-gray-400"/>}
                                     </div>
-                                    {index < 3 && <hr className="border-gray-400"/>}
-                                </div>
-                            ))}
+                                ))
+                            }
                         </div>
                     </div>
                 </div>
