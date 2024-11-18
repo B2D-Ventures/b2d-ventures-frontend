@@ -18,8 +18,8 @@ function fundingGoalFormat(amount: number) {
 }
 
 const API_BASE_URL = `${process.env.NEXT_PUBLIC_URI}`;
-const DEFAULT_BG_IMAGE = "/images/lexi.png"; // Replace with your default background image path
-const DEFAULT_ICON_IMAGE = "/images/icon.jpg"; // Replace with your default icon image path
+const DEFAULT_BG_IMAGE = "/images/lexi.png";
+const DEFAULT_ICON_IMAGE = "/images/icon.jpg";
 
 export default function DealCard({
   name,
@@ -48,7 +48,7 @@ export default function DealCard({
         height={260}
       />
       <div className="p-6 flex flex-col flex-grow">
-        <div className="absolute top-[220px] shadow-md rounded-md w-[80px] h-[80px] overflow-hidden">
+        <div className="absolute top-[220px] shadow-md rounded-md w-[80px] h-[80px] overflow-hidden flex items-center justify-center"> {/* this line is icon height */}
           <Image
             src={getImageSrc(icon)}
             alt="icon"
@@ -58,8 +58,10 @@ export default function DealCard({
           />
         </div>
         <div className="mt-6">
-          <div className="text-2xl font-24px font-bold">{name}</div>
-          <div className="text-base mb-6">{description}</div>
+          <div className="text-2xl font-24px line-clamp-2 overflow-hidden font-bold">{name}</div>
+          <div className="text-base mb-6 line-clamp-2 overflow-hidden text-ellipsis">
+            {description}
+          </div>
         </div>
         <div className="flex flex-col mt-auto">
           <div className="mt-2 flex items-center">
@@ -83,7 +85,7 @@ export default function DealCard({
             </div>
             <div className="mt-2 ml-auto">
               <div className="w-[105px] h-[32px] flex bg-purple rounded-md items-center justify-center">
-                <div className="text-white text-center">FUNDED</div>
+                <div className="text-white text-center">FUND</div>
               </div>
             </div>
           </div>
