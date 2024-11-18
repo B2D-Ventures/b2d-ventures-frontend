@@ -32,7 +32,7 @@ const typeColorMap: { [key: string]: { bg: string; text: string } } = {
   "Education Technology": { bg: "bg-yellow-100", text: "text-yellow-600" },
   "Quantum Computing": { bg: "bg-cyan-100", text: "text-cyan-600" },
   "Water Technology": { bg: "bg-sky-100", text: "text-sky-600" },
-  "Neuroscience AI": { bg: "bg-violet-100", text: "text-violet-600" },
+  "Neuroscience AI": { bg: "bg-amber-100", text: "text-amber-600" },
   "Agriculture Technology": { bg: "bg-lime-100", text: "text-lime-600" },
   "Environmental Technology": { bg: "bg-emerald-100", text: "text-emerald-600" },
 };
@@ -82,14 +82,13 @@ const typeColors = typeColorMap[type] || { bg: "bg-gray-100", text: "text-gray-6
             {description}
           </div>
         </div>
-
-        <div className="mb-4">
-        <span className={`px-2 py-1 rounded-md text-sm ${typeColors.bg} ${typeColors.text}`}>
-          {type}
-        </span>
-      </div>
       
         <div className="flex flex-col mt-auto">
+          <div className="mt-1">
+            <span className={`px-2 py-1 rounded-md text-sm ${typeColors.bg} ${typeColors.text}`}>
+              {type}
+            </span>
+          </div>
           <div className="mt-2 flex items-center">
             <div className="text-base text-secondary">Funding goal</div>
             <div className="text-base ml-auto">
