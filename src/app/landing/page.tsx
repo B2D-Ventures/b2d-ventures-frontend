@@ -98,31 +98,31 @@ export default function Page() {
       title: "Invest in the future of technology",
       description:
         "Access exclusive opportunities in breakthrough technologies and innovative startups.",
-      image: "/images/investor.jpg", // Replace with different image
+      image: "/images/investor.jpg",
     },
     {
       title: "Join our global investment community",
       description:
         "Connect with like-minded investors and discover new opportunities together.",
-      image: "/images/city_view.avif", // Replace with different image
+      image: "/images/city_view.avif",
     },
     {
       title: "Empower your investment portfolio",
       description:
         "Diversify your investments with access to a wide range of private market opportunities.",
-      image: "/images/portfolio.jpg", // Replace with different image
+      image: "/images/portfolio.jpg",
     },
     {
       title: "Unlock new growth potential",
       description:
         "Invest in high-growth startups and scale-ups that are shaping the future.",
-      image: "/images/Stonks.jpg", // Replace with different image
+      image: "/images/Stonks.jpg",
     },
     {
       title: "Experience seamless investment",
       description:
         "Our platform provides a seamless and secure investment experience for all users.",
-      image: "/images/seamless.png", // Replace with different image
+      image: "/images/seamless.png",
     },
   ];
 
