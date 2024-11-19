@@ -51,8 +51,7 @@ export default function App({ deals }: { deals: Deal[] }) {
               width={48}
               height={48}
               alt="logo"
-              className="w-[32px] h-[32px] sm:w-[36px] sm:h-[36px] lg:w-[40px] lg:h-[40px] 
-                         rounded-[8px] overflow-hidden shadow-sm"
+              className="rounded-md object-contain"
             />
           }
         >
