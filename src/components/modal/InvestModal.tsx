@@ -11,7 +11,6 @@ import {
 
 interface InvestModalProps {
   isOpen: boolean;
-  onOpen: () => void;
   onOpenChange: () => void;
   minInvestAmount: number;
   pricePerUnit: number;
@@ -26,15 +25,13 @@ export default function InvestModal({
   dealId,
 }: InvestModalProps) {
   const [sliderValue, setSliderValue] = useState(1);
-  const [investmentAmount, setInvestmentAmount] = useState(pricePerUnit);
+  const [baseAmount, setBaseAmount] = useState(minInvestAmount);
+  const [investmentAmount, setInvestmentAmount] = useState(minInvestAmount + pricePerUnit);
 
-  const maxMultiplier = 10;
-
-  useEffect(() => {
-    const calculatedAmount =
-      Number(sliderValue) * Number(pricePerUnit) + Number(minInvestAmount);
+ useEffect(() => {
+    const calculatedAmount = Number(baseAmount) + (Number(sliderValue) * Number(pricePerUnit));
     setInvestmentAmount(isNaN(calculatedAmount) ? 0 : calculatedAmount);
-  }, [sliderValue, pricePerUnit]);
+  }, [sliderValue, pricePerUnit, baseAmount]);
 
   const handleSliderChange = (value: number | number[]) => {
     if (typeof value === "number") {
@@ -46,13 +43,24 @@ export default function InvestModal({
     }
   };
 
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    const numericValue = Number(value);
+    if (!isNaN(numericValue)) {
+      // Set the new base amount by subtracting the current unit additions
+      const newBaseAmount = numericValue - (sliderValue * pricePerUnit);
+      setBaseAmount(newBaseAmount);
+      setInvestmentAmount(numericValue);
+    }
+  };
+
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat("en-US", {
       style: "currency",
       currency: "USD",
     }).format(amount);
   };
-  
+
   const handleAcceptInvestment = async () => {
     const totalInvestmentAmount = Number(investmentAmount);
     console.log("Investment amount:", totalInvestmentAmount);
@@ -117,11 +125,15 @@ export default function InvestModal({
           alert("Investment accepted successfully.");
         } catch (refreshError) {
           console.error("Error refreshing token:", refreshError);
-          alert("Please ensure you are logged in as a verified investor. Please try again later.");
+          alert(
+            "Please ensure you are logged in as a verified investor. Please try again later."
+          );
         }
       } else {
         console.error("Error accepting investment.", error);
-        alert("Please ensure you are logged in as a verified investor. Please try again later.");
+        alert(
+          "Please ensure you are logged in as a verified investor. Please try again later."
+        );
       }
     }
   };
@@ -133,14 +145,14 @@ export default function InvestModal({
         onOpenChange={onOpenChange}
         classNames={{
           wrapper: "flex justify-center items-center",
-          base: "rounded-[8px] w-[532px] h-[426px] px-4 py-4",
+          base: "rounded-[8px] w-[532px] h-[450px] px-4 py-4",
         }}
       >
         <ModalContent>
           {(onClose) => (
             <>
               <ModalHeader className="flex flex-col gap-1 text-[32px]">
-                Investment deal
+                Invest deal
               </ModalHeader>
               <ModalBody>
                 <Slider
@@ -148,14 +160,13 @@ export default function InvestModal({
                   color="foreground"
                   step={1}
                   minValue={1}
-                  maxValue={maxMultiplier}
+                  maxValue={10}
                   marks={[
                     { value: 1, label: "1" },
                     { value: 4, label: "4" },
                     { value: 7, label: "7" },
-                    { value: maxMultiplier, label: `${maxMultiplier}` },
+                    { value: 10, label: "10" },
                   ]}
-                  defaultValue={1}
                   value={sliderValue}
                   onChange={handleSliderChange}
                   classNames={{
@@ -176,6 +187,12 @@ export default function InvestModal({
                 <div className="mt-1 text-[36px] text-black font-bold">
                   {formatCurrency(investmentAmount)}
                 </div>
+                <input
+                  type="number"
+                  value={investmentAmount}
+                  onChange={handleInputChange}
+                  className="mt-4 w-full p-2 border rounded"
+                />
               </ModalBody>
               <ModalFooter>
                 <div className="flex flex-row w-full h-full gap-4 items-center">

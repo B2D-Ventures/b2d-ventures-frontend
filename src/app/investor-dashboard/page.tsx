@@ -18,7 +18,20 @@ interface Deal {
     image_logo_url: string;
     image_content_url: string;
     type: string;
+    startup: {
+      name: string;
+    };
   };
+}
+
+interface Investment {
+  attributes: {
+    deal: string;
+    investment_amount: string;
+    investment_date: string;
+    id: string;
+    investor: string;
+  }
 }
 
 export default function DealDashboard() {
@@ -38,6 +51,16 @@ export default function DealDashboard() {
   useEffect(() => {
     filterDeals();
   }, [selectedFilter, searchQuery, deals]);
+
+  const filterInvestedDeals = (investments: Investment[], activeDeals: Deal[]): Deal[] => {
+    const investedDeals = new Set(
+      investments.map(investment => investment.attributes.deal)
+    );
+
+    return activeDeals.filter(deal => 
+      investedDeals.has(`${deal.attributes.name} - ${deal.attributes.startup.name}`)
+    );
+  };
 
   const filterDeals = () => {
     let filtered = deals;
@@ -72,11 +95,15 @@ export default function DealDashboard() {
           },
         }
       );
-      console.log(
-        "Dashboard fetched:",
+
+      // Filter active deals to only show invested deals
+      const investedDeals = filterInvestedDeals(
+        response.data.data.attributes.investments,
         response.data.data.attributes.active_deals
       );
-      setDeals(response.data.data.attributes.active_deals);
+
+      console.log("Invested deals:", investedDeals);
+      setDeals(investedDeals);
       setTotalInvestment(response.data.data.attributes.total_invested);
     } catch (error: any) {
       if (error.response && error.response.status === 401) {
@@ -108,10 +135,15 @@ export default function DealDashboard() {
               },
             }
           );
-          console.log(
-            "Dashboard fetched:",
-            refreshResponse.data.data.attributes.active_deals
+
+          // Filter active deals to only show invested deals
+          const investedDeals = filterInvestedDeals(
+            retryResponse.data.data.attributes.investments,
+            retryResponse.data.data.attributes.active_deals
           );
+
+          setDeals(investedDeals);
+          setTotalInvestment(retryResponse.data.data.attributes.total_invested);
         } catch (refreshError) {
           console.error("Error refreshing token:", refreshError);
           alert("Please ensure you are logged in as a verified investor. Please try again later.");
