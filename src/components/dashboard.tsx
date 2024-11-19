@@ -137,9 +137,9 @@ export default function Dashboard() {
                 {/* Bottom Section - Recent Investments */}
                 <div className="bg-green-300 rounded-lg shadow-lg p-4" data-testid="Recent Investments">
                     <div className="space-y-4">
-                        <p className="text-xl lg:text-2xl font-bold">All Investments</p>
+                        <p className="text-xl lg:text-2xl font-bold">Recent Investments</p>
                         <p className="text-base lg:text-lg text-gray-600">
-                            Total investments: {investments.length}
+                            5 recent investments
                         </p>
                         <div className="space-y-4 max-h-[400px] overflow-y-auto">
                             {investments
@@ -165,9 +165,9 @@ export default function Dashboard() {
                 {/* Bottom Section - Top Performers */}
                 <div className="bg-green-300 rounded-lg shadow-lg p-4" data-testid="Top Performers">
                     <div className="space-y-4">
-                        <p className="text-xl lg:text-2xl font-bold">All Investors</p>
+                        <p className="text-xl lg:text-2xl font-bold">Top Investors</p>
                         <p className="text-base lg:text-lg text-gray-600">
-                            Total investors: {getTopPerformers(investments).length}
+                            Top 5 Investors
                         </p>
                         <div className="space-y-4 max-h-[400px] overflow-y-auto">
                             {getTopPerformers(investments)
