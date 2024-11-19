@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import {
@@ -11,6 +13,7 @@ import {
 
 interface InvestModalProps {
   isOpen: boolean;
+  onOpen: () => void;
   onOpenChange: () => void;
   minInvestAmount: number;
   pricePerUnit: number;
@@ -26,12 +29,25 @@ export default function InvestModal({
 }: InvestModalProps) {
   const [sliderValue, setSliderValue] = useState(1);
   const [baseAmount, setBaseAmount] = useState(minInvestAmount);
-  const [investmentAmount, setInvestmentAmount] = useState(minInvestAmount + pricePerUnit);
+  const [investmentAmount, setInvestmentAmount] = useState(
+    minInvestAmount + pricePerUnit
+  );
+  const [error, setError] = useState<string>("");
 
- useEffect(() => {
-    const calculatedAmount = Number(baseAmount) + (Number(sliderValue) * Number(pricePerUnit));
-    setInvestmentAmount(isNaN(calculatedAmount) ? 0 : calculatedAmount);
-  }, [sliderValue, pricePerUnit, baseAmount]);
+  useEffect(() => {
+    const calculatedAmount =
+      Number(baseAmount) + Number(sliderValue) * Number(pricePerUnit);
+    // Ensure the amount is not negative
+    const validAmount = Math.max(0, isNaN(calculatedAmount) ? 0 : calculatedAmount);
+    setInvestmentAmount(validAmount);
+
+    // Set error if amount is less than minimum
+    if (validAmount < minInvestAmount) {
+      setError(`Minimum investment amount is ${formatCurrency(minInvestAmount)}`);
+    } else {
+      setError("");
+    }
+  }, [sliderValue, pricePerUnit, baseAmount, minInvestAmount]);
 
   const handleSliderChange = (value: number | number[]) => {
     if (typeof value === "number") {
@@ -46,10 +62,24 @@ export default function InvestModal({
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     const numericValue = Number(value);
+
     if (!isNaN(numericValue)) {
+      // Prevent negative values
+      if (numericValue < 0) {
+        setError("Investment amount cannot be negative");
+        return;
+      }
+
+      // Check minimum investment amount
+      if (numericValue < minInvestAmount) {
+        setError(`Minimum investment amount is ${formatCurrency(minInvestAmount)}`);
+      } else {
+        setError("");
+      }
+
       // Set the new base amount by subtracting the current unit additions
-      const newBaseAmount = numericValue - (sliderValue * pricePerUnit);
-      setBaseAmount(newBaseAmount);
+      const newBaseAmount = numericValue - sliderValue * pricePerUnit;
+      setBaseAmount(Math.max(0, newBaseAmount)); // Ensure base amount is not negative
       setInvestmentAmount(numericValue);
     }
   };
@@ -62,9 +92,21 @@ export default function InvestModal({
   };
 
   const handleAcceptInvestment = async () => {
+    // Validate investment amount before proceeding
+    if (investmentAmount < minInvestAmount) {
+      setError(`Minimum investment amount is ${formatCurrency(minInvestAmount)}`);
+      return;
+    }
+
+    if (investmentAmount <= 0) {
+      setError("Investment amount must be greater than zero");
+      return;
+    }
+
     const totalInvestmentAmount = Number(investmentAmount);
     console.log("Investment amount:", totalInvestmentAmount);
     console.log("Deal ID:", dealId);
+
     try {
       const accessToken = localStorage.getItem("accessToken");
       const response = await axios.post(
@@ -145,7 +187,7 @@ export default function InvestModal({
         onOpenChange={onOpenChange}
         classNames={{
           wrapper: "flex justify-center items-center",
-          base: "rounded-[8px] w-[532px] h-[450px] px-4 py-4",
+          base: "rounded-[8px] w-[532px] h-[480px] px-4 py-4",
         }}
       >
         <ModalContent>
@@ -191,8 +233,14 @@ export default function InvestModal({
                   type="number"
                   value={investmentAmount}
                   onChange={handleInputChange}
+                  min={0}
                   className="mt-4 w-full p-2 border rounded"
                 />
+                {error && (
+                  <div className="mt-2 text-red text-sm">
+                    {error}
+                  </div>
+                )}
               </ModalBody>
               <ModalFooter>
                 <div className="flex flex-row w-full h-full gap-4 items-center">
@@ -204,12 +252,12 @@ export default function InvestModal({
                   </div>
                   <div
                     className={`w-full flex items-center justify-center ${
-                      sliderValue === 0 ? "bg-gray-400" : "bg-purple"
+                      sliderValue === 0 || error ? "bg-gray-400" : "bg-purple"
                     } border-[2px] border-purple rounded-[8px] text-white text-[20px] ${
-                      sliderValue === 0 ? "" : "hover:cursor-pointer"
+                      sliderValue === 0 || error ? "" : "hover:cursor-pointer"
                     }`}
                     onClick={
-                      sliderValue === 0 ? undefined : handleAcceptInvestment
+                      sliderValue === 0 || error ? undefined : handleAcceptInvestment
                     }
                     data-testid="accept"
                   >
