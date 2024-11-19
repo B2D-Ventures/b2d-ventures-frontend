@@ -29,7 +29,7 @@ const typeColorMap: { [key: string]: { bg: string; text: string } } = {
   "Sustainable Fashion": { bg: "bg-pink-100", text: "text-pink-600" },
   "Space Exploration": { bg: "bg-indigo-100", text: "text-indigo-600" },
   "Healthcare": { bg: "bg-rose-100", text: "text-rose-600" },
-  "Education Technology": { bg: "bg-yellow-100", text: "text-yellow-600" },
+  "Education Technology": { bg: "bg-fuchsia-100", text: "text-fuchsia-600" },
   "Quantum Computing": { bg: "bg-cyan-100", text: "text-cyan-600" },
   "Water Technology": { bg: "bg-sky-100", text: "text-sky-600" },
   "Neuroscience AI": { bg: "bg-amber-100", text: "text-amber-600" },

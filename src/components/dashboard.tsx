@@ -58,9 +58,9 @@ export default function Dashboard() {
         });
 
         return Array.from(investorTotals.entries())
-            .sort(([, a], [, b]) => b - a)
-            .slice(0, 4);
+            .sort(([, a], [, b]) => b - a);
     };
+
 
     useEffect(() => {
         const fetchData = async () => {
@@ -108,6 +108,7 @@ export default function Dashboard() {
         );
     }
 
+ 
     return (
         <div className="min-h-screen">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
@@ -115,7 +116,7 @@ export default function Dashboard() {
                 <div className="md:col-span-2 bg-white rounded-lg shadow-lg p-4" data-testid="general-inform">
                     <div className="space-y-4">
                         <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold">Admin Dashboard</h1>
-                        <p className="text-base lg:text-lg text-gray-600">Investment Amount</p>
+                        <p className="text-base lg:text-lg text-gray-600">Total Investment Amount</p>
                         <p className="text-xl lg:text-2xl font-bold">
                             USD {statistics?.total_investment_amount?.toLocaleString() ?? '0'}
                         </p>
@@ -136,14 +137,13 @@ export default function Dashboard() {
                 {/* Bottom Section - Recent Investments */}
                 <div className="bg-green-300 rounded-lg shadow-lg p-4" data-testid="Recent Investments">
                     <div className="space-y-4">
-                        <p className="text-xl lg:text-2xl font-bold">Recent Investments</p>
+                        <p className="text-xl lg:text-2xl font-bold">All Investments</p>
                         <p className="text-base lg:text-lg text-gray-600">
-                            5 recent investments
+                            Total investments: {investments.length}
                         </p>
-                        <div className="space-y-4">
+                        <div className="space-y-4 max-h-[400px] overflow-y-auto">
                             {investments
-                                .sort((a, b) => new Date(b.attributes.investment_date).getTime() - new Date(a.attributes.investment_date).getTime()) // Sort by date descending
-                                .slice(0, 5) // Get first 4 items 
+                                .sort((a, b) => new Date(b.attributes.investment_date).getTime() - new Date(a.attributes.investment_date).getTime())
                                 .map((investment, index) => (
                                     <div key={investment.id}>
                                         <div className="flex justify-between items-center py-2">
@@ -154,7 +154,7 @@ export default function Dashboard() {
                                                 {parseFloat(investment.attributes.investment_amount).toLocaleString()} USD
                                             </span>
                                         </div>
-                                        {index < 4 && <hr className="border-gray-400"/>}
+                                        {index < investments.length - 1 && <hr className="border-gray-400"/>}
                                     </div>
                                 ))
                             }
@@ -165,14 +165,13 @@ export default function Dashboard() {
                 {/* Bottom Section - Top Performers */}
                 <div className="bg-green-300 rounded-lg shadow-lg p-4" data-testid="Top Performers">
                     <div className="space-y-4">
-                        <p className="text-xl lg:text-2xl font-bold">Top Investors</p>
+                        <p className="text-xl lg:text-2xl font-bold">All Investors</p>
                         <p className="text-base lg:text-lg text-gray-600">
-                            Top 5 investors
+                            Total investors: {getTopPerformers(investments).length}
                         </p>
-                        <div className="space-y-4">
+                        <div className="space-y-4 max-h-[400px] overflow-y-auto">
                             {getTopPerformers(investments)
-                                .slice(0, 5) // Limit to top 5 investors
-                                .map(([investor, totalAmount], index) => (
+                                .map(([investor, totalAmount], index, array) => (
                                     <div key={investor}>
                                         <div className="flex justify-between items-center py-2">
                                             <span className="text-sm lg:text-base font-bold">
@@ -182,7 +181,7 @@ export default function Dashboard() {
                                                 {investor}
                                             </span>
                                         </div>
-                                        {index < 4 && <hr className="border-gray-400"/>}
+                                        {index < array.length - 1 && <hr className="border-gray-400"/>}
                                     </div>
                                 ))
                             }
@@ -190,7 +189,7 @@ export default function Dashboard() {
                     </div>
                 </div>
 
-                {/* Bottom Section - Investment Today */}
+                {/* Bottom Section - Investment Today (keep as is) */}
                 <div className="bg-green-300 rounded-lg shadow-lg p-4" data-testid="Investment Today">
                     <div className="space-y-4">
                         <p className="text-xl lg:text-2xl font-bold">Investment Today</p>
