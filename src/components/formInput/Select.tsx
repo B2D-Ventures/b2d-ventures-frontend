@@ -12,6 +12,7 @@ export default function SelectForm({ value, onChange }: SelectFormProps) {
     <div className="flex flex-col items-center justify-center gap-1">
       <div className="w-full text-[16px] text-secondary">Business type</div>
       <Select
+        data-testid="select-type"
         label="select"
         variant="bordered"
         size="sm"

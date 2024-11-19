@@ -276,7 +276,7 @@ Summary:
         console.log("Fetching deal data...");
         try {
           const response = await axios.get(
-            `${process.env.NEXT_PUBLIC_URI}api/admin/deals/`,
+            `${process.env.NEXT_PUBLIC_URI}api/admin/deals/`
           );
           const deals = response.data.data;
           console.log("Deals:", deals);
@@ -317,10 +317,12 @@ Summary:
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
+              testid="name-input"
             />
           </div>
           <div className="w-full">
             <FormInput
+              testid="description-input"
               label="Description"
               has$={false}
               placeholder="Enter startup description"
@@ -331,6 +333,7 @@ Summary:
           </div>
           <div className="w-full">
             <FormInput
+              testid="allocation-input"
               label="Target amount"
               has$={true}
               placeholder="0.00"
@@ -341,6 +344,7 @@ Summary:
           </div>
           <div className="w-full">
             <FormInput
+              testid="price-input"
               label="Price per unit"
               has$={true}
               placeholder="0.00"
@@ -351,6 +355,7 @@ Summary:
           </div>
           <div className="w-full">
             <FormInput
+              testid="min-investment-input"
               label="Minimum investment"
               has$={true}
               placeholder="0.00"
@@ -361,6 +366,7 @@ Summary:
           </div>
           <div className="w-full">
             <FormInput
+              testid="raised-input"
               label="Amount raised"
               has$={true}
               placeholder="0.00"
@@ -380,11 +386,19 @@ Summary:
           <div className="w-full flex flex-col sm:flex-row gap-4">
             <div className="w-full">
               <div className="text-[16px] text-secondary mb-3">Start date</div>
-              <DatePicker value={startDate} onChange={(e) => setStartDate(e)} />
+              <DatePicker
+                value={startDate}
+                onChange={(e) => setStartDate(e)}
+                testid="start-date-input"
+              />
             </div>
             <div className="w-full">
               <div className="text-[16px] text-secondary mb-3">End date</div>
-              <DatePicker value={endDate} onChange={(e) => setEndDate(e)} />
+              <DatePicker
+                value={endDate}
+                onChange={(e) => setEndDate(e)}
+                testid="end-date-input"
+              />
             </div>
           </div>
 
@@ -513,6 +527,7 @@ Summary:
       {/* Submit Button */}
       <div className="w-full flex justify-center mt-4">
         <button
+          data-testid="submit-button"
           className="w-[200px] h-[44px] bg-purple rounded-[8px] text-white text-[20px] font-bold
                 hover:opacity-90 transition-opacity"
           onClick={handleSubmit}

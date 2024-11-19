@@ -83,26 +83,6 @@ describe("template spec", () => {
     cy.get('[data-testid="end-date-input"]').should("be.visible");
     cy.get('[data-testid="end-date-input"]').type("12022024");
     cy.wait(100);
-    // cy.get('[data-testid="logo-input"]').should("be.visible");
-    // cy.get('[data-testid="logo-input"]').selectFile(
-    //   "public/images/fitbake.png"
-    // );
-    // cy.wait(100);
-    // cy.get('[data-testid="content-image-input"]').should("be.visible");
-    // cy.get('[data-testid="content-image-input"]').selectFile(
-    //   "public/images/fitbake-content.jpg"
-    // );
-    // cy.wait(100);
-    // cy.get('[data-testid="deal-image-input"]').should("be.visible");
-    // cy.get('[data-testid="deal-image-input"]').selectFile(
-    //   "public/images/fitbake-deal.jpg"
-    // );
-    // cy.wait(100);
-    // cy.get('[data-testid="private-data-input"]').should("be.visible");
-    // cy.get('[data-testid="private-data-input"]').selectFile(
-    //   "public/images/Document.pdf"
-    // );
-    // cy.wait(100);
     cy.get('[data-testid="content-input"]').should("be.visible");
     cy.get('[data-testid="content-input"]').type("TEST ADD");
     cy.wait(100);
