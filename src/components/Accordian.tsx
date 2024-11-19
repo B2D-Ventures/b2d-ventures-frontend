@@ -46,6 +46,7 @@ export default function App({ deals }: { deals: Deal[] }) {
             </span>
           }
           startContent={
+            <div className="w-[40px] h-[40px] overflow-hidden flex items-center justify-center rounded-md">
             <Image
               src={getImageSrc(deal.attributes.image_logo_url)}
               width={48}
@@ -53,6 +54,7 @@ export default function App({ deals }: { deals: Deal[] }) {
               alt="logo"
               className="rounded-md object-contain"
             />
+            </div>
           }
         >
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pl-4 sm:pl-8 lg:pl-12">
