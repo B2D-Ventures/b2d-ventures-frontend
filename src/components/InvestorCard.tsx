@@ -15,7 +15,7 @@ export default function InvestorCard({ name, totalInvestment }: InvestorCardProp
         Total investment
       </div>
       <div className="w-full text-2xl sm:text-3xl lg:text-[30px] text-black break-words">
-        ${totalInvestment}
+        ${totalInvestment.toLocaleString()}
       </div>
     </div>
   );

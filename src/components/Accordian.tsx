@@ -30,7 +30,13 @@ export default function App({ deals }: { deals: Deal[] }) {
   };
 
   function numberToStringFormat(amount: number) {
-    return amount? amount > 999999 ? `$${(amount / 1000000).toLocaleString()}M` : amount > 999 ? `$${(amount / 1000).toLocaleString()}K` : amount : 0;
+    return amount
+      ? amount > 999999
+        ? `$${(amount / 1000000).toLocaleString()}M`
+        : amount > 999
+        ? `$${(amount / 1000).toLocaleString()}K`
+        : `$${amount}`
+      : 0;
   }
 
   return (

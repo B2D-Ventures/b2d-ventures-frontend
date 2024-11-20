@@ -99,7 +99,7 @@ const typeColors = typeColorMap[type] || { bg: "bg-gray-100", text: "text-gray-6
             <div className="w-full">
               <div className="flex">
                 <div className="text-base font-semi-bold">
-                  ${raisedAmount} raised
+                  $ {raisedAmount.toLocaleString()} raised
                 </div>
               </div>
               <div className="flex">

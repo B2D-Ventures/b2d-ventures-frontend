@@ -26,7 +26,7 @@ return (
     
     <div className="w-full text-2xl sm:text-3xl lg:text-[36px] 
                   text-black break-words">
-      ${totalInvestment}
+      ${totalInvestment.toLocaleString()}
     </div>
   </div>
 );

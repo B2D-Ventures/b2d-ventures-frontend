@@ -38,7 +38,7 @@ export default function App({ deals }: AccordainForAdminProps) {
         ? `$${(amount / 1000000).toLocaleString()}M`
         : amount > 999
         ? `$${(amount / 1000).toLocaleString()}K`
-        : amount
+        : `$${amount}`
       : 0;
   }
 
@@ -69,13 +69,15 @@ export default function App({ deals }: AccordainForAdminProps) {
           aria-label="Accordion 1"
           title={deal.attributes.name}
           startContent={
+            <div className="w-[40px] h-[40px] overflow-hidden flex items-center justify-center rounded-md">
             <Image
               src={getImageSrc(deal.attributes.image_logo_url)}
               width={48}
               height={48}
               alt="logo"
-              className="w-[40px] h-[40px] rounded-[8px] overflow-hidden shadow-sm"
+              className="rounded-md object-contain"
             />
+             </div>
           }
         >
           <div className="grid grid-cols-3 pl-12">
