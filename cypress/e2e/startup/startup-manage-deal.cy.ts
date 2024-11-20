@@ -65,7 +65,7 @@ describe("template spec", () => {
     cy.wait(1000);
     cy.get('[data-testid="content-input"]').should("be.visible");
     cy.get('[data-testid="content-input"]').clear();
-    cy.get('[data-testid="content-input"]').type("Genecure is a biotech company");
+    cy.get('[data-testid="content-input"]').type("test change content");
     cy.wait(100);
     cy.get('[data-testid="submit-button"]').should("be.visible");
     cy.get('[data-testid="submit-button"]').click();

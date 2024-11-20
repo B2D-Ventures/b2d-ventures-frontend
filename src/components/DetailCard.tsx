@@ -28,8 +28,15 @@ const getImageSrc = (imagePath?: string, isIcon: boolean = false) => {
 };
 
 function numberToStringFormat(amount: number) {
-  return amount? amount > 999999 ? `$${(amount / 1000000).toLocaleString()}M` : amount > 999 ? `$${(amount / 1000).toLocaleString()}K` : amount : 0;
+  return amount
+    ? amount > 999999
+      ? `$${(amount / 1000000).toLocaleString()}M`
+      : amount > 999
+      ? `$${(amount / 1000).toLocaleString()}K`
+      : `$${amount}`
+    : 0;
 }
+
 
 function formatDate(isoDate: string) {
   const date = new Date(isoDate);
@@ -37,9 +44,13 @@ function formatDate(isoDate: string) {
   return date.toLocaleDateString();
 }
 
+function calculateRemaining(target: number, raised: number) {
+  return Math.max(0, target - raised);
+}
+
 // Example usage:
 const formattedDate = formatDate("2024-08-06T17:00:00Z");
-console.log(formattedDate); // Output: Aug 6, 2024
+console.log(formattedDate);
 
 export default function DetailCard({
   target_amount,
@@ -69,9 +80,9 @@ export default function DetailCard({
     <>
       <div className="bg-white border-[2px] border-border rounded-[8px] px-6 py-10">
         <div className="flex justify-between items-center text-[16px]">
-          <div className="text-secondary ">Allocation</div>
+          <div className="text-secondary ">Remaining</div>
           <div className="text-black font-bold">
-            {numberToStringFormat(target_amount)}
+          {numberToStringFormat(calculateRemaining(target_amount, amount_raised))}
           </div>
         </div>
         <div className="w-full h-[1px] bg-border my-2"></div>
@@ -86,7 +97,7 @@ export default function DetailCard({
         </div>
         <div className="w-full h-[1px] bg-border my-2"></div>
         <div className="flex justify-between items-end">
-          <div className="text-secondary text-[24px]">Raised</div>
+          <div className="text-secondary text-[24px]">Amount raised</div>
           <div className="text-black font-bold text-[36px]">{numberToStringFormat(amount_raised)}</div>
         </div>
         <div className="w-full rounded-[8px] overflow-hidden my-1 flex items-center justify-center"> {/* adjust thi line */}
@@ -100,7 +111,7 @@ export default function DetailCard({
           Fund
         </div>
         <div className="flex justify-between items-end">
-          <div className="text-secondary text-[24px]">Funding goal</div>
+          <div className="text-secondary text-[24px]">Target amount</div>
           <div className="text-black font-bold text-[36px]">
             {numberToStringFormat(fundingGoal)}
           </div>

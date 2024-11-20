@@ -84,16 +84,14 @@ export default function DealDashboard() {
           {/* Deal Information Section */}
           <div className="flex-col w-full">
             <div className="flex flex-row justify-between items-center mb-4">
-              <h2 className="text-2xl md:text-3xl lg:text-[36px] font-bold 
-                           hover:text-[#9710FF] transition-colors duration-300">
+              <h2 className="text-2xl md:text-3xl lg:text-[36px] font-bold">
                 Deal Information
               </h2>
             </div>
 
             {/* Accordian Section */}
             <div 
-              className="h-[400px] lg:h-[520px] overflow-y-auto hover:shadow-lg 
-                         transition-shadow duration-300" 
+              className="h-[400px] lg:h-[520px] overflow-y-auto duration-300" 
               data-testid="accordian-deal"
             >
               <Accordian deals={recentDeals}/>

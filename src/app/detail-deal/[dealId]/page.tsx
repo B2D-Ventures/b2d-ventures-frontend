@@ -195,13 +195,13 @@ export default function DealDashboard({
           </div>
 
           {/* Right Column */}
-          <div className="flex flex-col mt-6 lg:mt-[90px] gap-5">
+          <div className="w-full lg:w-[378px] flex flex-col mt-6 lg:mt-[90px] gap-5">
             {/* Action Buttons */}
             <div className="flex flex-row justify-between w-full gap-4">
               <button
                 data-testid="request-data-button"
                 onClick={handleRequestData(id, localStorage.getItem("userId"))}
-                className="flex-1 lg:w-[313px] h-[44px] rounded-[8px] text-purple border-[2px] border-purple text-sm sm:text-base font-semibold hover:bg-purple hover:text-white transition-colors"
+                className="flex-1 h-[44px] rounded-[8px] text-purple border-[2px] border-purple text-sm sm:text-base font-semibold hover:bg-purple hover:text-white transition-colors"
               >
                 Request for private data
               </button>
@@ -239,7 +239,7 @@ export default function DealDashboard({
               <button
                 data-testid="edit-deal-button"
                 onClick={() => handleEditDeal(id)}
-                className="w-full lg:w-[378px] h-[44px] rounded-[8px] text-purple border-[2px] border-purple text-sm sm:text-base font-semibold hover:bg-purple hover:text-white transition-colors"
+                className="w-full h-[44px] rounded-[8px] text-purple border-[2px] border-purple text-sm sm:text-base font-semibold hover:bg-purple hover:text-white transition-colors"
               >
                 Edit Deal
               </button>

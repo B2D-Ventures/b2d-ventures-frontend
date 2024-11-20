@@ -455,7 +455,7 @@ Summary:
               {/* Deal Upload */}
               <div className="flex flex-col gap-2">
                 <label htmlFor="deal" className="text-[16px] text-secondary">
-                  Deal
+                  Banner
                 </label>
                 <input
                   type="file"
