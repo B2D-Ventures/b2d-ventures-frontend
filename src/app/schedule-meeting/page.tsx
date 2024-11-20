@@ -112,65 +112,72 @@ const Home: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center bg-gradient-to-t from-purple to-violet-400 min-h-screen p-4">
+    <div className="flex flex-col items-center justify-center min-h-screen p-4">
       {feedbackMessage && (
         <div className="p-4 bg-white text-green rounded-md shadow-md mb-4 transition duration-300 ease-in-out transform hover:scale-105">
           {feedbackMessage}
         </div>
       )}
-
-      <div className="p-6 bg-white rounded-xl shadow-lg w-full max-w-lg">
-        <h2 className="text-3xl font-bold text-center mb-4 text-purple">Schedule a Meeting</h2>
-        <DatePicker
-          data-testid="date-meeting"
-          label="Select Date"
-          className="max-w-[284px] mb-4"
-          isRequired
-          onChange={(value: any) => {
-            const formattedDate = dayjs(value).format("YYYY-MM-DD");
-            console.log("Selected Date:", formattedDate);
-            setDate(formattedDate);
-          }}
-        />
-        <div className="flex flex-wrap gap-4 mt-2">
+  
+      <div className="w-full sm:w-[380px] lg:w-[440px] bg-white rounded-[8px] border-[1px] border-border p-4 sm:p-6 lg:p-10">
+        <div className="flex flex-col items-center gap-4">
+          <h2 className="text-3xl font-bold text-purple mb-4">Schedule a Meeting</h2>
+          
+          <DatePicker
+            data-testid="date-meeting"
+            label="Select Date"
+            className="w-full"
+            isRequired
+            onChange={(value: any) => {
+              const formattedDate = dayjs(value).format("YYYY-MM-DD");
+              console.log("Selected Date:", formattedDate);
+              setDate(formattedDate);
+            }}
+          />
+  
           <TimeInput
             data-testid="start-time-meeting"
             label="Start Time"
             description="Please enter your meeting start time"
             onChange={handleTimeChange(setStartTime)}
-            className="w-full max-w-[284px]"
+            className="w-full"
           />
-
+  
           <TimeInput
             data-testid="end-time-meeting"
             label="End Time"
             description="Please enter your meeting end time"
             onChange={handleTimeChange(setEndTime)}
-            className="w-full max-w-[284px]"
+            className="w-full"
           />
-
+  
           <Textarea
             data-testid="title-meeting"
             label="Title"
             placeholder="Enter your title"
-            className="max-w-xs"
+            className="w-full"
             onChange={(e) => setTitle(e.target.value)}
           />
-
+  
           <Textarea
             data-testid="description-meeting"
             label="Description"
             placeholder="Enter your description"
-            className="max-w-xs"
+            className="w-full"
             onChange={(e) => setDescription(e.target.value)}
           />
+  
+          <Button 
+            data-testid="confirm-button" 
+            onClick={handleSend} 
+            className="w-full h-[44px] bg-purple text-white rounded-[8px] font-semibold transition duration-300 ease-in-out transform hover:scale-105"
+          >
+            Confirm
+          </Button>
         </div>
-        <Button data-testid="confirm-button" color="primary" onClick={handleSend} className="mt-4 w-full transition duration-300 ease-in-out transform hover:scale-105">
-          Confirm
-        </Button>
       </div>
     </div>
   );
-};
+}
 
 export default Home;
