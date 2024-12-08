@@ -102,7 +102,8 @@ export default function Navbar() {
     currentPath === "/admin-approve-investor" ||
     currentPath === "/admin-dashboard" ||
     currentPath === "/admin-management" ||
-    currentPath === "/admin-approve"
+    currentPath === "/admin-approve" ||
+    currentPath === "/admin-login" 
   ) {
     return null;
   }
