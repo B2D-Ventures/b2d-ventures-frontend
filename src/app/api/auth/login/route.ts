@@ -2,6 +2,8 @@
 
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
+import { PrismaClient } from '@prisma/client';
+import bcrypt from 'bcrypt';
 
 interface LoginRequestBody {
   email: string;
@@ -33,6 +35,21 @@ export async function POST(request: NextRequest) {
         { status: 500 }
       );
     }
+
+    const prisma = new PrismaClient();
+
+    // Utility function for password hashing
+    const hashPassword = async (password: string): Promise<string> => {
+    const saltRounds = 10;
+    return bcrypt.hash(password, saltRounds);
+    };
+
+
+    // Utility function to compare passwords
+    const comparePasswords = async (plainPassword: string, hashedPassword: string): Promise<boolean> => {
+    return bcrypt.compare(plainPassword, hashedPassword);
+    };
+
 
     const verificationURL = `https://www.google.com/recaptcha/api/siteverify`;
 

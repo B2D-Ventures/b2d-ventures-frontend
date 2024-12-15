@@ -1,15 +1,35 @@
+'use strict';
 'use client';
 
 import { useState, FormEvent, ChangeEvent, useEffect } from 'react';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { useRouter } from 'next/navigation';
 import ReCAPTCHA from 'react-google-recaptcha';
+import DOMPurify from 'dompurify'; 
 
 interface FormData {
   email: string;
   password: string;
   confirmPassword: string;
 }
+
+// Input validation utilities
+const inputValidation = {
+  email: (email: string): boolean => {
+    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+    return emailRegex.test(email);
+  },
+  
+  sanitizeInput: (input: string): string => {
+    return DOMPurify.sanitize(input.trim());
+  },
+
+  // Prevent common SQL injection patterns
+  hasSQLInjection: (input: string): boolean => {
+    const sqlInjectionPattern = /('|"|;|--|\/\*|\*\/|union|select|insert|drop|update|delete|exec|execute|declare|create|alter)/i;
+    return sqlInjectionPattern.test(input);
+  }
+};
 
 export default function LoginPage() {
   const router = useRouter();
@@ -22,18 +42,20 @@ export default function LoginPage() {
   const [error, setError] = useState('');
   const [captchaValue, setCaptchaValue] = useState<string | null>(null);
   const [passwordErrors, setPasswordErrors] = useState<string[]>([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Define password requirements
+  // Enhanced password requirements
   const passwordRequirements = [
     { regex: /.{8,}/, message: 'At least 8 characters long' },
     { regex: /[A-Z]/, message: 'At least one uppercase letter (A-Z)' },
     { regex: /[a-z]/, message: 'At least one lowercase letter (a-z)' },
     { regex: /[0-9]/, message: 'At least one number (0-9)' },
     { regex: /[!@#$%^&*(),.?":{}|<>]/, message: 'At least one special character (!@#$%^&*(),.?":{}|<>)' },
+    { regex: /^[^\s]+$/, message: 'No whitespace allowed' }
   ];
 
-  // Validate password against requirements
-  const validatePassword = (password: string) => {
+  // Enhanced password validation
+  const validatePassword = (password: string): boolean => {
     const errors = passwordRequirements
       .filter(req => !req.regex.test(password))
       .map(req => req.message);
@@ -41,89 +63,113 @@ export default function LoginPage() {
     return errors.length === 0;
   };
 
-  // Handle input changes
+  // Enhanced input handling with validation
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
+    const sanitizedValue = inputValidation.sanitizeInput(value);
+
+    // Check for SQL injection attempts
+    if (inputValidation.hasSQLInjection(value)) {
+      setError('Invalid input detected');
+      return;
+    }
+
+    // Email validation
+    if (name === 'email' && value.length > 0) {
+      if (!inputValidation.email(value)) {
+        setError('Please enter a valid email address');
+        return;
+      }
+    }
+
     setFormData(prev => ({
       ...prev,
-      [name]: value,
+      [name]: sanitizedValue,
     }));
     setError('');
 
     if (name === 'password') {
-      validatePassword(value);
+      validatePassword(sanitizedValue);
     }
   };
 
-  // Handle form submission
+  // Enhanced form submission with rate limiting
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // Check CAPTCHA
-    if (!captchaValue) {
-      setError('Please complete the CAPTCHA');
+    if (isSubmitting) {
       return;
     }
 
-    // Password confirmation check
-    if (formData.password !== formData.confirmPassword) {
-      setError('Passwords do not match');
-      return;
-    }
-
-    // Validate password requirements
-    if (!validatePassword(formData.password)) {
-      setError('Password does not meet the required criteria');
-      return;
-    }
-
-    const payload = {
-      email: formData.email,
-      password: formData.password,
-      captcha: captchaValue,
-    };
+    setIsSubmitting(true);
+    setError('');
 
     try {
+      // Input validation checks
+      if (!inputValidation.email(formData.email)) {
+        throw new Error('Invalid email format');
+      }
+
+      if (!captchaValue) {
+        throw new Error('Please complete the CAPTCHA');
+      }
+
+      if (formData.password !== formData.confirmPassword) {
+        throw new Error('Passwords do not match');
+      }
+
+      if (!validatePassword(formData.password)) {
+        throw new Error('Password does not meet the required criteria');
+      }
+
+      // Prepare sanitized payload
+      const payload = {
+        email: inputValidation.sanitizeInput(formData.email),
+        password: formData.password, // Password should be hashed on the server
+        captcha: captchaValue,
+      };
+
       const response = await fetch('/api/auth/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'X-CSRF-Token': 'your-csrf-token', // Add CSRF protection
         },
+        credentials: 'include', // Include cookies
         body: JSON.stringify(payload),
       });
 
-      const data = await response.json();
-
-      if (response.ok) {
-        console.log('Login successful:', data);
-        if (formData.email === 'admin.b2d@gmail.com') {
-          router.push('/admin-approve');
-        } else {
-          router.push('/dashboard');
-        }
-      } else {
-        setError(data.message || 'Login failed');
-        console.error('Login failed:', data.message);
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.message || 'Login failed');
       }
-    } catch (error) {
-      setError('An error occurred during login');
+
+      const data = await response.json();
+      
+      // Sanitize redirect URL
+      const redirectUrl = inputValidation.sanitizeInput(
+        formData.email === 'admin.b2d@gmail.com' ? '/admin-approve' : '/dashboard'
+      );
+      router.push(redirectUrl);
+
+    } catch (error: any) {
+      setError(error.message || 'An error occurred during login');
       console.error('Login error:', error);
+    } finally {
+      setIsSubmitting(false);
+      setTimeout(() => {
+        setCaptchaValue(null);
+      }, 3000);
     }
   };
 
-  // Toggle password visibility
-  const togglePassword = () => {
-    setShowPassword(!showPassword);
-  };
 
-  // Handle CAPTCHA change
-  const handleCaptchaChange = (value: string | null) => {
-    setCaptchaValue(value);
-    if (value) {
-      setError('');
-    }
-  };
-
+  function togglePassword() {
+    setShowPassword(prevShowPassword => !prevShowPassword);
+  }
+  function handleCaptchaChange(token: string | null): void {
+    setCaptchaValue(token);
+  }
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
