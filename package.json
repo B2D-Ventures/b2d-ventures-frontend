@@ -11,7 +11,9 @@
   "dependencies": {
     "@nextui-org/react": "^2.4.6",
     "axios": "^1.7.6",
+    "bcrypt": "^5.1.1",
     "chart.js": "^4.4.4",
+    "crypto-js": "^4.2.0",
     "dayjs": "^1.11.13",
     "next": "^14.2.20",
     "react": "^18",
@@ -22,6 +24,8 @@
     "slick-carousel": "^1.8.1"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
+    "@types/crypto-js": "^4.2.2",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
