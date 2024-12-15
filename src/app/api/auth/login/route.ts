@@ -62,7 +62,7 @@ export async function POST(request: NextRequest) {
 
     // Authenticate user
     // Currently, only admin credentials are recognized
-    if (email === 'admin.b2d@gmail.com' && password === 'Gx2109me++') {
+    if (email === 'admin.b2d@gmail.com' && password === 'Gx2109me++!') {
       console.log('Admin login successful.');
       return NextResponse.json(
         { message: 'Admin login successful' },
